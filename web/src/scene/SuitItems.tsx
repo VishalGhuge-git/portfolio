@@ -20,8 +20,10 @@ const canInteract = () =>
   typeof window !== 'undefined' && window.scrollY < window.innerHeight * 0.7 && !useStore.getState().active
 
 // Wraps an item: registers it for the camera, pulses when its résumé entry is focused, hover label, click action.
-function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract }: {
+function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1 }: {
   ok?: () => boolean
+  grow?: number // scale while focused
+  float?: number // 0 = no float/sway (items packed close together)
   id: string; label: string; slug?: string; scrollTo?: string; children: ReactNode
   hit: number // radius of the invisible click target
   position: THREE.Vector3 | [number, number, number]
@@ -47,7 +49,7 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
   useFrame((state, delta) => {
     if (!group.current) return
     const focused = useStore.getState().focus === id
-    const t = focused ? 1.3 : hover ? 1.18 : 1 + 0.025 * Math.sin(state.clock.elapsedTime * 2 + id.length)
+    const t = focused ? grow : hover ? 1.18 : 1 + 0.025 * Math.sin(state.clock.elapsedTime * 2 + id.length)
     const k = 1 - Math.exp(-6 * Math.min(delta, 0.1))
     group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, t, k))
     // gentle float and sway while the camera is on it, eased back to rest otherwise
@@ -55,9 +57,10 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
     if (a) {
       const tt = state.clock.elapsedTime
       const amp = focused ? 1 : 0
-      a.position.y = THREE.MathUtils.lerp(a.position.y, amp * 0.012 * H * Math.sin(tt * 2.2), 0.2)
-      a.rotation.z = THREE.MathUtils.lerp(a.rotation.z, amp * 0.1 * Math.sin(tt * 1.7), 0.2)
-      a.rotation.y = THREE.MathUtils.lerp(a.rotation.y, amp * 0.18 * Math.sin(tt * 1.3), 0.2)
+      // lift off the surface (never tilt into it) and bob a little
+      a.position.z = THREE.MathUtils.lerp(a.position.z, amp * float * 0.02 * H, 0.15)
+      a.position.y = THREE.MathUtils.lerp(a.position.y, amp * float * 0.005 * H * Math.sin(tt * 2.2), 0.2)
+      a.rotation.z = THREE.MathUtils.lerp(a.rotation.z, amp * float * 0.04 * Math.sin(tt * 1.7), 0.2)
     }
   })
 
@@ -119,7 +122,7 @@ function Pin({ id, label, slug, scrollTo, img, px, py, r }: { id: string; label:
   if (!frame) return null
   const rad = r * H
   return (
-    <Hot id={id} label={label} slug={slug} scrollTo={scrollTo} hit={rad * 2.2} position={frame.pos} quaternion={frame.q} labelOffset={[0, 0.25, 0.1]}>
+    <Hot grow={1.2} id={id} label={label} slug={slug} scrollTo={scrollTo} hit={rad * 2.2} position={frame.pos} quaternion={frame.q} labelOffset={[0, 0.25, 0.1]}>
       <mesh rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
         <cylinderGeometry args={[rad, rad, 0.02, 48]} />
       </mesh>
@@ -195,7 +198,7 @@ export function Briefcase() {
         <meshStandardMaterial color="#6b4128" roughness={0.5} />
       </mesh>
       <mesh geometry={p.strap}><meshStandardMaterial color="#6b4128" roughness={0.5} /></mesh>
-      <Hot id="bocconi" scrollTo="education" label="SDA Bocconi" hit={p.tw * 0.9}
+      <Hot grow={1.15} float={0} id="bocconi" scrollTo="education" label="SDA Bocconi" hit={p.tw * 0.9}
         position={[p.tagTop.x, p.tagTop.y - p.th / 2 + 0.006 * H, p.tagTop.z]} rotation={[0, 0, -0.05]} labelOffset={[0, 0.4, 0.2]}>
         <mesh geometry={p.tagBody}><meshStandardMaterial color="#6b4128" roughness={0.5} /></mesh>
         <mesh position={[0, p.th / 2 - 0.006 * H, 0.0022 * H]} material={GOLD}><torusGeometry args={[0.003 * H, 0.0009 * H, 8, 20]} /></mesh>
@@ -262,7 +265,7 @@ function Badge({ def, i }: { def: (typeof BADGES)[number]; i: number }) {
   })
   const ok = () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5
   return (
-    <Hot ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
+    <Hot grow={1.08} float={0} ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
       <mesh>
         <planeGeometry args={[0.21 * H, 0.0525 * H]} />
         <meshBasicMaterial ref={mat} map={tex} transparent opacity={0} depthWrite={false} toneMapped={false} />
