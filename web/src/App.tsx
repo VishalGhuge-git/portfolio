@@ -75,7 +75,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   if (touched) return null
   return (
     <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
-      Tap the stickers: each one is a project
+      Tap the pins and badges: each one is a project
     </motion.div>
   )
 }
@@ -296,7 +296,7 @@ export default function App() {
           eventSource={document.getElementById('root') as HTMLElement}
           eventPrefix="client"
           dpr={[1, 2]}
-          camera={{ position: [0, 0.6, 7.5], fov: 39, near: 0.1, far: 500 }}
+          camera={{ position: [0, 3.65, 4.4], fov: 39, near: 0.1, far: 500 }}
           gl={{ antialias: true, depth: true, toneMapping: THREE.ACESFilmicToneMapping }}
         >
           <color attach="background" args={['#0a0e16']} />

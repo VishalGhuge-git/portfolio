@@ -1,8 +1,9 @@
 import { useMemo, useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar from './Avatar'
-import Stickers, { stickerRefs } from './Stickers'
+import { LapelPins, Briefcase, Badges, stickerRefs } from './SuitItems'
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
@@ -84,9 +85,33 @@ function Lights() {
   )
 }
 
-// Scroll-driven camera: starts framing the face, drifts closer and sideways as you scroll.
+// Soft studio reflections so the gold pins and leather read as metal and leather.
+function Env() {
+  const gl = useThree((t) => t.gl)
+  const scene = useThree((t) => t.scene)
+  useMemo(() => {
+    const pm = new THREE.PMREMGenerator(gl)
+    const tex = pm.fromScene(new RoomEnvironment(), 0.04).texture
+    scene.environment = tex
+    scene.environmentIntensity = 0.5
+    pm.dispose()
+  }, [gl, scene])
+  return null
+}
+
+// Scroll-driven camera: hero frames the face and shoulders, drifts down the body as you scroll, and pulls
+// back to show the whole figure at the end. While a résumé block is on screen it flies in to that item.
+const FACE_Y = 3.55
+const FOCUS: Record<string, { dist: number; side: number }> = {
+  iqigai: { dist: 1.5, side: 0.3 },
+  xaviers: { dist: 1.5, side: 0.3 },
+  foyr: { dist: 2.8, side: 0.7 },
+  te: { dist: 2.8, side: 0.7 },
+  mx: { dist: 2.8, side: 0.7 },
+  bocconi: { dist: 3.4, side: 0.9 },
+}
 function CameraRig() {
-  const target = useMemo(() => new THREE.Vector3(0, 0.2, 0), [])
+  const target = useMemo(() => new THREE.Vector3(0, FACE_Y, 0), [])
   const wantTarget = useMemo(() => new THREE.Vector3(), [])
   const wantPos = useMemo(() => new THREE.Vector3(), [])
   const zoom = useRef(0)
@@ -97,39 +122,37 @@ function CameraRig() {
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
     const p = Math.min(1, Math.max(0, window.scrollY / max))
     const cam = state.camera
-    // Portrait screens (phones) need the camera further back so the head fits the narrow width
+    // Portrait screens (phones) need the camera further back so the figure fits the narrow width
     const aspect = state.size.width / state.size.height
-    const back = Math.max(0, 1.05 - aspect) * 5.5
+    const back = Math.max(0, 1.05 - aspect) * 3.2
 
-    // Hero zoom: the closer the cursor is to the face, the closer the camera dollies in
-    // (and pans toward the cursor) so the stickers can be read. Only at the top of the page.
+    // Hero: the closer the cursor is to the face, the closer the camera dollies in (top of the page only).
     const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active
     const d = Math.hypot(state.pointer.x * 1.1, (state.pointer.y - 0.05) * 1.4)
     const want = atTop ? THREE.MathUtils.smoothstep(0.9 - d, 0, 0.4) : 0
     zoom.current = THREE.MathUtils.lerp(zoom.current, want, 0.06)
     const z = zoom.current
 
+    const drift = Math.min(1, p * 2.2)
+    const end = THREE.MathUtils.smoothstep(p, 0.82, 1) // pull back to the full figure at the very end
     wantPos.set(
-      THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)) + state.pointer.x * 0.9 * z,
-      THREE.MathUtils.lerp(0.6, 0.3, p) + state.pointer.y * 0.5 * z,
-      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 4.3 * z + back
+      THREE.MathUtils.lerp(0, -1.0, drift) * (1 - end) + state.pointer.x * 0.5 * z,
+      THREE.MathUtils.lerp(FACE_Y + 0.1, 3.0, drift) * (1 - end) + 2.2 * end + state.pointer.y * 0.3 * z,
+      THREE.MathUtils.lerp(4.4, 5.6, drift) * (1 - end) + 11 * end - 1.6 * z + back
     )
-    wantTarget.set(state.pointer.x * 0.45 * z, 0.2 + state.pointer.y * 0.3 * z, 0)
+    wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
 
-    // Résumé focus: while a résumé block is on screen, fly in to its sticker. The sticker is held
-    // left of centre because the résumé text and frosted rail sit on the right.
     const focusId = useStore.getState().focus
-    const sticker = focusId ? stickerRefs.get(focusId) : undefined
-    const wantF = sticker && !atTop && !useStore.getState().active ? 1 : 0
+    const item = focusId ? stickerRefs.get(focusId) : undefined
+    const wantF = item && !atTop && !useStore.getState().active && end < 0.5 ? 1 : 0
     focusAmt.current = THREE.MathUtils.lerp(focusAmt.current, wantF, 0.07)
-    if (sticker) sticker.getWorldPosition(focusPt)
+    if (item) item.getWorldPosition(focusPt)
     const f = focusAmt.current
-    if (f > 0.001) {
-      const wide = focusId === 'bocconi' // wide wordmark on the back: hold it further left and a little further off
-      const side = wide ? 1.0 : 0.55
-      tmp.set(focusPt.x + side, focusPt.y + 0.05, focusPt.z + (wide ? 3.3 : 2.6) + back * 0.6)
+    if (f > 0.001 && focusId) {
+      const fo = FOCUS[focusId] ?? { dist: 2.8, side: 0.7 }
+      tmp.set(focusPt.x + fo.side, focusPt.y + 0.05, focusPt.z + fo.dist + back * 0.6)
       wantPos.lerp(tmp, f)
-      tmp.set(focusPt.x + side, focusPt.y, focusPt.z)
+      tmp.set(focusPt.x + fo.side, focusPt.y, focusPt.z)
       wantTarget.lerp(tmp, f)
     }
 
@@ -145,9 +168,12 @@ export default function Scene() {
     <>
       <GradientBackground />
       <Lights />
+      <Env />
       <Avatar>
-        <Stickers />
+        <LapelPins />
       </Avatar>
+      <Briefcase />
+      <Badges />
       <CameraRig />
     </>
   )

@@ -1,91 +1,81 @@
 import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { useStore } from '../store'
 import * as THREE from 'three'
 
-// Image-to-3D avatar (public/models/avatar.glb). Tunables for fitting the model into the scene:
-const URL = `${import.meta.env.BASE_URL}models/avatar.glb`
-const SCALE = 2.3 // model is ~1.9 units tall
-const OFFSET = new THREE.Vector3(0, -0.43, 0) // moves the model so the face sits near the scene centre
-const TURN = 0.3 // how far the head turns toward the cursor (radians)
-const TILT = 0.15
-
-// Where sticker rays start (the eye line, centre of the head). Stickers are placed by (theta, phi)
-// around this point, and the ray is cast inward so they land on the hair or skin surface.
-const HEAD_CENTER = new THREE.Vector3(0, 0.3, 0)
+// Full-body suited avatar (public/models/suit.glb, Meshy). Feet stand on y = 0, centred on x/z.
+const URL = `${import.meta.env.BASE_URL}models/suit.glb`
+export const HEIGHT = 4.2 // world height of the avatar
+const TURN = 0.22 // how far the body turns toward the cursor (radians)
 
 export interface SurfaceFrame {
   position: THREE.Vector3
   normal: THREE.Vector3
-  mesh?: THREE.Mesh // the hit mesh (in the avatar's own space), so stickers can be projected onto it as decals
 }
 interface Surface {
-  angles: (theta: number, phi: number) => SurfaceFrame | null // around the head centre
-  front: (x: number, y: number) => SurfaceFrame | null // straight in from the front, for the chest
-  back: (x: number, y: number) => SurfaceFrame | null // straight in from behind, for the back of the hoodie
+  front: (x: number, y: number) => SurfaceFrame | null // straight in from the front (lapel pins)
 }
 const SurfaceCtx = createContext<Surface | null>(null)
 export const useSurface = () => useContext(SurfaceCtx)
+
+// Fine diagonal suit weave, drawn in the shader so it stays crisp at any zoom and fades with distance.
+function weave(mat: THREE.MeshStandardMaterial, nativeHeight: number) {
+  mat.onBeforeCompile = (sh) => {
+    sh.uniforms.uK = { value: (2 * Math.PI) / (0.0025 * nativeHeight) }
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObj;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObj = transformed;')
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObj;\nuniform float uK;')
+      .replace(
+        '#include <normal_fragment_maps>',
+        `#include <normal_fragment_maps>
+      { vec3 dc = diffuseColor.rgb;
+        float suit = step(dc.r + 0.02, dc.b) * (1.0 - smoothstep(0.10, 0.22, dot(dc, vec3(0.3,0.5,0.2))));
+        float f = (vObj.x + vObj.y + vObj.z * 0.5) * uK; float aa = clamp(1.0 - fwidth(f) * 0.35, 0.0, 1.0);
+        float w = cos(f) * 0.5 + 0.5 * cos((vObj.x - vObj.y) * uK * 0.5);
+        normal = normalize(normal + suit * aa * 0.09 * w * normalize(vec3(1.0, 1.0, 0.0))); }`
+      )
+  }
+  mat.needsUpdate = true
+}
 
 export default function Avatar({ children }: { children?: ReactNode }) {
   const gltf = useGLTF(URL)
   const turn = useRef<THREE.Group>(null)
   const model = useMemo(() => {
     const root = gltf.scene.clone(true)
+    const box = new THREE.Box3().setFromObject(root)
+    const size = box.getSize(new THREE.Vector3())
+    const center = box.getCenter(new THREE.Vector3())
     root.traverse((o) => {
       const m = o as THREE.Mesh
       if (!m.isMesh) return
-      // The export is fully metallic, which renders near-black without an environment map.
       const mat = (Array.isArray(m.material) ? m.material[0] : m.material) as THREE.MeshStandardMaterial
       mat.metalness = 0
-      mat.roughness = 0.75
-      mat.metalnessMap = null
-      mat.roughnessMap = null
-      mat.needsUpdate = true
+      mat.roughness = 0.82
+      weave(mat, size.y)
     })
-    root.scale.setScalar(SCALE)
-    root.position.copy(OFFSET)
+    const k = HEIGHT / size.y
+    root.scale.setScalar(k)
+    root.position.set(-center.x * k, -box.min.y * k, -center.z * k)
     root.updateMatrixWorld(true)
     return root
   }, [gltf])
 
   const surface = useMemo<Surface>(() => {
-    // Raycast against a detached copy, so hits are in the avatar's own space (the same space the
-    // stickers live in) whatever the head turn is at the moment the stickers mount.
-    const probe = model.clone(true)
-    probe.updateMatrixWorld(true)
     const meshes: THREE.Mesh[] = []
-    probe.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
+    model.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
     const rc = new THREE.Raycaster()
-    const hitOne = (origin: THREE.Vector3, dir: THREE.Vector3) => {
-      rc.set(origin, dir)
-      const hit = rc.intersectObjects(meshes, false)[0]
-      if (!hit || !hit.face) return null
-      const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
-      if (normal.dot(dir) > 0) normal.negate() // face the ray origin
-      return { point: hit.point, normal, mesh: hit.object as THREE.Mesh }
-    }
-    // One triangle's normal is noisy on a scanned-style mesh, so average a small ring of hits
-    const cast = (origin: THREE.Vector3, dir: THREE.Vector3): SurfaceFrame | null => {
-      const c = hitOne(origin, dir)
-      if (!c) return null
-      const side = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize()
-      const up = new THREE.Vector3().crossVectors(side, dir).normalize()
-      const n = c.normal.clone()
-      for (const [u, v] of [[1, 0], [-1, 0], [0, 1], [0, -1], [0.7, 0.7], [-0.7, -0.7], [0.7, -0.7], [-0.7, 0.7]]) {
-        const h = hitOne(origin.clone().addScaledVector(side, u * 0.06).addScaledVector(up, v * 0.06), dir)
-        if (h) n.add(h.normal)
-      }
-      return { position: c.point.clone(), normal: n.normalize(), mesh: c.mesh }
-    }
     return {
-      angles: (theta, phi) => {
-        const dir = new THREE.Vector3(Math.sin(theta) * Math.cos(phi), Math.sin(phi), Math.cos(theta) * Math.cos(phi))
-        return cast(HEAD_CENTER.clone().addScaledVector(dir, 4), dir.clone().negate())
+      front: (x, y) => {
+        rc.set(new THREE.Vector3(x, y, 6), new THREE.Vector3(0, 0, -1))
+        const hit = rc.intersectObjects(meshes, false)[0]
+        if (!hit || !hit.face) return null
+        const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
+        if (normal.z < 0) normal.negate()
+        return { position: hit.point.clone(), normal }
       },
-      front: (x, y) => cast(new THREE.Vector3(x, y, 5), new THREE.Vector3(0, 0, -1)),
-      back: (x, y) => cast(new THREE.Vector3(x, y, -5), new THREE.Vector3(0, 0, 1)),
     }
   }, [model])
 
@@ -94,15 +84,11 @@ export default function Avatar({ children }: { children?: ReactNode }) {
   useFrame((state, delta) => {
     const g = turn.current
     if (!g) return
-    const { x, y } = state.pointer
-    // Scrolling to the SDA Bocconi entry turns him round to show the logo on the back of the hoodie
-    const showBack = useStore.getState().focus === 'bocconi' && window.scrollY > window.innerHeight * 0.7
-    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, (showBack ? Math.PI : 0) + x * TURN * (showBack ? -1 : 1), showBack || Math.abs(g.rotation.y) > 0.4 ? 2.5 : 3.6, Math.min(delta, 0.1))
-    g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, -y * TILT, 0.06)
+    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, state.pointer.x * TURN, 3.6, Math.min(delta, 0.1))
   })
 
   return (
-    <group ref={turn} position={[0, 0, 0]}>
+    <group ref={turn}>
       <primitive object={model} />
       <SurfaceCtx.Provider value={surface}>{children}</SurfaceCtx.Provider>
     </group>
