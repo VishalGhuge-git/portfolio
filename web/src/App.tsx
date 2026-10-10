@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import Scene from './scene/Scene'
 import NoiseOverlay from './ui/NoiseOverlay'
 import Resume from './ui/Resume'
-import Works from './ui/Works'
+import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import LoadingScreen from './ui/LoadingScreen'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
@@ -40,9 +40,6 @@ function TopBar() {
   }
   return (
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
-      <a className="topbar-jump topbar-work" href="#work" onClick={jump('work')}>
-        Work
-      </a>
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
       </a>
@@ -201,13 +198,6 @@ function Contact() {
 
 export default function App() {
   const { scrollY } = useScroll()
-  // Works-section veil: progress of the works block entering the viewport drives a 3D darken
-  const worksRef = useRef(null)
-  const { scrollYProgress: worksProgress } = useScroll({
-    target: worksRef,
-    offset: ['start end', 'start center'],
-  })
-  const fogBg = useTransform(worksProgress, [0, 1], ['rgba(8, 11, 18, 0)', 'rgba(8, 11, 18, 0.41)'])
   // Darken the 3D scene after leaving the hero so the résumé text stays readable
   const scrimOpacity = useTransform(scrollY, [0, 520], [0, 0.4])
   // Scroll cue fades out as soon as scrolling starts
@@ -247,9 +237,6 @@ export default function App() {
       {/* Scroll darkening scrim */}
       <motion.div className="scrim" style={{ opacity: scrimOpacity }} aria-hidden="true" />
 
-      {/* Fixed veil over the works section */}
-      <motion.div className="stage-fog" style={{ background: fogBg }} aria-hidden="true" />
-
       {/* Fixed frosted right rail */}
       <motion.div className="glass-rail" style={{ opacity: railOpacity }} aria-hidden="true" />
 
@@ -269,6 +256,7 @@ export default function App() {
       </motion.div>
 
       <TopBar />
+      <CaseStudyHost />
       <PageTopButton />
       <StickerHint opacity={heroChromeOpacity} />
 
@@ -279,7 +267,6 @@ export default function App() {
       <main className="content">
         <Hero cueOpacity={cueOpacity} />
         <Resume />
-        <Works lang="en" innerRef={worksRef} />
         <Contact />
       </main>
     </>

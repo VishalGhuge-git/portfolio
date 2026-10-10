@@ -275,19 +275,18 @@ function findItem(sections: WorkSection[], key: string | null): WorkListItem | n
   return null
 }
 
-export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HTMLElement> }) {
-  const data = WORKS[lang]
+// Case study popup. Opened by a sticker, a proof chip, a résumé link or a #slug link, whether or not the
+// works gallery is on the page (the gallery is off for now; see App.tsx).
+export function CaseStudyHost() {
+  const data = WORKS.en
   const sections = data.sections
-  const count = sections.length
-
-  // Open project lives in the shared store so the 3D stickers can open it too
+  // Open project lives in the shared store so stickers, chips and links can all open it
   const activeKey = useStore((s) => s.active)
   const setActiveKey = useStore((s) => s.setActive)
   const active = findItem(sections, activeKey)
   useEffect(() => {
     if (activeKey) track('case_open', activeKey)
   }, [activeKey])
-  const setActive = (item: WorkListItem | null) => setActiveKey(item ? item.slug || item.name : null)
 
   // Deep link: /#iqigai opens that case study on load; opening or closing one keeps the URL in step,
   // so any case study can be shared as a link.
@@ -309,6 +308,37 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
       window.history.replaceState(null, '', base)
     }
   }, [activeKey, sections])
+
+
+  // While a case study is open: lock page scroll and close on Escape
+  useEffect(() => {
+    if (!active) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setActiveKey(null)
+    window.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [active, setActiveKey])
+
+  return (
+    <AnimatePresence>
+      {active && (
+        <WorkDetail key={active.slug || active.name} item={active} data={data} onClose={() => setActiveKey(null)} />
+      )}
+    </AnimatePresence>
+  )
+}
+
+export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HTMLElement> }) {
+  const data = WORKS[lang]
+  const sections = data.sections
+  const count = sections.length
+
+  const setActiveKey = useStore((s) => s.setActive)
+  const setActive = (item: WorkListItem | null) => setActiveKey(item ? item.slug || item.name : null)
 
   // 竖滚 pin 转横移：测量整排卡片的实际可横移距离（px），竖滚进度 → 横移
   const galleryRef = useRef<HTMLDivElement>(null)
@@ -339,19 +369,6 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
   // 横移到底时「继续下滑」提示渐隐
   const hintOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0])
 
-  // While a case study is open: lock page scroll and close on Escape
-  useEffect(() => {
-    if (!active) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setActiveKey(null)
-    window.addEventListener('keydown', onKey)
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = prev
-    }
-  }, [active, setActiveKey])
-
   return (
     <section className="works" id="work" lang={lang} ref={innerRef}>
       <div
@@ -377,16 +394,6 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
         </div>
       </div>
 
-      <AnimatePresence>
-        {active && (
-          <WorkDetail
-            key={active.slug || active.name}
-            item={active}
-            data={data}
-            onClose={() => setActive(null)}
-          />
-        )}
-      </AnimatePresence>
     </section>
   )
 }
