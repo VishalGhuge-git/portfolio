@@ -198,7 +198,7 @@ export function Briefcase() {
         <meshStandardMaterial color="#6b4128" roughness={0.5} />
       </mesh>
       <mesh geometry={p.strap}><meshStandardMaterial color="#6b4128" roughness={0.5} /></mesh>
-      <Hot grow={1.15} float={0} id="bocconi" scrollTo="education" label="SDA Bocconi" hit={p.tw * 0.9}
+      <Hot grow={1.15} float={1.4} id="bocconi" scrollTo="education" label="SDA Bocconi" hit={p.tw * 0.9}
         position={[p.tagTop.x, p.tagTop.y - p.th / 2 + 0.006 * H, p.tagTop.z]} rotation={[0, 0, -0.05]} labelOffset={[0, 0.4, 0.2]}>
         <mesh geometry={p.tagBody}><meshStandardMaterial color="#6b4128" roughness={0.5} /></mesh>
         <mesh position={[0, p.th / 2 - 0.006 * H, 0.0022 * H]} material={GOLD}><torusGeometry args={[0.003 * H, 0.0009 * H, 8, 20]} /></mesh>
@@ -265,7 +265,7 @@ function Badge({ def, i }: { def: (typeof BADGES)[number]; i: number }) {
   })
   const ok = () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5
   return (
-    <Hot grow={1.08} float={0} ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
+    <Hot grow={1.1} float={2} ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
       <mesh>
         <planeGeometry args={[0.21 * H, 0.0525 * H]} />
         <meshBasicMaterial ref={mat} map={tex} transparent opacity={0} depthWrite={false} toneMapped={false} />
