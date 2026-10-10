@@ -1571,7 +1571,8 @@ canvas {
 @media (max-width: 640px) {
   .topbar { top: 12px; right: 12px; gap: 6px; font-size: 11px; }
   .topbar a { padding: 7px 10px; }
-  .topbar a:nth-child(2) { display: none; }
+  .topbar .topbar-li { display: none; }
+  .topbar .topbar-jump:not(.topbar-work) { display: none; }
   .sticker-hint { top: 56px; font-size: 12px; }
 }
 
@@ -1670,3 +1671,40 @@ canvas {
 .tl-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; }
 .tl-legend .tl-dot-work { background: #ffd9b3; }
 .tl-legend .tl-dot-education { border: 2px solid #cfe0ff; }
+
+/* Proof strip: four numbers that each open their case study */
+.proof { pointer-events: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+.proof-chip {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  font-family: 'Helvetica Neue', system-ui, sans-serif;
+}
+.proof-chip:hover, .proof-chip:focus-visible { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 217, 179, 0.6); transform: translateY(-1px); }
+.proof-chip b { font-size: 20px; font-weight: 700; color: #ffd9b3; letter-spacing: -0.01em; line-height: 1.1; }
+.proof-chip span { font-size: 12px; color: #fff; line-height: 1.25; }
+.proof-chip em { font-style: normal; font-size: 11px; color: rgba(244, 241, 234, 0.65); line-height: 1.25; }
+@media (max-width: 380px) { .proof-chip b { font-size: 17px; } .proof-chip em { display: none; } }
+
+/* Case study: copy-link button next to the close button */
+.wk-detail-copy {
+  position: absolute; top: 16px; right: 68px; z-index: 2; height: 42px; padding: 0 16px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(10, 13, 20, 0.55);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  color: var(--ink); font: 12px 'Helvetica Neue', system-ui, sans-serif; letter-spacing: 0.06em; cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.wk-detail-copy:hover { background: rgba(20, 26, 38, 0.8); border-color: rgba(244, 241, 234, 0.3); }
+@media (max-width: 640px) {
+  .proof { gap: 6px; margin-top: 12px; }
+  .proof-chip { padding: 7px 10px; }
+  .proof-chip em { display: none; }
+  .proof-chip b { font-size: 17px; }
+}
