@@ -45,16 +45,16 @@ The API team's work had **no defined process, manual creation of data and old fe
 
 ## Onboarding ALTBalaji: 56 shows in a week
 
-Normally **one show took about 3 days** to onboard. At that pace, doing them one at a time, 56 shows would have taken around **168 days**. Using **prioritisation and impact assessment**, I got all **56 shows from zero to live in one week**. The approach was **adopted as the team standard** for onboarding publishers.
+Normally **one show took about 3 days** to go live, because shows moved through onboarding one at a time. I brought the time down by **running the onboarding in parallel**, using **prioritisation and impact assessment** to decide what to start first and how to split the work. The result was all **56 shows from zero to live in one week**, and the approach was **adopted as the team standard** for onboarding publishers.
 
-<!-- REFINE: the prioritisation and impact framework (what went first, what was cut or sequenced, how the team was split) so it reads as a repeatable method. -->
+<!-- REFINE: how the work was split to run in parallel (by show, by step, by person), what was prioritised first, and what had to stay sequential. -->
 
 ## Outcome
 
 - **300,000+ content units** run by a team of 6 that I built and trained
 - **+50% daily content output** within a month
 - **7 teams** on one standard workflow
-- **56 shows live in 1 week**, against about 3 days per show before
+- **56 shows live in 1 week**, by running onboarding in parallel, against about 3 days per show before
 - A catalogue that drives **30-40% of total app watch time**
 
 <!-- REFINE: the quality bar and how the team was organised, and what I would do differently. Figures are from my own measurement. -->
