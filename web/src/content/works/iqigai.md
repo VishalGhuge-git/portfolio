@@ -11,30 +11,34 @@ tags: [AI agents, 0 to 1, B2B + B2C, "1,108 daily users"]
   daily users, screenshots, and what you would do differently.
 -->
 
-An AI-powered staffing and recruitment platform inside **Fractal Analytics**, built from zero. **iqigai by Fractal** is the platform, and a set of AI agents live inside it. I own the product strategy and roadmap.
+**TL;DR** Fractal staffed its bench through spreadsheets and one full-time person. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **1,108 people a day**.
 
 | | |
 | --- | --- |
 | **Company** | Fractal Analytics |
-| **My role** | Product Manager (owner of strategy and roadmap) |
+| **My role** | Product Manager: strategy, roadmap, MVP scope, agent prioritisation |
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
 | **Reach** | 1,108 daily active users, used organisation-wide |
 | **Team** | 7 people: 2 UI/UX designers, 2 backend engineers, 1 AI engineer, 1 QA, 1 APM |
 
+## Context
+
+Fractal has 5,000 people and 500+ on the bench at any time. It is a billable services business, so **every bench hour is lost revenue**: the less time someone sits on the bench, onshore or offshore, the bigger the cost win.
+
+## Users and their jobs
+
+| User | Job to be done |
+| --- | --- |
+| **Staffing team** | Match bench people to open demand quickly, with less manual tracking |
+| **Project managers** | Find and select the right person for a project, with confidence |
+| **Bench candidates** | See and respond to opportunities with minimal effort |
+
 ## The problem
 
-Fractal is a 5,000-person organisation with 500+ people on the bench at any time, who must be matched to open demand. In a billable services business, **every bench hour is money**: each employee who stays on the bench for less time is a cost win, onshore and offshore.
+The process lived in **large Excel files and pivot tables**, with **one person working full time just to maintain the data**, and constant follow-up over Teams and calls. It stayed afloat only through manual effort, so it could not scale and could not be trusted at speed.
 
-The process that handled this was held together by people and spreadsheets:
-
-- large Excel files and pivot tables as the source of truth
-- **one resource working full time just to maintain the data**
-- constant manual follow-up over Teams messages and calls
-
-It worked only because of that manual effort. It was a broken flow that stayed afloat, and it did not scale.
-
-## The funnel I set out to fix
+## Baseline: the funnel
 
 Of every 100 people on the bench:
 
@@ -44,37 +48,42 @@ Of every 100 people on the bench:
 | Recommended to a project manager | 30 |
 | Selected for a project | 10 |
 
-<!-- REFINE: confirm whether this is the current state or the launch baseline, and add the target / trend. -->
+<!-- REFINE: confirm current vs launch baseline, and add the target. -->
 
-## What I built first
+## Goals and success metrics
 
-I scoped the MVP as the **smallest flow that made the platform usable and live**, not the full vision:
+I framed success around the funnel, since every stage leaks time and money:
 
-- a **matching engine** that scores bench employees against open demand
-- platform access for the **staffing team, project managers and candidates**, each with only the few actions they need
-- the AI **agents as standalone tools** (they were folded into the platform after the core flow was live)
+- **Primary:** more of the bench selected, faster (less time on the bench)
+- **Adoption:** daily active use across staffing, project managers and candidates
+- **Trust:** project managers act on recommendations instead of re-checking in a spreadsheet
 
-## What I chose not to build yet
+<!-- REFINE: the numeric targets and the measured before/after (time to staff, selection rate). -->
 
-| Decision | Why |
-| --- | --- |
-| **No integrations** with Workday, FMS and Hive in the MVP | Integrations add dependencies and delay launch. Prove the matching flow first, then connect the systems. |
-| **Agents stay standalone** in the MVP, then integrate | Get the core staffing flow live first, then bring each agent into the platform in order of funnel impact. |
+## Strategy: the smallest thing that goes live
 
-<!-- REFINE: the options you considered and rejected beyond these (e.g. buy vs build, matching on skills only, full auto-assignment vs recommend-then-decide). -->
+My bet was that adoption beats completeness. I scoped the MVP to the **minimum flow that made the platform usable and live**, then improved on real usage.
 
-## Designing for trust
+| Horizon | Scope | Why |
+| --- | --- | --- |
+| **MVP** | Matching engine; access for staffing, project managers and candidates with only the few actions each needs; AI agents as standalone tools | The shortest path to a working, usable flow |
+| **Next** | Fold the agents into the platform, in order of funnel impact | Core flow first, then more value per user |
+| **Deferred** | Integrations with Workday, FMS and Hive | They add dependencies and delay launch; prove the flow first |
 
-An AI score is useless if project managers do not believe it. Each recommendation shows:
+<!-- REFINE: options you rejected beyond these (buy vs build, skills-only matching, full auto-assignment vs recommend-then-decide), and the criteria you used. -->
 
-- a **conversational explanation, in plain paragraphs**, of why this candidate ranked where they did, including the gaps
-- a **clear breakdown of how the score was calculated**, so nothing is a black box
+## The product decision that mattered: explainable recommendations
 
-The aim was a PM who can read the reasoning, check it against their own judgement, and decide, rather than a number to accept on faith.
+An AI ranking people's careers will not be trusted as a black box. Every recommendation shows:
 
-## Six AI agents, and how I prioritised them
+- a **plain-language explanation** of why the person ranked where they did, including the **gaps**
+- a **clear breakdown of how the score was calculated**
 
-I defined the use cases and set the build order by **impact on the hiring funnel**, then integrated each into the platform.
+The design goal: a project manager can read the reasoning, test it against their own judgement, and decide. That is what moves recommendations to selections.
+
+## Prioritising the six AI agents
+
+I defined the use case for each agent and ordered the build by **impact on the hiring funnel**:
 
 - **Interview Bot** for lateral hiring
 - **Practice Bot** for fresher hiring
@@ -82,18 +91,23 @@ I defined the use cases and set the build order by **impact on the hiring funnel
 - **Case Study Bot** and **Debrief Bot** for bench assessment
 - **Candidate Agent**
 
-<!-- REFINE: how funnel impact was measured and why this order. -->
+<!-- REFINE: how funnel impact was estimated, and why this order. -->
 
-## The hard part
+## Risks and trade-offs
 
-The hardest part was not the model; it was **alignment**: agreeing on what the MVP would include, holding the timeline, and handling enhancements that stakeholders wanted added mid-build. Scope kept moving, so I made the cut line explicit and kept a visible list of what came next.
+- **Scope pressure:** stakeholders kept asking for enhancements during the MVP. The trade-off was speed to launch against completeness, so I held the MVP line and tracked what came next.
+- **Alignment:** agreeing on MVP content and timelines across the business and a 7-person team was the hardest part of the job, more than the model.
 
 ## Outcome
 
 - **1,108 daily active users**, used organisation-wide
-- **6 AI agents** defined, prioritised and integrated into the platform
-- A manual, spreadsheet-driven process replaced by one platform used by the staffing team, project managers and candidates
+- A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
+- **6 AI agents** defined, prioritised and integrated
 
-<!-- REFINE: confirm the "50% less time spent on staffing" figure and its definition before publishing. -->
-<!-- REFINE: screens (matching view, score breakdown, explanation paragraph) in public/works/iqigai/ -->
-<!-- REFINE: What I would do differently -->
+<!-- REFINE: confirm "50% less time on staffing" and what it measures before publishing. -->
+
+## What I'd do differently
+
+<!-- REFINE: one honest learning. Interviewers weigh this heavily. -->
+
+<!-- REFINE: screens (match view, score breakdown, explanation) in public/works/iqigai/ -->
