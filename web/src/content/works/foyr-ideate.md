@@ -56,9 +56,28 @@ I defined the core capabilities around the two situations users start from:
 
 ## The decision that shaped the business: pricing
 
-An AI feature has a real cost per use, so pricing could not be an afterthought. I worked through **different plans and how they would be structured** as part of the MVP, because the plan design decides who can use the product and whether it can sustain itself.
+An AI feature has a real cost every time it runs, so pricing could not be an afterthought. I devised and planned the plans alongside the MVP, because the plan structure decides who can use the product and whether it can sustain itself.
 
-<!-- REFINE: the plan structure you chose (credits, tiers, limits) and the trade-off you weighed, if shareable. -->
+The model is **freemium with a credit allowance**:
+
+| | **Free** | **Pro** |
+| --- | --- | --- |
+| **Price** | $0 per month | $15 per month (launch offer, list price $25) |
+| **Credits** | 5 free credits | 60 credits per month |
+| **Downloads** | Watermarked | No watermark |
+| **Usage rights** | Not for commercial use | Commercial use |
+| **Editing** | Limited-period access to edit design | Full access: add, replace and remove products with AI, change wall paint and wallpaper, one-click enhance |
+
+How the plans work as a funnel:
+
+- **Credits cap the cost.** Every generation spends a credit, so the free tier can't run up unlimited AI cost.
+- **Free is enough to feel the value.** A few credits let someone see their own room transformed before paying.
+- **The upgrade triggers are the moments of real intent:** removing the watermark, using a design commercially (what professional designers need) and the full editing tools.
+- **Monthly and yearly billing** are both offered.
+
+<a href="./works/foyr-ideate/pricing.png" target="_blank" rel="noopener noreferrer"><img src="./works/foyr-ideate/pricing.png" alt="Foyr Ideate pricing page: Free and Pro plans" /></a>
+
+<!-- REFINE: confirm the reasoning above is yours (credit sizing, why $15, why these upgrade triggers), and add what you rejected (for example pay-per-use or a higher price). Prices are from the public page and may have changed. -->
 
 ## Working with an external agency
 
