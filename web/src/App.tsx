@@ -9,8 +9,7 @@ import Works from './ui/Works'
 import LoadingScreen from './ui/LoadingScreen'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
 
-// TODO: replace with your real LinkedIn profile URL
-const LINKEDIN_URL = 'https://www.linkedin.com/in/your-handle'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/vishal-ghuge'
 const EMAIL = 'vishalghuge26@gmail.com'
 
 const COPY = {
