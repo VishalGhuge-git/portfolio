@@ -17,6 +17,7 @@ const HEAD_CENTER = new THREE.Vector3(0, 0.3, 0)
 export interface SurfaceFrame {
   position: THREE.Vector3
   normal: THREE.Vector3
+  mesh?: THREE.Mesh // the hit mesh (in the avatar's own space), so stickers can be projected onto it as decals
 }
 interface Surface {
   angles: (theta: number, phi: number) => SurfaceFrame | null // around the head centre
@@ -48,16 +49,33 @@ export default function Avatar({ children }: { children?: ReactNode }) {
   }, [gltf])
 
   const surface = useMemo<Surface>(() => {
+    // Raycast against a detached copy, so hits are in the avatar's own space (the same space the
+    // stickers live in) whatever the head turn is at the moment the stickers mount.
+    const probe = model.clone(true)
+    probe.updateMatrixWorld(true)
     const meshes: THREE.Mesh[] = []
-    model.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
+    probe.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
     const rc = new THREE.Raycaster()
-    const cast = (origin: THREE.Vector3, dir: THREE.Vector3): SurfaceFrame | null => {
+    const hitOne = (origin: THREE.Vector3, dir: THREE.Vector3) => {
       rc.set(origin, dir)
       const hit = rc.intersectObjects(meshes, false)[0]
       if (!hit || !hit.face) return null
       const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
       if (normal.dot(dir) > 0) normal.negate() // face the ray origin
-      return { position: hit.point.clone(), normal }
+      return { point: hit.point, normal, mesh: hit.object as THREE.Mesh }
+    }
+    // One triangle's normal is noisy on a scanned-style mesh, so average a small ring of hits
+    const cast = (origin: THREE.Vector3, dir: THREE.Vector3): SurfaceFrame | null => {
+      const c = hitOne(origin, dir)
+      if (!c) return null
+      const side = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize()
+      const up = new THREE.Vector3().crossVectors(side, dir).normalize()
+      const n = c.normal.clone()
+      for (const [u, v] of [[1, 0], [-1, 0], [0, 1], [0, -1], [0.7, 0.7], [-0.7, -0.7], [0.7, -0.7], [-0.7, 0.7]]) {
+        const h = hitOne(origin.clone().addScaledVector(side, u * 0.06).addScaledVector(up, v * 0.06), dir)
+        if (h) n.add(h.normal)
+      }
+      return { position: c.point.clone(), normal: n.normalize(), mesh: c.mesh }
     }
     return {
       angles: (theta, phi) => {
