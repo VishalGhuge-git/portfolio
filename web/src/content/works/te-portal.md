@@ -38,6 +38,20 @@ I framed the product around one idea: **show buyers what is possible, in their o
 
 <!-- REFINE: how the choice flow is structured (guided steps vs free exploration, defaults, how options are limited so it does not overwhelm). -->
 
+## Making the options manageable: rules
+
+Showing everything possible would overwhelm the buyer, and building every variant by hand would never finish. So the portal runs on **rules** that decide what a customer sees and what the design team has to create:
+
+| Rule type | What it does | Why it matters |
+| --- | --- | --- |
+| **Replace, add, remove** | Defines what can swap for what in a design | Buyers customise within what actually works |
+| **Cross-category** | One choice adjusts another, for example the counter depth and cabinet size follow the basin chosen | Options stay consistent with each other |
+| **Spatial zones** | Defines areas for replacement, so a bed can be swapped for another size without a separate design for each | Fewer options for designers to build |
+| **Spatial placement** | Items align to the space available, for example bedside units fit the clear wall length | No hand-built packages for every layout |
+| **Conflict** | Blocks an option that can't physically fit, for example tall units where there is a beam or false ceiling | Fewer wrong options shown to the buyer |
+
+Rules can also be updated after a unit is published, so a **new customisation, an out-of-stock item or a change in the default offering** reaches buyers instantly.
+
 ## Outcome
 
 Per the sales team, the portal contributed to:

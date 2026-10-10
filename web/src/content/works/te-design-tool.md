@@ -50,6 +50,37 @@ Nothing was left at the standard Foyr Neo defaults. The customisation covered:
 - **Design tools** shaped to how their designers work
 - **Software features and capabilities** built to their requirements
 
+## How I structured a 19-month programme
+
+The scope was too large to run as one list, so I broke it into **deep-dive tracks**, each rated for risk and tracked to done: the component library, rules for each space (kitchen, bathroom, furniture, landscape, fenestration), multi-floor units, electrical, packages, output drawings, external integrations and publishing. Three habits kept it moving:
+
+- **Prove the risky parts first.** Anything that could break the plan got a proof of concept before it was committed: importing the client's 3D models, adding landscape planters without slowing the editor, and multi-floor units.
+- **Dependencies had owners and dates.** Every document or API needed from the client or from Foyr was tracked by owner and ETA in a regular status review, so a blocker was visible before it became a delay.
+- **Staged deliverables with user feedback after each.** Three deliverables, each followed by a feedback round with the client's users, then a buffer, user acceptance and creation on a live project.
+
+## The decision that shaped the build: a rules engine
+
+Customers can choose from far more combinations than anyone can model by hand, so the tool needed **rules**: what can replace what, what can be added or removed, and what conflicts. The existing rules lived in a fixed format and were hard to extend. My strategy was to **de-risk the change**:
+
+1. **Existing rules keep working** in the new product and in Foyr Neo, with no rewrites
+2. **New rules use the same data format** as today's
+3. **A rules editor, backward compatible**, lets the client's designers write and publish rules themselves, creating everything the old rules could
+4. **Then add new rule types**: spatial and conflict rules, which shape what the customer sees
+
+The build order followed that: make the existing and new rules work in the customer product first, then the editor, then rules inside the design tool.
+
+## Decisions I took to the client
+
+Each status review opened with the open decisions, so nothing waited on a hallway conversation. Examples:
+
+- Show **cost while the customer browses options**, or only after they select?
+- If an item **goes out of stock after customers have submitted**, what is the business decision?
+- **How much personalisation** do customers get, and what always stays with the architect?
+- Where is the **cut-off for modelling** items, such as soft furnishings?
+- Should **analytics** be at database level, or a UI for a high-level business view?
+
+<!-- REFINE: your answers to these, and the one that was hardest to settle. -->
+
 ## Rollout
 
 The tool was **rolled out to the complete organisation**, not left as a pilot with one team.
