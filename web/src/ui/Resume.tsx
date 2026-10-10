@@ -204,7 +204,7 @@ export default function Resume() {
   }, [])
 
   return (
-    <section className="resume" lang="en">
+    <section className="resume" id="experience" lang="en">
       <motion.h2
         className="resume-title"
         initial={{ opacity: 0, y: 20 }}

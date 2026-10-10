@@ -25,13 +25,31 @@ const HAS_WEBGL = (() => {
   }
 })()
 
+function jumpTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 function TopBar() {
+  const jump = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    track('nav_jump', id)
+    jumpTo(id)
+  }
   return (
-    <nav className="topbar" aria-label="Contact">
+    <nav className="topbar" aria-label="Site">
+      <a className="topbar-jump topbar-work" href="#work" onClick={jump('work')}>
+        Work
+      </a>
+      <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
+        Experience
+      </a>
+      <a className="topbar-jump" href="#contact" onClick={jump('contact')}>
+        Contact
+      </a>
       <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
         Download CV
       </a>
-      <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
+      <a className="topbar-li" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
         LinkedIn
       </a>
       <a className="topbar-cta" href={`mailto:${EMAIL}`} onClick={() => track('email_click')}>
@@ -58,6 +76,37 @@ const COPY = {
   ],
 }
 
+// Proof points shown under the intro. Every figure comes from the case study it opens.
+const PROOF = [
+  { n: 'xxxx', label: 'daily users', sub: 'iqigai, 0 to 1 at Fractal', slug: 'iqigai' },
+  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment' },
+  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player' },
+  { n: '5 mo', label: 'AI MVP to handoff', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
+]
+
+function Proof() {
+  const setActive = useStore((s) => s.setActive)
+  return (
+    <div className="proof" role="list">
+      {PROOF.map((p) => (
+        <button
+          key={p.slug}
+          role="listitem"
+          className="proof-chip"
+          onClick={() => {
+            track('proof_click', p.slug)
+            setActive(p.slug)
+          }}
+        >
+          <b>{p.n}</b>
+          <span>{p.label}</span>
+          <em>{p.sub}</em>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
   const aboutRef = useRef(null)
   // Fade/blur the About block only once the page is actually scrolled (sharp at rest)
@@ -82,6 +131,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               {p}
             </motion.p>
           ))}
+          <Proof />
         </div>
       </motion.div>
       <motion.div className="scroll-cue" style={{ opacity: cueOpacity }} aria-hidden="true">
@@ -98,7 +148,7 @@ function Contact() {
   const Linkedin = SOCIAL_ICONS.linkedin
   const Mail = SOCIAL_ICONS.mail
   return (
-    <footer className="contact" lang="en">
+    <footer className="contact" id="contact" lang="en">
       <h2 className="contact-title">Let’s build something</h2>
       <div className="tl-logos">
         <a

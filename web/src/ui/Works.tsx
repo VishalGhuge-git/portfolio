@@ -127,6 +127,17 @@ function WorkDetail({
   const [bannerError, setBannerError] = useState(false)
   const doc = getWorkDoc(item.slug)
   const mdRef = useRef<HTMLDivElement>(null)
+  const [copied, setCopied] = useState(false)
+  const copyLink = () => {
+    const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(item.slug || item.name)}`
+    const done = () => {
+      setCopied(true)
+      track('case_link_copy', item.slug || item.name)
+      window.setTimeout(() => setCopied(false), 1800)
+    }
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => {})
+    else done()
+  }
 
   // Videos in a case study play while on screen and pause when scrolled away.
   useEffect(() => {
@@ -183,6 +194,9 @@ function WorkDetail({
         exit={{ opacity: 0, scale: 0.99, y: 6 }}
         transition={{ duration: 0.42, ease: EASE }}
       >
+        <button className="wk-detail-copy" onClick={copyLink} aria-label="Copy link to this case study">
+          {copied ? 'Link copied' : 'Copy link'}
+        </button>
         <button className="wk-detail-close" onClick={onClose} aria-label={data.closeLabel}>
           ✕
         </button>
@@ -271,6 +285,27 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
   }, [activeKey])
   const setActive = (item: WorkListItem | null) => setActiveKey(item ? item.slug || item.name : null)
 
+  // Deep link: /#iqigai opens that case study on load; opening or closing one keeps the URL in step,
+  // so any case study can be shared as a link.
+  useEffect(() => {
+    const open = () => {
+      const h = decodeURIComponent(window.location.hash.slice(1))
+      if (h && findItem(sections, h)) setActiveKey(h)
+    }
+    open()
+    window.addEventListener('hashchange', open)
+    return () => window.removeEventListener('hashchange', open)
+  }, [sections, setActiveKey])
+  useEffect(() => {
+    const base = window.location.pathname + window.location.search
+    const target = activeKey && findItem(sections, activeKey) ? `${base}#${encodeURIComponent(activeKey)}` : null
+    if (target) {
+      if (window.location.hash !== `#${encodeURIComponent(activeKey!)}`) window.history.replaceState(null, '', target)
+    } else if (window.location.hash && findItem(sections, decodeURIComponent(window.location.hash.slice(1)))) {
+      window.history.replaceState(null, '', base)
+    }
+  }, [activeKey, sections])
+
   // 竖滚 pin 转横移：测量整排卡片的实际可横移距离（px），竖滚进度 → 横移
   const galleryRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -314,7 +349,7 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
   }, [active, setActiveKey])
 
   return (
-    <section className="works" lang={lang} ref={innerRef}>
+    <section className="works" id="work" lang={lang} ref={innerRef}>
       <div
         className="wk-gallery"
         ref={galleryRef}
