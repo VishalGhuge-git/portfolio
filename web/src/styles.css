@@ -1861,7 +1861,11 @@ canvas {
 /* Phones and tablets: the rotating role gets its own line, so there is no gap after short words
    and the text below never moves ("I'm Vishal, a" / role / "at Fractal Analytics ...") */
 @media (max-width: 1099px) {
-  .about-role { display: block; font-size: 1.12em; height: 1.45em; margin: 0.05em 0; padding: 0.12em 0.08em 0.2em; margin-inline: -0.08em; }
+  .about-rolerow { display: flex; align-items: baseline; gap: 0.3em; font-size: 1.12em; }
+  .about-a { flex: none; }
+  .scroll-cue { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); margin: 0; z-index: 5; }
+  .scroll-cue-track { height: 24px; }
+  .about-rolerow .about-role { display: block; flex: none; height: 1.45em; margin: 0.05em 0; padding: 0.12em 0.08em 0.2em; margin-inline: -0.08em; }
   .about-role-word { left: 0.08em; }
 }
 

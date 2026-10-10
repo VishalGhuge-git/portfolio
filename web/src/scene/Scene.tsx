@@ -124,7 +124,7 @@ function CameraRig() {
     const cam = state.camera
     // Portrait screens (phones) need the camera further back so the figure fits the narrow width
     const aspect = state.size.width / state.size.height
-    const back = Math.max(0, 1.05 - aspect) * 3.2
+    const back = Math.max(0, 1.05 - aspect) * 4.4
 
     // Hero: the closer the cursor is to the face, the closer the camera dollies in (top of the page only).
     const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active

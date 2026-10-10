@@ -90,8 +90,8 @@ function RoleSizer() {
 const COPY = {
   title: 'About Vishal',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
-  lead: ['I’m Vishal, a ', ' at Fractal Analytics who takes AI and SaaS products from zero to one.'],
-  rest: ' I turn ambiguous asks into shipped roadmaps, with hands-on UX, research and LLM prompt-engineering behind them. I started in OTT operations at Amazon MX Player, so I care about the process around a product as much as the product.',
+  lead: ['I’m Vishal, ', ' at Fractal Analytics. I take AI and SaaS products from zero to one.'],
+  rest: ' I turn ambiguous asks into shipped roadmaps, backed by hands-on UX, research and LLM prompt-engineering. I started in OTT operations at Amazon MX Player, which is why I care about the process around a product as much as the product itself.',
 }
 
 // The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
@@ -135,10 +135,10 @@ function RoleRotator() {
 
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
-  { n: '1,108', label: 'daily users', sub: 'iqigai, 0 to 1 at Fractal', slug: 'iqigai' },
+  { n: '1,108+', label: 'daily active users', sub: 'iqigai · built 0 to 1', slug: 'iqigai' },
   { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment' },
-  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player' },
-  { n: '5 mo', label: 'AI MVP to handoff', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
+  { n: '56', label: 'shows live in 1 week', sub: 'Amazon MX Player', slug: 'mx-player' },
+  { n: '5 mo', label: 'idea to AI MVP handoff', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
 ]
 
 function Proof() {
@@ -204,7 +204,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               <span className="about-live">
                 <span className="about-lead">
                   {COPY.lead[0]}
-                  <RoleRotator />
+                  <span className="about-rolerow"><span className="about-a">a </span><RoleRotator /></span>
                   {COPY.lead[1]}
                 </span>
                 <span className="about-rest">{COPY.rest}</span>
@@ -212,7 +212,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               <span className="about-sizer" aria-hidden="true">
                 <span className="about-lead">
                   {COPY.lead[0]}
-                  <span className="about-role"><RoleSizer /></span>
+                  <span className="about-rolerow"><span className="about-a">a </span><span className="about-role"><RoleSizer /></span></span>
                   {COPY.lead[1]}
                 </span>
                 <span className="about-rest">{COPY.rest}</span>
