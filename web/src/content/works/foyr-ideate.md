@@ -15,7 +15,8 @@ link: https://ideate.foyr.com
 | **Timeline** | Apr 2024 to Aug 2024 (5 months) |
 | **Type** | AI product, built as extra features for the existing Foyr Neo |
 | **Tools** | Figma, external UI/UX agency |
-| **Live** | [ideate.foyr.com](https://ideate.foyr.com) |
+| **Live product** | [ideate.foyr.com](https://ideate.foyr.com) |
+| **Marketing site** | [foyrideate.ai](https://www.foyrideate.ai) |
 
 ## Context
 
@@ -66,7 +67,7 @@ I directed an external UI/UX agency in Figma. The most useful lesson was where t
 ## Outcome
 
 - **MVP in 5 months**, ready for handoff, with the AI interaction patterns validated through prototype testing
-- A live product at [ideate.foyr.com](https://ideate.foyr.com)
+- A working product live at [ideate.foyr.com](https://ideate.foyr.com), with a marketing site at [foyrideate.ai](https://www.foyrideate.ai)
 
 <!-- REFINE: what happened after handoff (launch, adoption, numbers) if you want to include it. Do not add anything unconfirmed. -->
 
