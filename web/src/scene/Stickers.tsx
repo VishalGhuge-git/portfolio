@@ -37,7 +37,7 @@ const STICKERS: StickerDef[] = [
   { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.6, phi: -0.62, spin: 0.3, size: 0.25 },
   // hoodie, left shoulder (clear of the drawstrings)
   // back of the hoodie: turn the model round to find it
-  { id: 'bocconi', label: 'SDA Bocconi', img: 'bocconi.png', theta: 0, phi: 0, spin: Math.PI, size: 0.8, depth: 0.6, back: [0, -1.5], scrollTo: 'education' },
+  { id: 'bocconi', label: 'SDA Bocconi', img: 'bocconi.png', theta: 0, phi: 0, spin: Math.PI, size: 0.68, depth: 0.6, back: [0, -1.5], scrollTo: 'education' },
   { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.12, size: 0.38, chest: [-1.05, -1.5] },
 ]
 

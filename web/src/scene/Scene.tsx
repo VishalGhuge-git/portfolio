@@ -125,9 +125,11 @@ function CameraRig() {
     if (sticker) sticker.getWorldPosition(focusPt)
     const f = focusAmt.current
     if (f > 0.001) {
-      tmp.set(focusPt.x + 0.55, focusPt.y + 0.05, focusPt.z + 2.6 + back * 0.6)
+      const wide = focusId === 'bocconi' // wide wordmark on the back: hold it further left and a little further off
+      const side = wide ? 1.0 : 0.55
+      tmp.set(focusPt.x + side, focusPt.y + 0.05, focusPt.z + (wide ? 3.3 : 2.6) + back * 0.6)
       wantPos.lerp(tmp, f)
-      tmp.set(focusPt.x + 0.55, focusPt.y, focusPt.z)
+      tmp.set(focusPt.x + side, focusPt.y, focusPt.z)
       wantTarget.lerp(tmp, f)
     }
 

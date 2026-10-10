@@ -91,13 +91,13 @@ export default function Avatar({ children }: { children?: ReactNode }) {
 
   useEffect(() => () => void (document.body.style.cursor = ''), [])
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const g = turn.current
     if (!g) return
     const { x, y } = state.pointer
     // Scrolling to the SDA Bocconi entry turns him round to show the logo on the back of the hoodie
     const showBack = useStore.getState().focus === 'bocconi' && window.scrollY > window.innerHeight * 0.7
-    g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, (showBack ? Math.PI : 0) + x * TURN * (showBack ? -1 : 1), 0.06)
+    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, (showBack ? Math.PI : 0) + x * TURN * (showBack ? -1 : 1), showBack || Math.abs(g.rotation.y) > 0.4 ? 2.5 : 3.6, Math.min(delta, 0.1))
     g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, -y * TILT, 0.06)
   })
 
