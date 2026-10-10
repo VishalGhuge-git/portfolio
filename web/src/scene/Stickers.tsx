@@ -2,9 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame, useLoader, type ThreeEvent } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
+import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js'
 import { faceNormal, surfaceFrame } from './headShape'
 import { useStore } from '../store'
-import { useSurface } from './Avatar'
+import { useSurface, type SurfaceFrame } from './Avatar'
 import { track } from '../analytics'
 
 // Project stickers on the bust. Clicking one opens that project's case study.
@@ -25,15 +26,18 @@ interface StickerDef {
 }
 
 const STICKERS: StickerDef[] = [
-  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.5, phi: -0.4, spin: 0.3, size: 0.4 },
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0, phi: 0, spin: -0.15, size: 0.42, chest: [0, -0.98] },
-  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: 0, phi: 0, spin: 0.2, size: 0.4, chest: [0.8, -1.5] },
-  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0, phi: 0, spin: -0.25, size: 0.36, chest: [-0.85, -1.55] },
-  { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: 0.12, phi: 0.66, spin: 0.1, size: 0.55 },
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.1, size: 0.36, chest: [0.05, -1.72] },
+  // left cheek (as you look at the screen): iqigai above, Total Environment below
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai by Fractal', img: 'iqigai.png', theta: -0.66, phi: -0.36, spin: 0.35, size: 0.27 },
+  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: -0.6, phi: -0.62, spin: -0.25, size: 0.27 },
+  // right cheek: Foyr above, MX Player below
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.66, phi: -0.36, spin: -0.3, size: 0.3 },
+  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.6, phi: -0.62, spin: 0.3, size: 0.25 },
+  // hoodie, left shoulder (clear of the drawstrings)
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.12, size: 0.38, chest: [-1.05, -1.5] },
 ]
 
-const HOVER_SCALE = 1.35
+const HOVER_SCALE = 1.22
+const DEPTH = 0.22 // how deep the decal projection reaches into the surface
 
 // Live sticker groups by id, so the camera can find where to zoom for the résumé focus.
 export const stickerRefs = new Map<string, THREE.Group>()
@@ -61,15 +65,28 @@ function Sticker({ def }: { def: StickerDef }) {
   const open = useStore((s) => !!s.active) // a case study is open: hide the hover label
 
   const surface = useSurface()
-  const { position, quaternion, labelPos } = useMemo(() => {
-    const f = (def.chest ? surface?.front(def.chest[0], def.chest[1]) : surface?.angles(def.theta, def.phi)) ??
+  const { position, quaternion, labelPos, decal } = useMemo(() => {
+    const f: SurfaceFrame = (def.chest ? surface?.front(def.chest[0], def.chest[1]) : surface?.angles(def.theta, def.phi)) ??
       surfaceFrame(def.theta, def.phi)
-    return {
-      position: f.position.clone().addScaledVector(f.normal, 0.03),
-      quaternion: faceNormal(f.normal, def.spin),
-      labelPos: f.position.clone().addScaledVector(f.normal, 0.3),
+    const quaternion = faceNormal(f.normal, def.spin)
+    // Project the sticker onto the real mesh so it wraps the cheek/chest instead of floating flat.
+    // Geometry is re-centred on the sticker point so hover scaling grows it in place.
+    let decal: THREE.BufferGeometry | null = null
+    if (f.mesh) {
+      const g = new DecalGeometry(f.mesh, f.position, new THREE.Euler().setFromQuaternion(quaternion), new THREE.Vector3(sw, sh, DEPTH))
+      if (g.getAttribute('position')?.count) {
+        g.translate(-f.position.x, -f.position.y, -f.position.z)
+        decal = g
+      }
     }
-  }, [def, surface])
+    return {
+      position: decal ? f.position.clone() : f.position.clone().addScaledVector(f.normal, 0.03),
+      quaternion: decal ? new THREE.Quaternion() : quaternion,
+      labelPos: f.position.clone().addScaledVector(f.normal, 0.3),
+      decal,
+    }
+  }, [def, surface, sw, sh])
+  useEffect(() => () => decal?.dispose(), [decal])
 
   useFrame((state) => {
     if (!group.current) return
@@ -120,10 +137,17 @@ function Sticker({ def }: { def: StickerDef }) {
         onClick={onClick}
       >
         {/* die-cut sticker: the PNG already carries the white outline */}
-        <mesh>
-          <planeGeometry args={[sw, sh]} />
-          <meshBasicMaterial map={tex} toneMapped={false} transparent alphaTest={0.05} side={THREE.DoubleSide} />
-        </mesh>
+        {decal ? (
+          <mesh geometry={decal} renderOrder={2}>
+            <meshBasicMaterial map={tex} toneMapped={false} transparent alphaTest={0.05} depthWrite={false}
+              polygonOffset polygonOffsetFactor={-4} polygonOffsetUnits={-4} />
+          </mesh>
+        ) : (
+          <mesh>
+            <planeGeometry args={[sw, sh]} />
+            <meshBasicMaterial map={tex} toneMapped={false} transparent alphaTest={0.05} side={THREE.DoubleSide} />
+          </mesh>
+        )}
       </group>
       {hover && !open && (
         <Html position={labelPos} center zIndexRange={[20, 10]} style={{ pointerEvents: 'none' }}>
