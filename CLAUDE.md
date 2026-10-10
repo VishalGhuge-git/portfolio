@@ -24,7 +24,7 @@ No tests. After edits, run `npm run typecheck` and check the result in the brows
 - `src/scene/Bust.tsx`: soft-clay cartoon bust built in code (one head mesh with hair as vertex colour + offset, brows, nose, smile, ears, eyes that blink and follow the cursor). Look constants are at the top (`C`).
 - `src/scene/headShape.ts`: the head surface (`headPoint`, `surfaceFrame`), hair mask/thickness. Anything placed on the face should use `surfaceFrame(theta, phi)` so it sits on the surface.
 - `src/scene/Stickers.tsx`: clickable project stickers placed by (theta, phi); `slug` must match `works.ts`. Click sets `active` in `src/store.ts`, which opens the case study in `Works.tsx` (the gallery uses the same store key).
-- `src/ui/Resume.tsx`: timeline entries (data inline). `src/ui/Works.tsx`: horizontal gallery + detail modal.
+- `src/ui/Resume.tsx`: timeline entries (data inline). `src/ui/Works.tsx`: horizontal gallery + detail modal.  The Work gallery is not rendered for now (`CaseStudyHost` in `Works.tsx` serves the popup; résumé "Read case study" buttons, stickers and chips open it).
 - `src/data/works.ts`: gallery data. `src/content/works/*.md`: one case study per `slug` (template: `_template.md`).
 - `src/ui/LoadingScreen.tsx`, `NoiseOverlay.tsx`: loading mask and film grain.
 

@@ -9,6 +9,7 @@ import { useStore } from '../store'
 interface ResumeGroup {
   focus?: string // sticker id the camera zooms to while this block is on screen
   heading: string
+  case?: string // case-study slug
   sub?: string
   items?: string[]
 }
@@ -18,6 +19,7 @@ interface ResumeEntry {
   period: string
   place: string
   role?: string
+  case?: string // case-study slug
   points?: string[]
   groups?: ResumeGroup[]
 }
@@ -33,7 +35,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       role: 'Product Manager',
       groups: [
         {
-          heading: 'iqigai',
+          heading: 'iqigai', case: 'iqigai',
           focus: 'iqigai',
           sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
           items: [
@@ -52,7 +54,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       role: 'Associate Product Manager',
       groups: [
         {
-          heading: 'Total Environment, Bangalore',
+          heading: 'Total Environment, Bangalore', case: 'total-environment',
           focus: 'te',
           sub: 'B2C portal + B2B 3D SaaS · Sep 2024 – Nov 2025',
           items: [
@@ -62,7 +64,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
           ],
         },
         {
-          heading: 'Foyr Ideate',
+          heading: 'Foyr Ideate', case: 'foyr-ideate',
           focus: 'foyr',
           sub: 'AI interior design platform · MVP · Apr 2024 – Aug 2024',
           items: [
@@ -75,7 +77,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
     {
       kind: 'work',
       period: 'Apr 2020 – Oct 2021',
-      place: 'Amazon MX Player',
+      place: 'Amazon MX Player', case: 'mx-player',
       focus: 'mx',
       role: 'Business Analyst, Product Operations',
       points: [
@@ -111,6 +113,15 @@ const itemV = {
   show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
 }
 
+function CaseLink({ slug }: { slug: string }) {
+  const setActive = useStore((s) => s.setActive)
+  return (
+    <button type="button" className="tl-case" onClick={() => setActive(slug)}>
+      Read case study →
+    </button>
+  )
+}
+
 function Group({ group }: { group: ResumeGroup }) {
   return (
     <motion.div className="tl-group" variants={itemV} data-focus={group.focus}>
@@ -125,6 +136,7 @@ function Group({ group }: { group: ResumeGroup }) {
           ))}
         </ul>
       )}
+      {group.case && <CaseLink slug={group.case} />}
     </motion.div>
   )
 }
@@ -161,6 +173,7 @@ function Entry({ entry, index }: { entry: ResumeEntry; index: number }) {
             ))}
           </motion.ul>
         )}
+        {entry.case && <CaseLink slug={entry.case} />}
         {entry.groups && entry.groups.map((g, i) => <Group key={i} group={g} />)}
       </div>
     </motion.div>

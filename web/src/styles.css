@@ -1572,7 +1572,7 @@ canvas {
   .topbar { top: 12px; right: 12px; gap: 6px; font-size: 11px; }
   .topbar a { padding: 7px 10px; }
   .topbar .topbar-li { display: none; }
-  .topbar .topbar-jump:not(.topbar-work) { display: none; }
+  .topbar .topbar-jump { display: none; }
   .sticker-hint { top: 56px; font-size: 12px; }
 }
 
@@ -1789,3 +1789,6 @@ canvas {
 @media (max-width: 640px) {
   .to-top { bottom: calc(22px + env(safe-area-inset-bottom, 0px)); height: 46px; }
 }
+
+.tl-case { margin-top: 10px; padding: 6px 14px; border-radius: 999px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-size: 0.85em; cursor: pointer; pointer-events: auto; opacity: 0.85; }
+.tl-case:hover { opacity: 1; }
