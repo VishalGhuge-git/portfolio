@@ -103,11 +103,11 @@ function Env() {
 // back to show the whole figure at the end. While a résumé block is on screen it flies in to that item.
 const FACE_Y = 3.55
 const FOCUS: Record<string, { dist: number; side: number }> = {
-  iqigai: { dist: 1.5, side: 0.3 },
-  xaviers: { dist: 1.5, side: 0.3 },
-  foyr: { dist: 2.8, side: 0.7 },
-  te: { dist: 2.8, side: 0.7 },
-  mx: { dist: 2.8, side: 0.7 },
+  iqigai: { dist: 2.4, side: 0.4 },
+  xaviers: { dist: 2.4, side: 0.4 },
+  foyr: { dist: 3.3, side: 0.8 },
+  te: { dist: 3.3, side: 0.8 },
+  mx: { dist: 3.3, side: 0.8 },
   bocconi: { dist: 3.4, side: 0.9 },
 }
 function CameraRig() {
@@ -138,7 +138,7 @@ function CameraRig() {
     wantPos.set(
       THREE.MathUtils.lerp(0, -1.0, drift) * (1 - end) + state.pointer.x * 0.5 * z,
       THREE.MathUtils.lerp(FACE_Y + 0.1, 3.0, drift) * (1 - end) + 2.2 * end + state.pointer.y * 0.3 * z,
-      THREE.MathUtils.lerp(4.4, 5.6, drift) * (1 - end) + 11 * end - 1.6 * z + back
+      THREE.MathUtils.lerp(4.4, 5.6, drift) * (1 - end) + 11 * end - 0.7 * z + back
     )
     wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
 
