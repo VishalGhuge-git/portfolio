@@ -1720,3 +1720,30 @@ canvas {
 }
 .tl-section.is-education h3 { color: #cfe0ff; }
 .tl-section::after { content: ''; display: block; height: 1px; margin-top: 12px; background: rgba(244, 241, 234, 0.22); }
+
+/* Top bar: fade out while a case study is open */
+.topbar { transition: opacity 0.25s ease; }
+.topbar.is-hidden { opacity: 0; pointer-events: none; }
+#education { scroll-margin-top: 96px; }
+
+/* About card: centre it between the name label (top) and the corner label (bottom) so it can never run into them */
+@media (min-width: 1100px) {
+  .hero .about {
+    top: 112px;
+    bottom: 64px;
+    height: fit-content;
+    margin-block: auto;
+    max-height: calc(100vh - 176px);
+    overflow: auto;
+  }
+}
+/* Short desktop windows: compact the About card so the proof chips are never cut off */
+@media (min-width: 1100px) and (max-height: 780px) {
+  .hero .about { padding: 18px 20px; }
+  .hero .about-title { font-size: 30px; }
+  .hero .about-body { font-size: 14px; line-height: 1.45; }
+  .proof { margin-top: 12px; gap: 6px; }
+  .proof-chip { padding: 7px 10px; }
+  .proof-chip em { display: none; }
+  .proof-chip b { font-size: 17px; }
+}
