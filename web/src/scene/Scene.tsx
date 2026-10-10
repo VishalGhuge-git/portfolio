@@ -22,7 +22,7 @@ const BG: Record<string, [string, string]> = {
   mist: ['#e8edf3', '#f8fafc'],
   paper: ['#eef0f6', '#fbfbfd'],
 }
-const bgKey = new URLSearchParams(location.search).get('bg') || 'sage'
+const bgKey = new URLSearchParams(location.search).get('bg') || 'graphite'
 
 function GradientBackground() {
   const uniforms = useMemo(
