@@ -42,6 +42,10 @@ I ran **prototype tests and competitor teardowns** before committing to scope, t
 
 ## The MVP: what it does
 
+<video controls preload="none" playsinline poster="./works/foyr-ideate/poster.jpg" src="./works/foyr-ideate/ideate-trailer.mp4"></video>
+
+*Product trailer for Foyr Ideate (58 seconds).*
+
 I defined the core capabilities around the two situations users start from:
 
 - **Empty room:** auto-furnish it
