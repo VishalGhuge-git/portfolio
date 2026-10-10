@@ -75,9 +75,18 @@ How the plans work as a funnel:
 - **The upgrade triggers are the moments of real intent:** removing the watermark, using a design commercially (what professional designers need) and the full editing tools.
 - **Monthly and yearly billing** are both offered.
 
+**What drove the numbers.** I sized the Pro allowance and price on three inputs: the **AI cost per generation** (each credit has to cover its compute), **competitor pricing** (benchmarked against similar AI design tools), and **typical designer usage** (how many designs a working designer makes in a month).
+
+**What I rejected.**
+
+| Option | Why not |
+| --- | --- |
+| **Pay-per-use only** | Unpredictable spend puts people off experimenting, and it gives no recurring revenue to plan against |
+| **No free tier** | People would pay before seeing their own room redesigned; a free taste is the fastest way to show the value of an AI product |
+
 <a href="./works/foyr-ideate/pricing.png" target="_blank" rel="noopener noreferrer"><img src="./works/foyr-ideate/pricing.png" alt="Foyr Ideate pricing page: Free and Pro plans" /></a>
 
-<!-- REFINE: confirm the reasoning above is yours (credit sizing, why $15, why these upgrade triggers), and add what you rejected (for example pay-per-use or a higher price). Prices are from the public page and may have changed. -->
+<!-- REFINE: confirm the one-line 'why not' reasons for the two rejected options match your thinking. Prices are from the public page and may have changed. -->
 
 ## Working with an external agency
 
