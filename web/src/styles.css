@@ -120,11 +120,16 @@ canvas {
   font-size: 10px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(244, 241, 234, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.9);
   pointer-events: none;
 }
 
 .scroll-cue-label {
+  padding: 5px 12px 5px 16px;
+  border-radius: 999px;
+  background: rgba(8, 12, 16, 0.72);
+  backdrop-filter: blur(6px);
   animation: cueLabelPulse 2.4s ease-in-out infinite;
 }
 
@@ -1859,3 +1864,17 @@ canvas {
   .about-role { display: block; font-size: 1.12em; height: 1.45em; margin: 0.05em 0; padding: 0.12em 0.08em 0.2em; margin-inline: -0.08em; }
   .about-role-word { left: 0.08em; }
 }
+
+.contact-cta {
+  margin-top: 28px;
+  padding: 14px 34px;
+  border-radius: 999px;
+  border: 1px solid #fbf8f1;
+  background: #fbf8f1;
+  color: #1c2630;
+  font: 600 15px/1 inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.contact-cta:hover { transform: translateY(-2px); background: #fff; }

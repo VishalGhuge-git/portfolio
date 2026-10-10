@@ -101,7 +101,7 @@ function Env() {
 
 // Scroll-driven camera: hero frames the face and shoulders, drifts down the body as you scroll, and pulls
 // back to show the whole figure at the end. While a résumé block is on screen it flies in to that item.
-const FACE_Y = 3.55
+const FACE_Y = 3.4
 const FOCUS: Record<string, { dist: number; side: number }> = {
   iqigai: { dist: 2.4, side: 0.4 },
   xaviers: { dist: 2.4, side: 0.4 },
@@ -138,7 +138,7 @@ function CameraRig() {
     wantPos.set(
       THREE.MathUtils.lerp(0, -1.0, drift) * (1 - end) + state.pointer.x * 0.5 * z,
       THREE.MathUtils.lerp(FACE_Y + 0.1, 3.0, drift) * (1 - end) + 2.2 * end + state.pointer.y * 0.3 * z,
-      THREE.MathUtils.lerp(4.4, 5.6, drift) * (1 - end) + 11 * end - 0.7 * z + back
+      THREE.MathUtils.lerp(5.4, 6.7, drift) * (1 - end) + 11 * end - 0.7 * z + back
     )
     wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
 

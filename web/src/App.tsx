@@ -6,9 +6,8 @@ import Scene from './scene/Scene'
 import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
-import ContactModal, { LINKEDIN_URL, EMAIL } from './ui/ContactModal'
+import ContactModal from './ui/ContactModal'
 import LoadingScreen from './ui/LoadingScreen'
-import { SOCIAL_ICONS } from './ui/SocialIcons'
 import { track } from './analytics'
 import { useStore } from './store'
 
@@ -51,9 +50,6 @@ function TopBar() {
       </a>
       <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
         Download CV
-      </a>
-      <a className="topbar-li" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
-        LinkedIn
       </a>
       <button type="button" className="topbar-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
         Let’s talk
@@ -237,33 +233,14 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
 }
 
 function Contact() {
-  const Linkedin = SOCIAL_ICONS.linkedin
-  const Mail = SOCIAL_ICONS.mail
+  const [talk, setTalk] = useState(false)
   return (
     <footer className="contact" id="contact" lang="en">
       <h2 className="contact-title">Let’s build something</h2>
-      <div className="tl-logos">
-        <a
-          className="tl-logo"
-          href={LINKEDIN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          title="LinkedIn"
-          onClick={() => track('linkedin_click')}
-        >
-          <Linkedin />
-        </a>
-        <a
-          className="tl-logo"
-          href={`mailto:${EMAIL}`}
-          aria-label="Email"
-          title="Email"
-          onClick={() => track('email_click')}
-        >
-          <Mail />
-        </a>
-      </div>
+      <button type="button" className="contact-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
+        Let’s talk
+      </button>
+      <ContactModal open={talk} onClose={() => setTalk(false)} />
     </footer>
   )
 }
@@ -296,7 +273,7 @@ export default function App() {
           eventSource={document.getElementById('root') as HTMLElement}
           eventPrefix="client"
           dpr={[1, 2]}
-          camera={{ position: [0, 3.65, 4.4], fov: 39, near: 0.1, far: 500 }}
+          camera={{ position: [0, 3.5, 5.4], fov: 39, near: 0.1, far: 500 }}
           gl={{ antialias: true, depth: true, toneMapping: THREE.ACESFilmicToneMapping }}
         >
           <color attach="background" args={['#0a0e16']} />
