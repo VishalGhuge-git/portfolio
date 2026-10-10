@@ -6,6 +6,7 @@ import Scene from './scene/Scene'
 import NoiseOverlay from './ui/NoiseOverlay'
 import Resume from './ui/Resume'
 import Works from './ui/Works'
+import ScrollTopButton from './ui/ScrollTopButton'
 import LoadingScreen from './ui/LoadingScreen'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
 import { track } from './analytics'
@@ -61,30 +62,10 @@ function TopBar() {
   )
 }
 
-function BackToTop() {
-  const [show, setShow] = useState(false)
+// Page-level back to top; the open case study has its own, so this one steps aside.
+function PageTopButton() {
   const open = useStore((s) => s.active !== null)
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > window.innerHeight * 1.5)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  const visible = show && !open
-  return (
-    <button
-      className={`to-top${visible ? ' is-on' : ''}`}
-      aria-label="Back to top"
-      tabIndex={visible ? 0 : -1}
-      onClick={() => {
-        track('back_to_top')
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }}
-    >
-      <span aria-hidden="true">↑</span>
-      <em>Top</em>
-    </button>
-  )
+  return <ScrollTopButton hidden={open} />
 }
 
 function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
@@ -288,7 +269,7 @@ export default function App() {
       </motion.div>
 
       <TopBar />
-      <BackToTop />
+      <PageTopButton />
       <StickerHint opacity={heroChromeOpacity} />
 
       {/* Full-screen film grain (multiply blend) */}
