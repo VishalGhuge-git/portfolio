@@ -30,6 +30,7 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
   labelOffset?: [number, number, number]
 }) {
   const group = useRef<THREE.Group>(null)
+  const inner = useRef<THREE.Group>(null)
   const [hover, setHover] = useState(false)
   const setActive = useStore((s) => s.setActive)
   const open = useStore((s) => !!s.active)
@@ -43,11 +44,21 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
     }
   }, [id])
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!group.current) return
     const focused = useStore.getState().focus === id
-    const t = hover || focused ? 1.18 : 1 + 0.025 * Math.sin(state.clock.elapsedTime * 2 + id.length)
-    group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, t, 0.15))
+    const t = focused ? 1.3 : hover ? 1.18 : 1 + 0.025 * Math.sin(state.clock.elapsedTime * 2 + id.length)
+    const k = 1 - Math.exp(-6 * Math.min(delta, 0.1))
+    group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, t, k))
+    // gentle float and sway while the camera is on it, eased back to rest otherwise
+    const a = inner.current
+    if (a) {
+      const tt = state.clock.elapsedTime
+      const amp = focused ? 1 : 0
+      a.position.y = THREE.MathUtils.lerp(a.position.y, amp * 0.012 * H * Math.sin(tt * 2.2), 0.2)
+      a.rotation.z = THREE.MathUtils.lerp(a.rotation.z, amp * 0.1 * Math.sin(tt * 1.7), 0.2)
+      a.rotation.y = THREE.MathUtils.lerp(a.rotation.y, amp * 0.18 * Math.sin(tt * 1.3), 0.2)
+    }
   })
 
   const onOver = (e: ThreeEvent<PointerEvent>) => {
@@ -72,7 +83,7 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
 
   return (
     <group ref={group} position={position} quaternion={quaternion} rotation={rotation} onPointerOver={onOver} onPointerOut={onOut} onClick={onClick}>
-      {children}
+      <group ref={inner}>{children}</group>
       <mesh>
         <sphereGeometry args={[hit, 12, 12]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
