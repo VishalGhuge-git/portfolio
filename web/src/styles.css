@@ -1525,3 +1525,56 @@ canvas {
   margin-left: 6px;
   opacity: 0.7;
 }
+
+/* ---------- top bar + sticker hint ---------- */
+.topbar {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  z-index: 60;
+  display: flex;
+  gap: 8px;
+  font-family: 'Helvetica Neue', system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.topbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(15, 20, 25, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.topbar a:hover { background: rgba(15, 20, 25, 0.7); transform: translateY(-1px); }
+.topbar .topbar-cta { background: #fbf8f1; color: #1c2630; border-color: #fbf8f1; font-weight: 600; }
+.topbar .topbar-cta:hover { background: #fff; }
+.sticker-hint {
+  position: fixed;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  pointer-events: none;
+  font-family: 'Helvetica Neue', system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(15, 20, 25, 0.4);
+  padding: 7px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .topbar { top: 12px; right: 12px; gap: 6px; font-size: 11px; }
+  .topbar a { padding: 7px 10px; }
+  .topbar a:nth-child(2) { display: none; }
+  .sticker-hint { top: 56px; font-size: 12px; }
+}
+
+/* keep the intro readable over the hoodie */
+.about-title, .about-body { text-shadow: 0 1px 10px rgba(10, 14, 20, 0.65), 0 0 2px rgba(10, 14, 20, 0.5); }
+@media (max-width: 640px) { .about-body { font-size: 14px; line-height: 1.5; } }

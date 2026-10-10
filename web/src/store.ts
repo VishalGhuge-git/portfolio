@@ -7,13 +7,16 @@ interface StoreState {
   active: string | null
   setActive: (key: string | null) => void
   // sticker id the camera should zoom to while its résumé section is on screen
+  // true after the first sticker interaction (hides the "tap the stickers" hint)
+  touched: boolean
   focus: string | null
   setFocus: (id: string | null) => void
 }
 
 export const useStore = create<StoreState>((set) => ({
   active: null,
-  setActive: (key) => set({ active: key }),
+  setActive: (key) => set(key ? { active: key, touched: true } : { active: null }),
+  touched: false,
   focus: null,
   setFocus: (id) => set((st) => (st.focus === id ? st : { focus: id })),
 }))

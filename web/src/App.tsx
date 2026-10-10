@@ -8,9 +8,48 @@ import Resume from './ui/Resume'
 import Works from './ui/Works'
 import LoadingScreen from './ui/LoadingScreen'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
+import { track } from './analytics'
+import { useStore } from './store'
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/vishal-ghuge'
 const EMAIL = 'vishalghuge26@gmail.com'
+const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
+
+// WebGL check: without it we skip the 3D scene and show the page on a plain gradient
+const HAS_WEBGL = (() => {
+  try {
+    const c = document.createElement('canvas')
+    return !!(c.getContext('webgl2') || c.getContext('webgl'))
+  } catch {
+    return false
+  }
+})()
+
+function TopBar() {
+  return (
+    <nav className="topbar" aria-label="Contact">
+      <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
+        Download CV
+      </a>
+      <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
+        LinkedIn
+      </a>
+      <a className="topbar-cta" href={`mailto:${EMAIL}`} onClick={() => track('email_click')}>
+        Let’s talk
+      </a>
+    </nav>
+  )
+}
+
+function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
+  const touched = useStore((s) => s.touched)
+  if (touched) return null
+  return (
+    <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
+      Tap the stickers: each one is a project
+    </motion.div>
+  )
+}
 
 const COPY = {
   title: 'About Vishal',
@@ -69,10 +108,17 @@ function Contact() {
           rel="noopener noreferrer"
           aria-label="LinkedIn"
           title="LinkedIn"
+          onClick={() => track('linkedin_click')}
         >
           <Linkedin />
         </a>
-        <a className="tl-logo" href={`mailto:${EMAIL}`} aria-label="Email" title="Email">
+        <a
+          className="tl-logo"
+          href={`mailto:${EMAIL}`}
+          aria-label="Email"
+          title="Email"
+          onClick={() => track('email_click')}
+        >
           <Mail />
         </a>
       </div>
@@ -109,6 +155,7 @@ export default function App() {
         {/* The page content sits on top of the canvas and takes the pointer events, so the 3D scene
             listens on #root instead (events bubble up to it). That keeps eye-follow and the
             clickable stickers working. */}
+        {HAS_WEBGL && (
         <Canvas
           eventSource={document.getElementById('root') as HTMLElement}
           eventPrefix="client"
@@ -121,6 +168,7 @@ export default function App() {
             <Scene />
           </Suspense>
         </Canvas>
+        )}
       </div>
 
       {/* Scroll darkening scrim */}
@@ -143,10 +191,12 @@ export default function App() {
           <span className="hm-name">Vishal Ghuge</span>
           <span>Product Manager</span>
         </div>
-        <div className="hero-meta hm-tr">Portfolio — 2026</div>
         <div className="hero-meta hm-bl">AI · SaaS · 0 to 1</div>
         <div className="hero-meta hm-right">Based in Mumbai</div>
       </motion.div>
+
+      <TopBar />
+      <StickerHint opacity={heroChromeOpacity} />
 
       {/* Full-screen film grain (multiply blend) */}
       <NoiseOverlay />

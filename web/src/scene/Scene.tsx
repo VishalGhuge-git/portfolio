@@ -76,6 +76,9 @@ function CameraRig() {
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
     const p = Math.min(1, Math.max(0, window.scrollY / max))
     const cam = state.camera
+    // Portrait screens (phones) need the camera further back so the head fits the narrow width
+    const aspect = state.size.width / state.size.height
+    const back = Math.max(0, 1.05 - aspect) * 5.5
 
     // Hero zoom: the closer the cursor is to the face, the closer the camera dollies in
     // (and pans toward the cursor) so the stickers can be read. Only at the top of the page.
@@ -88,7 +91,7 @@ function CameraRig() {
     wantPos.set(
       THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)) + state.pointer.x * 0.9 * z,
       THREE.MathUtils.lerp(0.6, 0.3, p) + state.pointer.y * 0.5 * z,
-      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 4.3 * z
+      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 4.3 * z + back
     )
     wantTarget.set(state.pointer.x * 0.45 * z, 0.2 + state.pointer.y * 0.3 * z, 0)
 
@@ -101,7 +104,7 @@ function CameraRig() {
     if (sticker) sticker.getWorldPosition(focusPt)
     const f = focusAmt.current
     if (f > 0.001) {
-      tmp.set(focusPt.x + 0.55, focusPt.y + 0.05, focusPt.z + 2.6)
+      tmp.set(focusPt.x + 0.55, focusPt.y + 0.05, focusPt.z + 2.6 + back * 0.6)
       wantPos.lerp(tmp, f)
       tmp.set(focusPt.x + 0.55, focusPt.y, focusPt.z)
       wantTarget.lerp(tmp, f)
