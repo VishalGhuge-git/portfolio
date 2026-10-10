@@ -32,8 +32,8 @@ const STICKERS: StickerDef[] = [
   // right cheek: Foyr above, MX Player below
   { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.66, phi: -0.36, spin: -0.3, size: 0.3 },
   { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.6, phi: -0.62, spin: 0.3, size: 0.25 },
-  // hoodie, left side of the chest
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.12, size: 0.38, chest: [-0.6, -1.62] },
+  // hoodie, left shoulder (clear of the drawstrings)
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.12, size: 0.38, chest: [-1.05, -1.5] },
 ]
 
 const HOVER_SCALE = 1.22
