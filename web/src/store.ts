@@ -6,11 +6,16 @@ import { create } from 'zustand'
 interface StoreState {
   active: string | null
   setActive: (key: string | null) => void
+  // sticker id the camera should zoom to while its résumé section is on screen
+  focus: string | null
+  setFocus: (id: string | null) => void
 }
 
 export const useStore = create<StoreState>((set) => ({
   active: null,
   setActive: (key) => set({ active: key }),
+  focus: null,
+  setFocus: (id) => set((st) => (st.focus === id ? st : { focus: id })),
 }))
 
 // Dev-only console hook, e.g. __store.getState().setActive('iqigai')

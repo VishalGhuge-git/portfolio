@@ -34,6 +34,9 @@ const STICKERS: StickerDef[] = [
 
 const HOVER_SCALE = 1.35
 
+// Live sticker groups by id, so the camera can find where to zoom for the résumé focus.
+export const stickerRefs = new Map<string, THREE.Group>()
+
 // Stickers only react near the top of the page; further down the bust sits behind the résumé
 // text, and a stray click there should not open a case study.
 // They also ignore the pointer while a case study is open, since the open view sits on top.
@@ -69,12 +72,20 @@ function Sticker({ def }: { def: StickerDef }) {
   useFrame((state) => {
     if (!group.current) return
     // gentle pulse to hint they are clickable; grows on hover
-    const target = hover ? HOVER_SCALE : 1 + 0.04 * Math.sin(state.clock.elapsedTime * 2 + def.theta * 3)
+    const focused = useStore.getState().focus === def.id
+    const target = hover || focused ? HOVER_SCALE : 1 + 0.04 * Math.sin(state.clock.elapsedTime * 2 + def.theta * 3)
     group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, target, 0.15))
   })
 
   // do not leave a pointer cursor behind if this unmounts while hovered
-  useEffect(() => () => void (document.body.style.cursor = ''), [])
+  useEffect(() => {
+    const g = group.current
+    if (g) stickerRefs.set(def.id, g)
+    return () => {
+      stickerRefs.delete(def.id)
+      document.body.style.cursor = ''
+    }
+  }, [def.id])
 
   const onOver = (e: ThreeEvent<PointerEvent>) => {
     if (!canInteract()) return

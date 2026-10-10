@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar from './Avatar'
-import Stickers from './Stickers'
+import Stickers, { stickerRefs } from './Stickers'
 import { useStore } from '../store'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
@@ -69,6 +69,9 @@ function CameraRig() {
   const wantTarget = useMemo(() => new THREE.Vector3(), [])
   const wantPos = useMemo(() => new THREE.Vector3(), [])
   const zoom = useRef(0)
+  const focusAmt = useRef(0)
+  const focusPt = useMemo(() => new THREE.Vector3(), [])
+  const tmp = useMemo(() => new THREE.Vector3(), [])
   useFrame((state) => {
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
     const p = Math.min(1, Math.max(0, window.scrollY / max))
@@ -87,8 +90,24 @@ function CameraRig() {
       THREE.MathUtils.lerp(0.6, 0.3, p) + state.pointer.y * 0.5 * z,
       THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 4.3 * z
     )
-    cam.position.lerp(wantPos, 0.08)
     wantTarget.set(state.pointer.x * 0.45 * z, 0.2 + state.pointer.y * 0.3 * z, 0)
+
+    // Résumé focus: while a résumé block is on screen, fly in to its sticker. The sticker is held
+    // left of centre because the résumé text and frosted rail sit on the right.
+    const focusId = useStore.getState().focus
+    const sticker = focusId ? stickerRefs.get(focusId) : undefined
+    const wantF = sticker && !atTop && !useStore.getState().active ? 1 : 0
+    focusAmt.current = THREE.MathUtils.lerp(focusAmt.current, wantF, 0.07)
+    if (sticker) sticker.getWorldPosition(focusPt)
+    const f = focusAmt.current
+    if (f > 0.001) {
+      tmp.set(focusPt.x + 0.55, focusPt.y + 0.05, focusPt.z + 2.6)
+      wantPos.lerp(tmp, f)
+      tmp.set(focusPt.x + 0.55, focusPt.y, focusPt.z)
+      wantTarget.lerp(tmp, f)
+    }
+
+    cam.position.lerp(wantPos, 0.08)
     target.lerp(wantTarget, 0.08)
     cam.lookAt(target)
   })
