@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import * as THREE from 'three'
@@ -61,6 +61,32 @@ function TopBar() {
   )
 }
 
+function BackToTop() {
+  const [show, setShow] = useState(false)
+  const open = useStore((s) => s.active !== null)
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > window.innerHeight * 1.5)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  const visible = show && !open
+  return (
+    <button
+      className={`to-top${visible ? ' is-on' : ''}`}
+      aria-label="Back to top"
+      tabIndex={visible ? 0 : -1}
+      onClick={() => {
+        track('back_to_top')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }}
+    >
+      <span aria-hidden="true">↑</span>
+      <em>Top</em>
+    </button>
+  )
+}
+
 function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   const touched = useStore((s) => s.touched)
   if (touched) return null
@@ -111,6 +137,8 @@ function Proof() {
 
 function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
   const aboutRef = useRef(null)
+  // On phones and tablets the card starts compact so it doesn't hide the character; desktop ignores this.
+  const [expanded, setExpanded] = useState(false)
   // Fade/blur the About block only once the page is actually scrolled (sharp at rest)
   const { scrollY } = useScroll()
   const scrollYProgress = useTransform(scrollY, [60, 460], [0, 1])
@@ -122,12 +150,24 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
   const titleSpacing = useTransform(scrollYProgress, [0, 1], ['0.01em', '0.42em'])
   return (
     <section className="hero">
-      <motion.div className="about" lang="en" ref={aboutRef} style={{ filter: blur, opacity }}>
+      <motion.div className={`about${expanded ? '' : ' is-min'}`} lang="en" ref={aboutRef} style={{ filter: blur, opacity }}>
         {/* Entrance animation lives on the inner node so its fill doesn't override the scroll opacity */}
         <div className="about-intro">
-          <motion.h1 className="about-title" style={{ y: titleY, letterSpacing: titleSpacing }}>
-            {COPY.title}
-          </motion.h1>
+          <div className="about-head">
+            <motion.h1 className="about-title" style={{ y: titleY, letterSpacing: titleSpacing }}>
+              {COPY.title}
+            </motion.h1>
+            <button
+              className="about-toggle"
+              aria-expanded={expanded}
+              onClick={() => {
+                track('about_toggle', expanded ? 'collapse' : 'expand')
+                setExpanded((v) => !v)
+              }}
+            >
+              {expanded ? 'Hide' : 'Read more'}
+            </button>
+          </div>
           {COPY.paragraphs.map((p, i) => (
             <motion.p key={i} className="about-body" style={{ y: bodyY }}>
               {p}
@@ -248,6 +288,7 @@ export default function App() {
       </motion.div>
 
       <TopBar />
+      <BackToTop />
       <StickerHint opacity={heroChromeOpacity} />
 
       {/* Full-screen film grain (multiply blend) */}
