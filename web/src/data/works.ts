@@ -102,9 +102,12 @@ export const WORKS: Record<'en', WorksLang> = {
         title: 'OTT & content ops',
         tagline: 'Amazon MX Player',
         items: [
-          { name: 'Content operations at scale', meta: '300,000+ content units', slug: 'mx-content-ops' },
-          { name: 'API & CMS overhaul', meta: '+50% daily content output', slug: 'mx-api-cms' },
-          { name: 'a partner publisher onboarding', meta: '56 shows live in 1 week', slug: 'mx-altbalaji' },
+          {
+            name: 'Amazon MX Player',
+            meta: 'Content ops, API & CMS overhaul, publisher onboarding',
+            tags: ['300,000+ units', '+50% output', '56 shows in 1 week'],
+            slug: 'mx-player',
+          },
         ],
       },
       {
