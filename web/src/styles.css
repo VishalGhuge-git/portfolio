@@ -1827,3 +1827,11 @@ canvas {
 }
 
 .wk-detail-spacer { height: 40px; }
+
+/* Rotating role in the About line */
+.about-role { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; height: 1.5em; height: 1lh; pointer-events: auto; cursor: default; }
+.about-role-word { display: inline-block; white-space: nowrap; color: #ffd9b3; font-weight: 600; }
+
+.about-stack { display: grid; }
+.about-live, .about-sizer { grid-area: 1 / 1; }
+.about-sizer { visibility: hidden; pointer-events: none; }
