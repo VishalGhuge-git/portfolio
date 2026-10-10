@@ -1829,10 +1829,10 @@ canvas {
 .wk-detail-spacer { height: 40px; }
 
 /* Rotating role in the About line */
-.about-role { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; height: 1.5em; height: 1lh; pointer-events: auto; cursor: default; padding: 0.12em 0.08em 0.2em; margin: -0.12em -0.08em -0.2em; /* room for descenders (g, p) and italics */ }
+.about-role { display: inline-block; position: relative; clip-path: inset(-0.1em -0.1em -0.1em -0.1em); pointer-events: auto; cursor: default; /* baseline comes from the invisible sizer text, so the word lines up with the sentence */ }
 .about-role-sizer { display: inline-grid; white-space: nowrap; font-weight: 600; visibility: hidden; }
 .about-role-sizer > span { grid-area: 1 / 1; }
-.about-role-word { position: absolute; left: 0.08em; top: 0.12em; white-space: nowrap; color: #ffd9b3; font-weight: 600; }
+.about-role-word { position: absolute; left: 0; top: 0; white-space: nowrap; color: #ffd9b3; font-weight: 600; }
 
 .about-stack { display: grid; }
 .about-live, .about-sizer { grid-area: 1 / 1; }
@@ -1852,3 +1852,10 @@ canvas {
 .cm-row { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; font-family: 'Helvetica Neue', system-ui, sans-serif; }
 .cm-row:hover { background: rgba(255, 255, 255, 0.13); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
 .cm-close { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.28); }
+
+/* Phones and tablets: the rotating role gets its own line, so there is no gap after short words
+   and the text below never moves ("I'm Vishal, a" / role / "at Fractal Analytics ...") */
+@media (max-width: 1099px) {
+  .about-role { display: block; font-size: 1.12em; height: 1.45em; margin: 0.05em 0; padding: 0.12em 0.08em 0.2em; margin-inline: -0.08em; }
+  .about-role-word { left: 0.08em; }
+}
