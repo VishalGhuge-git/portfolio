@@ -818,8 +818,8 @@ canvas {
   align-items: stretch;
   height: 100%;
   /* 板块间无 gap，边到边相连 */
-  /* 起始整排推到视口右缘外：左留白 = 一整屏，滚动时卡片从右侧依次滑入 */
-  padding-left: 100vw;
+  /* 起始留白 42vw：进入板块时第一张卡片已在屏内，其余从右侧依次滑入 */
+  padding-left: 42vw;
   padding-right: 0;
   will-change: transform;
 }
@@ -1708,3 +1708,15 @@ canvas {
   .proof-chip em { display: none; }
   .proof-chip b { font-size: 17px; }
 }
+
+/* Résumé sections: Experience first (newest first), then Education */
+.tl-section { position: relative; padding-left: 34px; margin: 0 0 4vh; }
+.tl-section h3 {
+  font: 600 13px/1 'Helvetica Neue', system-ui, sans-serif;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #ffd9b3;
+  margin: 0;
+}
+.tl-section.is-education h3 { color: #cfe0ff; }
+.tl-section::after { content: ''; display: block; height: 1px; margin-top: 12px; background: rgba(244, 241, 234, 0.22); }
