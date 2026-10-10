@@ -22,12 +22,12 @@ interface StickerDef {
 }
 
 const STICKERS: StickerDef[] = [
-  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.78, phi: 0.12, spin: 0.35, size: 1.0 },
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.78, phi: 0.32, spin: -0.4, size: 0.85 },
-  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.6, phi: -0.28, spin: 0.15, size: 0.9 },
-  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.68, phi: -0.28, spin: -0.2, size: 1.0 },
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.82, phi: 0.18, spin: 0.3, size: 0.5 },
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.8, phi: 0.3, spin: -0.4, size: 0.7 },
+  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.72, phi: -0.42, spin: 0.15, size: 0.5 },
+  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.68, phi: -0.32, spin: -0.2, size: 0.42 },
   { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: -0.05, phi: 0.47, spin: 0.1, size: 0.75 },
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.98, phi: -0.08, spin: 0.3, size: 0.75 },
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.98, phi: -0.05, spin: 0.3, size: 0.5 },
 ]
 
 const HOVER_SCALE = 1.35
