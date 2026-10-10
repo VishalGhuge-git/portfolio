@@ -32,6 +32,8 @@ function TopBar() {
   // Hide while a case study is open so it never crowds the case study's own buttons
   const open = useStore((s) => s.active !== null)
   const [talk, setTalk] = useState(false)
+  const { scrollY } = useScroll()
+  const veil = useTransform(scrollY, [60, 220], [0, 1]) // dark strip behind the buttons once text scrolls under them
   const jump = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     track('nav_jump', id)
@@ -39,6 +41,7 @@ function TopBar() {
   }
   return (
     <>
+    <motion.div className={`topbar-veil${open ? ' is-hidden' : ''}`} style={{ opacity: veil }} aria-hidden="true" />
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
@@ -78,7 +81,16 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
 }
 
 const ROLES = ['product manager', 'problem solver', 'creative thinker', 'firefighter', 'product owner']
-const LONGEST_ROLE = ROLES.reduce((a, b) => (b.length > a.length ? b : a))
+// Every role stacked in one grid cell (invisible): the cell is as wide as the widest actual word, in pixels
+function RoleSizer() {
+  return (
+    <span className="about-role-sizer" aria-hidden="true">
+      {ROLES.map((r) => (
+        <span key={r}>{r}</span>
+      ))}
+    </span>
+  )
+}
 const COPY = {
   title: 'About Vishal',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
@@ -108,7 +120,7 @@ function RoleRotator() {
       onPointerLeave={() => setPaused(false)}
     >
       {/* The slot is always as wide as the longest role, so the rest of the sentence never moves */}
-      <span className="about-role-sizer" aria-hidden="true">{LONGEST_ROLE}</span>
+      <RoleSizer />
       <AnimatePresence initial={false}>
         <motion.span
           key={i}
@@ -204,7 +216,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               <span className="about-sizer" aria-hidden="true">
                 <span className="about-lead">
                   {COPY.lead[0]}
-                  {LONGEST_ROLE}
+                  <span className="about-role"><RoleSizer /></span>
                   {COPY.lead[1]}
                 </span>
                 <span className="about-rest">{COPY.rest}</span>

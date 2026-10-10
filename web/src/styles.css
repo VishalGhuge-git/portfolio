@@ -1829,10 +1829,26 @@ canvas {
 .wk-detail-spacer { height: 40px; }
 
 /* Rotating role in the About line */
-.about-role { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; height: 1.5em; height: 1lh; pointer-events: auto; cursor: default; }
-.about-role-sizer { display: inline-block; white-space: nowrap; font-weight: 600; visibility: hidden; }
-.about-role-word { position: absolute; left: 0; top: 0; white-space: nowrap; color: #ffd9b3; font-weight: 600; }
+.about-role { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; height: 1.5em; height: 1lh; pointer-events: auto; cursor: default; padding: 0.12em 0.08em 0.2em; margin: -0.12em -0.08em -0.2em; /* room for descenders (g, p) and italics */ }
+.about-role-sizer { display: inline-grid; white-space: nowrap; font-weight: 600; visibility: hidden; }
+.about-role-sizer > span { grid-area: 1 / 1; }
+.about-role-word { position: absolute; left: 0.08em; top: 0.12em; white-space: nowrap; color: #ffd9b3; font-weight: 600; }
 
 .about-stack { display: grid; }
 .about-live, .about-sizer { grid-area: 1 / 1; }
 .about-sizer { visibility: hidden; pointer-events: none; }
+
+/* Top bar: dark strip behind the buttons so scrolling text never shows through them */
+.topbar-veil { position: fixed; top: 0; left: 0; right: 0; height: 92px; z-index: 59; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(10, 14, 22, 0.92) 0%, rgba(10, 14, 22, 0.7) 55%, rgba(10, 14, 22, 0) 100%); }
+.topbar-veil.is-hidden { display: none; }
+@media (max-width: 640px) { .topbar-veil { height: 76px; } }
+
+/* Let's talk: same glass as the About card and proof chips */
+.cm-backdrop { background: rgba(6, 9, 14, 0.38); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.cm-card { background: rgba(12, 20, 16, 0.5); backdrop-filter: blur(14px) saturate(1.1); -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 16px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35); }
+.cm-title { font-family: 'Mansalva', cursive; font-weight: 400; font-size: 34px; line-height: 1; }
+.cm-row { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; font-family: 'Helvetica Neue', system-ui, sans-serif; }
+.cm-row:hover { background: rgba(255, 255, 255, 0.13); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
+.cm-close { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.28); }
