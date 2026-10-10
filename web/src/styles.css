@@ -1893,3 +1893,5 @@ canvas {
 .hero .about-body { font-family: 'Mansalva', 'Cormorant Upright', cursive; font-weight: 400; line-height: 1.5; }
 @media (min-width: 1100px) { .hero .about-body { font-size: clamp(16px, 1.25vw, 19px); } }
 .hero .about-body .about-role-word { font-family: inherit; }
+.about-head { justify-content: flex-end; }
+.about-head { justify-content: flex-end; }
