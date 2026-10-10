@@ -13,6 +13,7 @@ interface ResumeGroup {
   items?: string[]
 }
 interface ResumeEntry {
+  kind: 'work' | 'education'
   focus?: string
   period: string
   place: string
@@ -25,6 +26,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
   title: 'Résumé',
   entries: [
     {
+      kind: 'education',
       period: '2019 – 2021',
       place: 'St. Xavier’s College, Mumbai · Kraftshala, Delhi',
       focus: 'xaviers',
@@ -32,6 +34,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       points: ['London School of Economics (2019): Business, International Relations and Political Economy'],
     },
     {
+      kind: 'work',
       period: 'Apr 2020 – Oct 2021',
       place: 'Amazon MX Player',
       focus: 'mx',
@@ -43,11 +46,13 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       ],
     },
     {
+      kind: 'education',
       period: '2022 – 2024',
       place: 'SDA Bocconi Asia Center · Mumbai & Milan',
       role: 'International Master in Business',
     },
     {
+      kind: 'work',
       period: 'Apr 2024 – Mar 2026',
       place: 'Foyr',
       focus: 'foyr',
@@ -75,6 +80,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       ],
     },
     {
+      kind: 'work',
       period: 'Apr 2026 – Present',
       place: 'Fractal Analytics',
       focus: 'fractal',
@@ -134,10 +140,11 @@ function Entry({ entry, index }: { entry: ResumeEntry; index: number }) {
       whileInView="show"
       viewport={{ once: true, margin: '-12% 0px -12% 0px' }}
     >
-      <motion.span className="tl-dot" variants={itemV} aria-hidden="true" />
+      <motion.span className={`tl-dot tl-dot-${entry.kind}`} variants={itemV} aria-hidden="true" />
       <div className="tl-body">
         <motion.div className="tl-period" variants={itemV}>
-          {entry.period}
+          <span className={`tl-kind tl-kind-${entry.kind}`}>{entry.kind === 'work' ? 'Work' : 'Education'}</span>
+          <span>{entry.period}</span>
         </motion.div>
         <motion.div className="tl-head" variants={itemV}>
           <h3 className="tl-place">{entry.place}</h3>
@@ -207,6 +214,10 @@ export default function Resume() {
       >
         {RESUME.title}
       </motion.h2>
+      <div className="tl-legend" aria-hidden="true">
+        <span><i className="tl-dot-work" /> Work</span>
+        <span><i className="tl-dot-education" /> Education</span>
+      </div>
       <div className="timeline">
         {RESUME.entries.map((e, i) => (
           <Entry key={i} entry={e} index={i} />
