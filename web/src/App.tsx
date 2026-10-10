@@ -1,6 +1,6 @@
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
@@ -77,11 +77,59 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   )
 }
 
+const ROLES = ['product manager', 'problem solver', 'creative thinker', 'firefighter', 'product owner']
+const LONGEST_ROLE = ROLES.reduce((a, b) => (b.length > a.length ? b : a))
 const COPY = {
   title: 'About Vishal',
-  paragraphs: [
-    'I’m Vishal, a product manager at Fractal Analytics who takes AI and SaaS products from zero to one. I turn ambiguous asks into shipped roadmaps, with hands-on UX, research and LLM prompt-engineering behind them. I started in OTT operations at Amazon MX Player, so I care about the process around a product as much as the product.',
-  ],
+  // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
+  lead: ['I’m Vishal, a ', ' at Fractal Analytics who takes AI and SaaS products from zero to one.'],
+  rest: ' I turn ambiguous asks into shipped roadmaps, with hands-on UX, research and LLM prompt-engineering behind them. I started in OTT operations at Amazon MX Player, so I care about the process around a product as much as the product.',
+}
+
+// The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
+// pauses on hover, stops once the hero is off screen, and stays static for visitors who prefer reduced motion.
+function RoleRotator() {
+  const [i, setI] = useState(0)
+  const [w, setW] = useState<number | null>(null)
+  const [paused, setPaused] = useState(false)
+  const inner = useRef<HTMLSpanElement>(null)
+  const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  useEffect(() => {
+    if (reduce || paused) return
+    const t = setInterval(() => {
+      if (document.hidden || window.scrollY > window.innerHeight) return
+      setI((v) => (v + 1) % ROLES.length)
+    }, 2000)
+    return () => clearInterval(t)
+  }, [reduce, paused])
+  useLayoutEffect(() => {
+    if (inner.current) setW(inner.current.offsetWidth)
+  }, [i])
+  return (
+    <motion.span
+      className="about-role"
+      aria-label={ROLES[i]}
+      initial={false}
+      animate={{ width: w ?? 'auto' }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={i}
+          ref={inner}
+          className="about-role-word"
+          initial={{ y: '105%', opacity: 0 }}
+          animate={{ y: '0%', opacity: 1 }}
+          exit={{ y: '-105%', opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {ROLES[i]}
+        </motion.span>
+      </AnimatePresence>
+    </motion.span>
+  )
 }
 
 // Proof points shown under the intro. Every figure comes from the case study it opens.
@@ -148,16 +196,28 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               {expanded ? 'Hide' : 'Read more'}
             </button>
           </div>
-          {COPY.paragraphs.map((p, i) => {
-            // First sentence stays visible on phones when the card is compact
-            const cut = p.indexOf('one.') + 4
-            return (
-              <motion.p key={i} className="about-body" style={{ y: bodyY }}>
-                <span className="about-lead">{p.slice(0, cut)}</span>
-                <span className="about-rest">{p.slice(cut)}</span>
-              </motion.p>
-            )
-          })}
+          <motion.p className="about-body" style={{ y: bodyY }}>
+            {/* Both copies share one grid cell: the hidden one (longest role) holds the height so the
+                card and the chips below never jump as the role changes */}
+            <span className="about-stack">
+              <span className="about-live">
+                <span className="about-lead">
+                  {COPY.lead[0]}
+                  <RoleRotator />
+                  {COPY.lead[1]}
+                </span>
+                <span className="about-rest">{COPY.rest}</span>
+              </span>
+              <span className="about-sizer" aria-hidden="true">
+                <span className="about-lead">
+                  {COPY.lead[0]}
+                  {LONGEST_ROLE}
+                  {COPY.lead[1]}
+                </span>
+                <span className="about-rest">{COPY.rest}</span>
+              </span>
+            </span>
+          </motion.p>
           <Proof />
         </div>
       </motion.div>
