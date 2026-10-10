@@ -87,6 +87,14 @@ The tool was **rolled out to the complete organisation**, not left as a pilot wi
 
 <!-- REFINE: how rollout was done (training, phasing, mandate) and any adoption numbers. -->
 
+## Design language of the product it feeds
+
+The customer-facing configurator that this tool's designs power has its own visual language: warm stone neutrals, black for where the buyer is, brick red for their decision and green only for a confirmed choice.
+
+<a href="./works/te-portal/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/te-portal/design-language.png" alt="Customer configurator design language board: colour, typography, components, contrast, shape and spacing" /></a>
+
+<!-- Reference board only: tokens and component styles, no product data or screens. -->
+
 ## Outcome
 
 - Adopted **organisation-wide** at Total Environment

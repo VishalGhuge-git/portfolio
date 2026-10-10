@@ -96,14 +96,6 @@ The interface is deliberately quiet so the generated rooms carry the colour: neu
 
 <!-- Reference board only: tokens and component styles, no product data or screens. Values approximated from the public UI. -->
 
-## Design language
-
-The visual language of the product: quiet neutrals, one blue-to-orange gradient reserved for action and emphasis, pill-shaped controls and soft cards. The gradient does the branding, so the generated rooms stay the colour on the page.
-
-<a href="./works/foyr-ideate/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/foyr-ideate/design-language.png" alt="Foyr Ideate design language board: colour, typography, components, contrast, shape and spacing" /></a>
-
-<!-- Reference board only: tokens and component styles, no product data or screens. Values approximated from the public UI. -->
-
 ## Working with an external agency
 
 I directed an external UI/UX agency in Figma. The most useful lesson was where to spend attention: I gave **direction and explained the vision**, and focused on the **high-level UI direction, not small friction points**. Chasing details early would have slowed the team and hidden the big decisions.

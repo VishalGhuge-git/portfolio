@@ -60,14 +60,6 @@ The interface is a frame around the home. Neutrals stay out of the way of the ro
 
 <!-- Reference board only: tokens and component styles, no product data or screens. Values approximated. -->
 
-## Design language
-
-The configurator's visual language is built so the home stays the focus: warm stone neutrals, **black for where you are** (the active tab or filter), **brick red for your decision** (the selected option, the running price, the primary exit) and **green only for a confirmed choice**.
-
-<a href="./works/te-portal/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/te-portal/design-language.png" alt="Customer configurator design language board: colour, typography, components, contrast, shape and spacing" /></a>
-
-<!-- Reference board only: tokens and component styles, no product data or screens. Values approximated from the interface. -->
-
 ## Outcome
 
 Per the sales team, the portal contributed to:
