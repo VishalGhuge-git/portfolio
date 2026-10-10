@@ -3,7 +3,6 @@ import { Canvas } from '@react-three/fiber'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import * as THREE from 'three'
 import Scene from './scene/Scene'
-import NoiseOverlay from './ui/NoiseOverlay'
 import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
@@ -273,7 +272,6 @@ export default function App() {
       <StickerHint opacity={heroChromeOpacity} />
 
       {/* Full-screen film grain (multiply blend) */}
-      <NoiseOverlay />
 
       {/* Scrollable content */}
       <main className="content">
