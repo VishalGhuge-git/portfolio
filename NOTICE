@@ -1,0 +1,23 @@
+# NOTICE
+
+This project is Vishal Ghuge's personal portfolio.
+
+## Code origin
+
+The scroll-driven scene structure, gallery, loading screen and film-grain overlay are adapted
+from https://github.com/dayinji/sen-3d-resume (MIT, Copyright (c) the original author).
+The original licence text is kept in `LICENSE` as the MIT licence requires.
+
+## What was NOT reused
+
+The original author's personal content is not licensed for reuse and has been removed:
+name and likeness, the 3D character model, résumé data, work write-ups, brand logos and images,
+social links, and the environment HDR (`env.hdr`, licence unverified).
+
+## Content in this repo
+
+Résumé facts, project descriptions and case studies are © Vishal Ghuge. All rights reserved.
+
+## Third-party assets
+
+- Fonts: Cormorant Upright and Mansalva (Google Fonts, SIL Open Font License). Keep their licences if you ship the bundled files in `web/public/fonts/`.
