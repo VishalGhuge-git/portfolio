@@ -31,7 +31,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       kind: 'work',
       period: 'Apr 2026 – Present',
       place: 'Fractal Analytics',
-      focus: 'fractal',
+      focus: 'iqigai',
       role: 'Product Manager',
       groups: [
         {
