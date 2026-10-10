@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import * as THREE from 'three'
@@ -90,9 +90,7 @@ const COPY = {
 // pauses on hover, stops once the hero is off screen, and stays static for visitors who prefer reduced motion.
 function RoleRotator() {
   const [i, setI] = useState(0)
-  const [w, setW] = useState<number | null>(null)
   const [paused, setPaused] = useState(false)
-  const inner = useRef<HTMLSpanElement>(null)
   const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   useEffect(() => {
     if (reduce || paused) return
@@ -102,23 +100,18 @@ function RoleRotator() {
     }, 2000)
     return () => clearInterval(t)
   }, [reduce, paused])
-  useLayoutEffect(() => {
-    if (inner.current) setW(inner.current.offsetWidth)
-  }, [i])
   return (
-    <motion.span
+    <span
       className="about-role"
       aria-label={ROLES[i]}
-      initial={false}
-      animate={{ width: w ?? 'auto' }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
     >
-      <AnimatePresence initial={false} mode="popLayout">
+      {/* The slot is always as wide as the longest role, so the rest of the sentence never moves */}
+      <span className="about-role-sizer" aria-hidden="true">{LONGEST_ROLE}</span>
+      <AnimatePresence initial={false}>
         <motion.span
           key={i}
-          ref={inner}
           className="about-role-word"
           initial={{ y: '105%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
@@ -128,7 +121,7 @@ function RoleRotator() {
           {ROLES[i]}
         </motion.span>
       </AnimatePresence>
-    </motion.span>
+    </span>
   )
 }
 
