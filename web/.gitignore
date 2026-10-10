@@ -13,6 +13,7 @@ dist-ssr
 public/works/*
 !public/works/covers/
 !public/works/iqigai/
+!public/works/foyr-ideate/
 
 # 压缩脚本日志
 scripts/compress-media.log
