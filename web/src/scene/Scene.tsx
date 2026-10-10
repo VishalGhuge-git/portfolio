@@ -10,11 +10,25 @@ import { useStore } from '../store'
 // Phase 2: swap <Bust /> for a real avatar (glb) if wanted; the stickers and camera carry over.
 
 // Vertical gradient backdrop (sage -> sand), wraps the camera
+const BG: Record<string, [string, string]> = {
+  sage: ['#6f906f', '#dbd3b5'], // current
+  slate: ['#2b3a4f', '#9fb0c4'],
+  ink: ['#141a26', '#3b4a63'],
+  warm: ['#c9b79c', '#f1e9dc'],
+  indigo: ['#3a3f6b', '#b9b4d6'],
+  // AI-themed, minimal (compare with ?bg=midnight etc.)
+  midnight: ['#0b1220', '#1d3557'],
+  graphite: ['#12161c', '#2a3440'],
+  mist: ['#e8edf3', '#f8fafc'],
+  paper: ['#eef0f6', '#fbfbfd'],
+}
+const bgKey = new URLSearchParams(location.search).get('bg') || 'sage'
+
 function GradientBackground() {
   const uniforms = useMemo(
     () => ({
-      uTop: { value: new THREE.Color('#6f906f') },
-      uBottom: { value: new THREE.Color('#dbd3b5') },
+      uTop: { value: new THREE.Color((BG[bgKey] || BG.sage)[0]) },
+      uBottom: { value: new THREE.Color((BG[bgKey] || BG.sage)[1]) },
       uSteep: { value: 1.4 },
     }),
     []
@@ -40,7 +54,14 @@ function GradientBackground() {
           varying vec3 vDir;
           void main() {
             float t = clamp(vDir.y * uSteep * 0.5 + 0.5, 0.0, 1.0);
-            gl_FragColor = vec4(mix(uBottom, uTop, t), 1.0);
+            vec3 col = mix(uBottom, uTop, t);
+            // faint grid on the far wall, fades out toward the poles
+            vec2 g = vec2(atan(vDir.x, vDir.z) * 24.0, vDir.y * 24.0);
+            vec2 f = abs(fract(g) - 0.5);
+            float line = smoothstep(0.47, 0.5, max(f.x, f.y)) * (1.0 - abs(vDir.y)) * 0.06;
+            float lum = dot(col, vec3(0.299, 0.587, 0.114));
+            col += (lum < 0.5 ? 1.0 : -1.0) * line;
+            gl_FragColor = vec4(col, 1.0);
           }
         `}
       />
