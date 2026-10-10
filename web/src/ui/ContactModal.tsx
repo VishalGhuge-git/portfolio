@@ -5,8 +5,8 @@ import { track } from '../analytics'
 
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/vishal-ghuge'
 export const EMAIL = 'vishalghuge26@gmail.com'
-const PHONE = '+910000000000'
-const PHONE_SHOWN = '+91 86559 85228'
+const PHONE = '+919975961534'
+const PHONE_SHOWN = '+91 99759 61534'
 const MAIL_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent('Hello Vishal')}`
 
 function PhoneIcon() {
