@@ -30,7 +30,7 @@ The pipeline had **a high backlog, no process and no plan**. Content was piling 
 I led and managed the team and **set up the process flow** so that work moved in one defined path with clear timelines, instead of case by case.
 
 - **Built and trained a team of 6** to run 300,000+ content units across publishers including Voot, ALTBalaji, Hungama Play and ShemarooMe
-- **Defined the process flow** for receiving, checking and publishing content
+- **Defined the process flow** for receiving, checking and publishing content, with **each team member owning a publisher**
 - **Owned the timelines** so content went live on schedule
 
 ## Overhauling the API workflow
@@ -45,9 +45,15 @@ The API team's work had **no defined process, manual creation of data and old fe
 
 ## Onboarding ALTBalaji: 56 shows in a week
 
-Normally **one show took about 3 days** to go live, because shows moved through onboarding one at a time. I brought the time down by **running the onboarding in parallel**, using **prioritisation and impact assessment** to decide what to start first and how to split the work. The result was all **56 shows from zero to live in one week**, and the approach was **adopted as the team standard** for onboarding publishers.
+Normally **one show took about 3 days** to go live, because shows moved through onboarding one at a time. I brought the time down by **running the onboarding in parallel**, organised around ownership:
 
-<!-- REFINE: how the work was split to run in parallel (by show, by step, by person), what was prioritised first, and what had to stay sequential. -->
+- **Split by publisher.** Each person on the team became the **owner of a publisher**, so one person was accountable for that publisher's content from receipt to live.
+- **Work distributed by each person's output.** I assigned shows according to how much each resource could get through, so no one was overloaded and no one waited.
+- **Prioritisation and impact assessment** decided what to start first.
+
+The result: all **56 shows from zero to live in one week**. The approach was **adopted as the team standard** for onboarding publishers.
+
+<!-- REFINE: what was prioritised first, what had to stay sequential, and how output per person was measured. -->
 
 ## Outcome
 
