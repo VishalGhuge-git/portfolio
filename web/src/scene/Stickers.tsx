@@ -26,13 +26,13 @@ interface StickerDef {
 
 const STICKERS: StickerDef[] = [
   // left cheek (as you look at the screen): iqigai above, Total Environment below
-  { id: 'iqigai', slug: 'iqigai', label: 'iqigai by Fractal', img: 'iqigai.png', theta: -0.74, phi: -0.2, spin: 0.3, size: 0.26 },
-  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: -0.62, phi: -0.5, spin: 0.2, size: 0.27 },
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai by Fractal', img: 'iqigai.png', theta: -0.8, phi: -0.34, spin: 0.6, size: 0.32 },
+  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: -0.46, phi: -0.42, spin: -0.4, size: 0.3 },
   // right cheek: Foyr above, MX Player below
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.74, phi: -0.2, spin: -0.15, size: 0.28 },
-  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.62, phi: -0.5, spin: -0.25, size: 0.25 },
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.8, phi: -0.34, spin: -0.55, size: 0.34 },
+  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.46, phi: -0.42, spin: 0.5, size: 0.29 },
   // hoodie
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.1, size: 0.4, chest: [0.05, -1.75] },
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: -0.25, size: 0.42, chest: [0.62, -1.6] },
 ]
 
 const HOVER_SCALE = 1.35
