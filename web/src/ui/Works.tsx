@@ -126,6 +126,38 @@ function WorkDetail({
 }) {
   const [bannerError, setBannerError] = useState(false)
   const doc = getWorkDoc(item.slug)
+  const mdRef = useRef<HTMLDivElement>(null)
+
+  // Videos in a case study play while on screen and pause when scrolled away.
+  useEffect(() => {
+    const root = mdRef.current
+    if (!root) return
+    const vids = Array.from(root.querySelectorAll('video'))
+    if (!vids.length) return
+    vids.forEach((v) => {
+      v.loop = true
+    })
+    // Try with sound first (allowed after the click that opened the case study);
+    // if the browser refuses, fall back to muted so it still plays.
+    const play = (v: HTMLVideoElement) => {
+      v.muted = false
+      v.play().catch(() => {
+        v.muted = true
+        v.play().catch(() => {})
+      })
+    }
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          const v = e.target as HTMLVideoElement
+          if (e.isIntersecting) play(v)
+          else v.pause()
+        }),
+      { threshold: 0.6 },
+    )
+    vids.forEach((v) => io.observe(v))
+    return () => io.disconnect()
+  }, [doc])
   const title = (doc && doc.title) || item.name
   const banner = doc && doc.banner
   // 有 md 详情时展示完整信息；无 md 时详情页只保留标题 + 统一占位文案
@@ -181,7 +213,7 @@ function WorkDetail({
           </header>
 
           {doc && doc.body ? (
-            <div className="wk-md">
+            <div className="wk-md" ref={mdRef}>
               <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {doc.body}
               </ReactMarkdown>
