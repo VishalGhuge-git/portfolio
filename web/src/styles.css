@@ -1528,9 +1528,10 @@ canvas {
 
 /* ---------- top bar + sticker hint ---------- */
 .topbar {
+  --m: clamp(16px, 2.4vh, 30px);
   position: fixed;
-  top: 18px;
-  right: 22px;
+  top: calc(var(--m) + 14px); /* inside the hairline frame, with a gap */
+  right: calc(var(--m) + 16px);
   z-index: 60;
   display: flex;
   gap: 8px;
@@ -1554,7 +1555,7 @@ canvas {
 .topbar .topbar-cta:hover { background: #fff; }
 .sticker-hint {
   position: fixed;
-  top: 62px;
+  top: calc(clamp(16px, 2.4vh, 30px) + 66px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 40;
@@ -1569,11 +1570,11 @@ canvas {
   white-space: nowrap;
 }
 @media (max-width: 640px) {
-  .topbar { top: 12px; right: 12px; gap: 6px; font-size: 11px; }
+  .topbar { top: calc(var(--m) + 10px); right: calc(var(--m) + 8px); gap: 6px; font-size: 11px; }
   .topbar a { padding: 7px 10px; }
   .topbar .topbar-li { display: none; }
   .topbar .topbar-jump { display: none; }
-  .sticker-hint { top: 56px; font-size: 12px; }
+  .sticker-hint { top: calc(clamp(16px, 2.4vh, 30px) + 56px); font-size: 12px; }
 }
 
 /* About: a readable glass card instead of text drawn over the character */
