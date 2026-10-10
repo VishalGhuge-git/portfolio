@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import Bust from './Bust'
 import Stickers from './Stickers'
+import { useStore } from '../store'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
 // (Stickers.tsx), and a camera that moves with page scroll.
@@ -65,16 +66,30 @@ function Lights() {
 // Scroll-driven camera: starts framing the face, drifts closer and sideways as you scroll.
 function CameraRig() {
   const target = useMemo(() => new THREE.Vector3(0, 0.2, 0), [])
+  const wantTarget = useMemo(() => new THREE.Vector3(), [])
+  const wantPos = useMemo(() => new THREE.Vector3(), [])
+  const zoom = useRef(0)
   useFrame((state) => {
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
     const p = Math.min(1, Math.max(0, window.scrollY / max))
     const cam = state.camera
-    const wantPos = new THREE.Vector3(
-      THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)),
-      THREE.MathUtils.lerp(0.6, 0.3, p),
-      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2))
+
+    // Hero zoom: the closer the cursor is to the face, the closer the camera dollies in
+    // (and pans toward the cursor) so the stickers can be read. Only at the top of the page.
+    const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active
+    const d = Math.hypot(state.pointer.x * 1.1, (state.pointer.y - 0.05) * 1.4)
+    const want = atTop ? THREE.MathUtils.smoothstep(0.8 - d, 0, 0.4) : 0
+    zoom.current = THREE.MathUtils.lerp(zoom.current, want, 0.06)
+    const z = zoom.current
+
+    wantPos.set(
+      THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)) + state.pointer.x * 0.9 * z,
+      THREE.MathUtils.lerp(0.6, 0.3, p) + state.pointer.y * 0.5 * z,
+      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 3.5 * z
     )
-    cam.position.lerp(wantPos, 0.06)
+    cam.position.lerp(wantPos, 0.08)
+    wantTarget.set(state.pointer.x * 0.45 * z, 0.2 + state.pointer.y * 0.3 * z, 0)
+    target.lerp(wantTarget, 0.08)
     cam.lookAt(target)
   })
   return null

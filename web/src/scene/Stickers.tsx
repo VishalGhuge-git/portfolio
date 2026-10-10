@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useFrame, type ThreeEvent } from '@react-three/fiber'
+import { useFrame, useLoader, type ThreeEvent } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { faceNormal, surfaceFrame } from './headShape'
@@ -11,24 +11,26 @@ import { useStore } from '../store'
 //   theta, phi  where it sits on the head: theta turns left/right from the front, phi is the
 //          elevation above the eye line. Keep clear of the eyes, brows, mouth and cheeks.
 interface StickerDef {
-  slug: string
+  id: string
   label: string
+  img: string // die-cut PNG in public/stickers/ (logo + white outline, transparent background)
   theta: number
   phi: number
   spin: number
-  color: string
+  size?: number // longest side in head units (default 0.75)
+  slug?: string // opens this case study; without it the click scrolls to the résumé
 }
 
 const STICKERS: StickerDef[] = [
-  { slug: 'iqigai', label: 'iqigai', theta: -0.82, phi: 0.05, spin: 0.3, color: '#f2c94c' },
-  { slug: 'foyr-ideate', label: 'Foyr Ideate', theta: 0.82, phi: 0.18, spin: -0.4, color: '#eb5757' },
-  { slug: 'te-design-tool', label: 'Total Environment', theta: 0.35, phi: -0.62, spin: 0.1, color: '#56ccf2' },
-  { slug: 'mx-content-ops', label: 'Amazon MX Player', theta: -0.5, phi: -0.55, spin: 0.6, color: '#6fcf97' },
-  { slug: 'companylens', label: 'CompanyLens', theta: 0.85, phi: -0.2, spin: 0.2, color: '#b794f4' },
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.85, phi: 0.12, spin: 0.35 },
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.85, phi: 0.25, spin: -0.4, size: 0.6 },
+  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.5, phi: -0.22, spin: 0.15, size: 0.6 },
+  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.58, phi: -0.3, spin: -0.2, size: 0.78 },
+  { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: -0.05, phi: 0.47, spin: 0.1, size: 0.52 },
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.95, phi: -0.12, spin: 0.3, size: 0.55 },
 ]
 
-const RADIUS = 0.15 // colour disc
-const BORDER = 0.026 // white sticker edge
+const HOVER_SCALE = 1.35
 
 // Stickers only react near the top of the page; further down the bust sits behind the résumé
 // text, and a stray click there should not open a case study.
@@ -37,6 +39,16 @@ const canInteract = () =>
   typeof window !== 'undefined' && window.scrollY < window.innerHeight * 0.7 && !useStore.getState().active
 
 function Sticker({ def }: { def: StickerDef }) {
+  const tex = useLoader(THREE.TextureLoader, `${import.meta.env.BASE_URL}stickers/${def.img}`)
+  useMemo(() => {
+    tex.colorSpace = THREE.SRGBColorSpace
+    tex.anisotropy = 8
+  }, [tex])
+  const img = tex.image as { width: number; height: number }
+  const k = (def.size ?? 0.75) / Math.max(img.width, img.height)
+  const sw = img.width * k
+  const sh = img.height * k
+
   const group = useRef<THREE.Group>(null)
   const [hover, setHover] = useState(false)
   const setActive = useStore((s) => s.setActive)
@@ -44,7 +56,7 @@ function Sticker({ def }: { def: StickerDef }) {
   const { position, quaternion, labelPos } = useMemo(() => {
     const f = surfaceFrame(def.theta, def.phi)
     return {
-      position: f.position.clone().addScaledVector(f.normal, 0.012),
+      position: f.position.clone().addScaledVector(f.normal, 0.03),
       quaternion: faceNormal(f.normal, def.spin),
       labelPos: f.position.clone().addScaledVector(f.normal, 0.3),
     }
@@ -53,7 +65,7 @@ function Sticker({ def }: { def: StickerDef }) {
   useFrame((state) => {
     if (!group.current) return
     // gentle pulse to hint they are clickable; grows on hover
-    const target = hover ? 1.25 : 1 + 0.04 * Math.sin(state.clock.elapsedTime * 2 + def.theta * 3)
+    const target = hover ? HOVER_SCALE : 1 + 0.04 * Math.sin(state.clock.elapsedTime * 2 + def.theta * 3)
     group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, target, 0.15))
   })
 
@@ -74,7 +86,8 @@ function Sticker({ def }: { def: StickerDef }) {
     if (!canInteract()) return
     e.stopPropagation()
     document.body.style.cursor = ''
-    setActive(def.slug)
+    if (def.slug) setActive(def.slug)
+    else document.querySelector('.resume')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -87,14 +100,10 @@ function Sticker({ def }: { def: StickerDef }) {
         onPointerOut={onOut}
         onClick={onClick}
       >
-        {/* white sticker edge, then the colour disc just above it */}
+        {/* die-cut sticker: the PNG already carries the white outline */}
         <mesh>
-          <circleGeometry args={[RADIUS + BORDER, 40]} />
-          <meshStandardMaterial color="#fbf8f1" roughness={0.5} side={THREE.DoubleSide} />
-        </mesh>
-        <mesh position={[0, 0, 0.004]}>
-          <circleGeometry args={[RADIUS, 40]} />
-          <meshStandardMaterial color={def.color} roughness={0.4} side={THREE.DoubleSide} />
+          <planeGeometry args={[sw, sh]} />
+          <meshBasicMaterial map={tex} toneMapped={false} transparent alphaTest={0.05} side={THREE.DoubleSide} />
         </mesh>
       </group>
       {hover && (
@@ -113,7 +122,7 @@ export default function Stickers() {
   return (
     <>
       {STICKERS.map((s) => (
-        <Sticker key={s.slug} def={s} />
+        <Sticker key={s.id} def={s} />
       ))}
     </>
   )
