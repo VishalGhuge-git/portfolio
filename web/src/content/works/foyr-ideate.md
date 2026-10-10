@@ -42,7 +42,7 @@ I ran **prototype tests and competitor teardowns** before committing to scope, t
 
 ## The MVP: what it does
 
-<video controls muted loop preload="metadata" playsinline poster="./works/foyr-ideate/poster.jpg" src="./works/foyr-ideate/ideate-trailer.mp4"></video>
+<video controls loop preload="metadata" playsinline poster="./works/foyr-ideate/poster.jpg" src="./works/foyr-ideate/ideate-trailer.mp4"></video>
 
 *Product trailer for Foyr Ideate (58 seconds).*
 
