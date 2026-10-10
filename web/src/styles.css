@@ -1818,7 +1818,7 @@ canvas {
 
 /* Scroll blur over the 3D (below the text, above the canvas) */
 .scroll-blur { position: fixed; inset: 0; z-index: 2; pointer-events: none; backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
-  -webkit-mask-image: linear-gradient(to right, transparent 42%, #000 58%); mask-image: linear-gradient(to right, transparent 42%, #000 58%); }
+  -webkit-mask-image: linear-gradient(to right, transparent 60%, #000 68%); mask-image: linear-gradient(to right, transparent 60%, #000 68%); }
 @media (max-width: 1099px) {
   .scroll-blur { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(10, 14, 22, 0.38); -webkit-mask-image: none; mask-image: none; }
   .scrim { background: rgba(10, 14, 22, 1); }
