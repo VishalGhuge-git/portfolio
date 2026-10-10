@@ -14,8 +14,8 @@ public/works/*
 !public/works/covers/
 !public/works/iqigai/
 !public/works/foyr-ideate/
-!public/works/te-portal/
-!public/works/te-portal/
+!public/works/total-environment/
+!public/works/total-environment/
 
 # 压缩脚本日志
 scripts/compress-media.log

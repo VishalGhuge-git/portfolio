@@ -88,12 +88,11 @@ export const WORKS: Record<'en', WorksLang> = {
         title: 'B2B & B2C SaaS',
         tagline: 'Total Environment',
         items: [
-          { name: 'Total Environment B2C portal', meta: '3D property visualisation', slug: 'te-portal' },
           {
-            name: 'Foyr Neo for Total Environment',
-            meta: 'B2B 3D design tool · 0 to 1',
-            tags: ['300+ screens', '32+ flows'],
-            slug: 'te-design-tool',
+            name: 'Total Environment',
+            meta: 'B2B 3D design tool + B2C buyer portal · 0 to 1',
+            tags: ['300+ screens', '32+ flows', '100+ designers'],
+            slug: 'total-environment',
           },
         ],
       },
