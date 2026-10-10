@@ -90,8 +90,8 @@ function RoleSizer() {
 const COPY = {
   title: 'About Vishal',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
-  lead: ['I’m Vishal, ', ' at Fractal Analytics. I take AI and SaaS products from zero to one.'],
-  rest: ' I turn ambiguous asks into shipped roadmaps, backed by hands-on UX, research and LLM prompt-engineering. I started in OTT operations at Amazon MX Player, which is why I care about the process around a product as much as the product itself.',
+  lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
+  rest: ' I turn vague asks into products people use: 1,108 daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
 }
 
 // The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
@@ -135,10 +135,10 @@ function RoleRotator() {
 
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
-  { n: '1,108+', label: 'daily active users', sub: 'iqigai · built 0 to 1', slug: 'iqigai' },
+  { n: '1,108+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai' },
   { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment' },
-  { n: '56', label: 'shows live in 1 week', sub: 'Amazon MX Player', slug: 'mx-player' },
-  { n: '5 mo', label: 'idea to AI MVP handoff', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
+  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player' },
+  { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
 ]
 
 function Proof() {
