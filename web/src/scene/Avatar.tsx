@@ -22,6 +22,7 @@ export interface SurfaceFrame {
 interface Surface {
   angles: (theta: number, phi: number) => SurfaceFrame | null // around the head centre
   front: (x: number, y: number) => SurfaceFrame | null // straight in from the front, for the chest
+  back: (x: number, y: number) => SurfaceFrame | null // straight in from behind, for the back of the hoodie
 }
 const SurfaceCtx = createContext<Surface | null>(null)
 export const useSurface = () => useContext(SurfaceCtx)
@@ -83,6 +84,7 @@ export default function Avatar({ children }: { children?: ReactNode }) {
         return cast(HEAD_CENTER.clone().addScaledVector(dir, 4), dir.clone().negate())
       },
       front: (x, y) => cast(new THREE.Vector3(x, y, 5), new THREE.Vector3(0, 0, -1)),
+      back: (x, y) => cast(new THREE.Vector3(x, y, -5), new THREE.Vector3(0, 0, 1)),
     }
   }, [model])
 
