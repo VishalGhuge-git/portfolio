@@ -1623,3 +1623,11 @@ canvas {
   .hero .about { bottom: 15vh; }
   .hero-meta.hm-tl { display: none; }
 }
+
+/* case-study tables: breathing room, hairline rows */
+.wk-md table { border-collapse: collapse; width: 100%; margin: 1.2em 0; font-size: 0.95em; }
+.wk-md th, .wk-md td { text-align: left; vertical-align: top; padding: 10px 16px 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.wk-md th { font-weight: 600; color: #fff; }
+.wk-md td:first-child, .wk-md th:first-child { padding-right: 24px; white-space: nowrap; }
+.wk-md thead th { border-bottom-color: rgba(255, 255, 255, 0.28); }
+@media (max-width: 640px) { .wk-md td:first-child, .wk-md th:first-child { white-space: normal; } }

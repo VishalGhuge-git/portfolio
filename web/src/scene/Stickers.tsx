@@ -58,6 +58,7 @@ function Sticker({ def }: { def: StickerDef }) {
   const group = useRef<THREE.Group>(null)
   const [hover, setHover] = useState(false)
   const setActive = useStore((s) => s.setActive)
+  const open = useStore((s) => !!s.active) // a case study is open: hide the hover label
 
   const surface = useSurface()
   const { position, quaternion, labelPos } = useMemo(() => {
@@ -124,7 +125,7 @@ function Sticker({ def }: { def: StickerDef }) {
           <meshBasicMaterial map={tex} toneMapped={false} transparent alphaTest={0.05} side={THREE.DoubleSide} />
         </mesh>
       </group>
-      {hover && (
+      {hover && !open && (
         <Html position={labelPos} center zIndexRange={[20, 10]} style={{ pointerEvents: 'none' }}>
           <div className="sticker-label">
             {def.label}
