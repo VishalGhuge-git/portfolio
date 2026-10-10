@@ -21,11 +21,9 @@ const COPY = {
 
 function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
   const aboutRef = useRef(null)
-  // Fade/blur the About block as it scrolls away
-  const { scrollYProgress } = useScroll({
-    target: aboutRef,
-    offset: ['start 0.6', 'start start'],
-  })
+  // Fade/blur the About block only once the page is actually scrolled (sharp at rest)
+  const { scrollY } = useScroll()
+  const scrollYProgress = useTransform(scrollY, [60, 460], [0, 1])
   const blur = useTransform(scrollYProgress, [0, 0.5], ['blur(0px)', 'blur(16px)'])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   // Parallax: title rises faster and tracks wider as you scroll; body rises slower
@@ -114,7 +112,7 @@ export default function App() {
         <Canvas
           eventSource={document.getElementById('root') as HTMLElement}
           eventPrefix="client"
-          dpr={[1, 1.5]}
+          dpr={[1, 2]}
           camera={{ position: [0, 0.6, 7.5], fov: 39, near: 0.1, far: 500 }}
           gl={{ antialias: true, depth: true, toneMapping: THREE.ACESFilmicToneMapping }}
         >
