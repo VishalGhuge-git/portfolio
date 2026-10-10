@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { SOCIAL_ICONS } from './SocialIcons'
 import { track } from '../analytics'
@@ -14,25 +14,6 @@ function PhoneIcon() {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
     </svg>
-  )
-}
-
-function CopyBtn({ text, label }: { text: string; label: string }) {
-  const [done, setDone] = useState(false)
-  return (
-    <button
-      type="button"
-      className="cm-copy"
-      aria-label={`Copy ${label}`}
-      onClick={() => {
-        navigator.clipboard?.writeText(text).then(() => {
-          setDone(true)
-          setTimeout(() => setDone(false), 1600)
-        }).catch(() => {})
-      }}
-    >
-      {done ? 'Copied' : 'Copy'}
-    </button>
   )
 }
 
@@ -87,7 +68,6 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                   <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
                   <span className="cm-go">→</span>
                 </a>
-                <CopyBtn text={EMAIL} label="email address" />
               </div>
               <div className="cm-rowwrap">
                 <a className="cm-row" href={`tel:${PHONE}`} onClick={() => track('call_click')}>
@@ -95,7 +75,6 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                   <span className="cm-txt"><b>Call</b><em>{PHONE_SHOWN}</em></span>
                   <span className="cm-go">→</span>
                 </a>
-                <CopyBtn text={PHONE_SHOWN} label="phone number" />
               </div>
             </div>
           </motion.div>

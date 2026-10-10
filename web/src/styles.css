@@ -1824,3 +1824,5 @@ canvas {
   .hero .about.is-min .about-rest { display: none; }
   .hero .about.is-min .about-body { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; }
 }
+
+.wk-detail-spacer { height: 40px; }
