@@ -30,21 +30,23 @@ function jumpTo(id: string) {
 }
 
 function TopBar() {
+  // Hide while a case study is open so it never crowds the case study's own buttons
+  const open = useStore((s) => s.active !== null)
   const jump = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     track('nav_jump', id)
     jumpTo(id)
   }
   return (
-    <nav className="topbar" aria-label="Site">
+    <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
       <a className="topbar-jump topbar-work" href="#work" onClick={jump('work')}>
         Work
       </a>
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
       </a>
-      <a className="topbar-jump" href="#contact" onClick={jump('contact')}>
-        Contact
+      <a className="topbar-jump" href="#education" onClick={jump('education')}>
+        Education
       </a>
       <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
         Download CV
@@ -72,7 +74,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
 const COPY = {
   title: 'About Vishal',
   paragraphs: [
-    'I’m Vishal, a product manager who takes AI and SaaS products from zero to one. I turn ambiguous asks from leadership into shipped roadmaps, backed by hands-on UX, research and LLM prompt-engineering.',
+    'I’m Vishal, a product manager at Fractal Analytics who takes AI and SaaS products from zero to one. I turn ambiguous asks into shipped roadmaps, with hands-on UX, research and LLM prompt-engineering behind them. I started in OTT operations at Amazon MX Player, so I care about the process around a product as much as the product.',
   ],
 }
 

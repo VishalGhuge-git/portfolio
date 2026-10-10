@@ -222,7 +222,7 @@ export default function Resume() {
         {RESUME.entries.map((e, i) => (
           <Fragment key={i}>
             {(i === 0 || RESUME.entries[i - 1].kind !== e.kind) && (
-              <div className={`tl-section is-${e.kind}`}>
+              <div className={`tl-section is-${e.kind}`} id={e.kind === 'education' ? 'education' : undefined}>
                 <h3>{e.kind === 'work' ? 'Experience' : 'Education'}</h3>
               </div>
             )}
