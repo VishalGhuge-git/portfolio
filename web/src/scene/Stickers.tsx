@@ -25,12 +25,14 @@ interface StickerDef {
 }
 
 const STICKERS: StickerDef[] = [
-  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.5, phi: -0.4, spin: 0.3, size: 0.4 },
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0, phi: 0, spin: -0.15, size: 0.42, chest: [0, -0.98] },
-  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: 0, phi: 0, spin: 0.2, size: 0.4, chest: [0.8, -1.5] },
-  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0, phi: 0, spin: -0.25, size: 0.36, chest: [-0.85, -1.55] },
-  { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: 0.12, phi: 0.66, spin: 0.1, size: 0.55 },
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.1, size: 0.36, chest: [0.05, -1.72] },
+  // left cheek (as you look at the screen): iqigai above, Total Environment below
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai by Fractal', img: 'iqigai.png', theta: -0.74, phi: -0.2, spin: 0.3, size: 0.26 },
+  { id: 'te', slug: 'total-environment', label: 'Total Environment', img: 'te.png', theta: -0.62, phi: -0.5, spin: 0.2, size: 0.27 },
+  // right cheek: Foyr above, MX Player below
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.74, phi: -0.2, spin: -0.15, size: 0.28 },
+  { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.62, phi: -0.5, spin: -0.25, size: 0.25 },
+  // hoodie
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.1, size: 0.4, chest: [0.05, -1.75] },
 ]
 
 const HOVER_SCALE = 1.35
