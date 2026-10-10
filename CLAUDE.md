@@ -19,7 +19,8 @@ No tests. After edits, run `npm run typecheck` and check the result in the brows
 ## Architecture
 
 - Pure front-end SPA, no backend yet, no router. `index.html` -> `src/main.tsx` -> `src/App.tsx`.
-- `src/scene/Scene.tsx`: gradient backdrop, lights, scroll-driven camera; composes `<Bust><Stickers /></Bust>`.
+- `src/scene/Scene.tsx`: gradient backdrop, lights, scroll-driven camera (also dollies toward the cursor near the face); composes `<Avatar><Stickers /></Avatar>`.
+- `src/scene/Avatar.tsx`: the Meshy-generated glb (`public/models/avatar.glb`). Fit constants at the top; head turns toward the cursor; provides a raycast `useSurface()` so stickers land on the real mesh. `Bust.tsx`/`headShape.ts` are the old procedural head, kept as the fallback for sticker placement.
 - `src/scene/Bust.tsx`: soft-clay cartoon bust built in code (one head mesh with hair as vertex colour + offset, brows, nose, smile, ears, eyes that blink and follow the cursor). Look constants are at the top (`C`).
 - `src/scene/headShape.ts`: the head surface (`headPoint`, `surfaceFrame`), hair mask/thickness. Anything placed on the face should use `surfaceFrame(theta, phi)` so it sits on the surface.
 - `src/scene/Stickers.tsx`: clickable project stickers placed by (theta, phi); `slug` must match `works.ts`. Click sets `active` in `src/store.ts`, which opens the case study in `Works.tsx` (the gallery uses the same store key).

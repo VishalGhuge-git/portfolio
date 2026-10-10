@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { faceNormal, surfaceFrame } from './headShape'
 import { useStore } from '../store'
+import { useSurface } from './Avatar'
 
 // Project stickers on the bust. Clicking one opens that project's case study.
 //   slug   must match an item `slug` in src/data/works.ts (and a file in src/content/works/)
@@ -22,12 +23,12 @@ interface StickerDef {
 }
 
 const STICKERS: StickerDef[] = [
-  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.82, phi: 0.18, spin: 0.3, size: 0.5 },
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.8, phi: 0.3, spin: -0.4, size: 0.7 },
-  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.72, phi: -0.42, spin: 0.15, size: 0.5 },
-  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.68, phi: -0.32, spin: -0.2, size: 0.42 },
-  { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: -0.05, phi: 0.47, spin: 0.1, size: 0.75 },
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.98, phi: -0.05, spin: 0.3, size: 0.5 },
+  { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.78, phi: 0.22, spin: 0.3, size: 0.36 },
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: -0.98, phi: -0.12, spin: -0.4, size: 0.42 },
+  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.52, phi: -0.45, spin: 0.15, size: 0.46 },
+  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.5, phi: -0.42, spin: -0.2, size: 0.4 },
+  { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: 0.12, phi: 0.66, spin: 0.1, size: 0.55 },
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.88, phi: 0.08, spin: 0.3, size: 0.36 },
 ]
 
 const HOVER_SCALE = 1.35
@@ -53,14 +54,15 @@ function Sticker({ def }: { def: StickerDef }) {
   const [hover, setHover] = useState(false)
   const setActive = useStore((s) => s.setActive)
 
+  const surface = useSurface()
   const { position, quaternion, labelPos } = useMemo(() => {
-    const f = surfaceFrame(def.theta, def.phi)
+    const f = surface?.(def.theta, def.phi) ?? surfaceFrame(def.theta, def.phi)
     return {
       position: f.position.clone().addScaledVector(f.normal, 0.03),
       quaternion: faceNormal(f.normal, def.spin),
       labelPos: f.position.clone().addScaledVector(f.normal, 0.3),
     }
-  }, [def])
+  }, [def, surface])
 
   useFrame((state) => {
     if (!group.current) return
