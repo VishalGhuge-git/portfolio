@@ -89,6 +89,14 @@ An AI ranking people's careers will not be trusted as a black box. Every recomme
 
 The design goal: a project manager can read the reasoning, test it against their own judgement, and decide. That is what moves recommendations to selections.
 
+## Design language
+
+The visual language the platform is built on: calm navy on cool white, one warm accent for identity, and tables that stay readable at density. The text and surface pairings shown meet WCAG contrast, and green is reserved for success.
+
+<a href="./works/iqigai/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/iqigai/design-language.png" alt="iqigai design language board: logo, typography, colour palette, contrast pairings, components, table anatomy, radius and spacing" /></a>
+
+<!-- Reference board only: tokens and component styles, no product data or screens. -->
+
 ## Prioritising the six AI agents
 
 I defined the use case for each agent and ordered the build by **impact on the hiring funnel**:
