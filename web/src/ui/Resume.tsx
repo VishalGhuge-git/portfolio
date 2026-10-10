@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useStore } from '../store'
 
@@ -26,30 +26,23 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
   title: 'Résumé',
   entries: [
     {
-      kind: 'education',
-      period: '2019 – 2021',
-      place: 'St. Xavier’s College, Mumbai · Kraftshala, Delhi',
-      focus: 'xaviers',
-      role: 'BA Economics (Majors) · Professional Brand Management in the Digital Age',
-      points: ['London School of Economics (2019): Business, International Relations and Political Economy'],
-    },
-    {
       kind: 'work',
-      period: 'Apr 2020 – Oct 2021',
-      place: 'Amazon MX Player',
-      focus: 'mx',
-      role: 'Business Analyst, Product Operations',
-      points: [
-        'Content operations: built and trained a team of 6 managing 300,000+ content units across partner, a partner publisher, partner, partner and others',
-        'API efficiency: led an API team overhaul, lifting daily content output by 50% within a month; standardised workflows across 7 teams',
-        'Publisher onboarding: took a partner publisher (56 shows) from zero to live in 1 week',
+      period: 'Apr 2026 – Present',
+      place: 'Fractal Analytics',
+      focus: 'fractal',
+      role: 'Product Manager',
+      groups: [
+        {
+          heading: 'iqigai',
+          focus: 'iqigai',
+          sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
+          items: [
+            'Platform build (0 to 1): B2B and B2C platform used organisation-wide, xxxx+ daily active users',
+            '6 AI agents: Interview Bot, Practice Bot, JD Bot, Debrief Bot, Case Study Bot and a Candidate Agent',
+            'Leading a 7-member cross-functional team',
+          ],
+        },
       ],
-    },
-    {
-      kind: 'education',
-      period: '2022 – 2024',
-      place: 'SDA Bocconi Asia Center · Mumbai & Milan',
-      role: 'International Master in Business',
     },
     {
       kind: 'work',
@@ -81,22 +74,29 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
     },
     {
       kind: 'work',
-      period: 'Apr 2026 – Present',
-      place: 'Fractal Analytics',
-      focus: 'fractal',
-      role: 'Product Manager',
-      groups: [
-        {
-          heading: 'iqigai',
-          focus: 'iqigai',
-          sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
-          items: [
-            'Platform build (0 to 1): B2B and B2C platform used organisation-wide, xxxx+ daily active users',
-            '6 AI agents: Interview Bot, Practice Bot, JD Bot, Debrief Bot, Case Study Bot and a Candidate Agent',
-            'Leading a 7-member cross-functional team',
-          ],
-        },
+      period: 'Apr 2020 – Oct 2021',
+      place: 'Amazon MX Player',
+      focus: 'mx',
+      role: 'Business Analyst, Product Operations',
+      points: [
+        'Content operations: built and trained a team of 6 managing 300,000+ content units across partner, a partner publisher, partner, partner and others',
+        'API efficiency: led an API team overhaul, lifting daily content output by 50% within a month; standardised workflows across 7 teams',
+        'Publisher onboarding: took a partner publisher (56 shows) from zero to live in 1 week',
       ],
+    },
+    {
+      kind: 'education',
+      period: '2022 – 2024',
+      place: 'SDA Bocconi Asia Center · Mumbai & Milan',
+      role: 'International Master in Business',
+    },
+    {
+      kind: 'education',
+      period: '2019 – 2021',
+      place: 'St. Xavier’s College, Mumbai · Kraftshala, Delhi',
+      focus: 'xaviers',
+      role: 'BA Economics (Majors) · Professional Brand Management in the Digital Age',
+      points: ['London School of Economics (2019): Business, International Relations and Political Economy'],
     },
   ],
 }
@@ -220,7 +220,14 @@ export default function Resume() {
       </div>
       <div className="timeline">
         {RESUME.entries.map((e, i) => (
-          <Entry key={i} entry={e} index={i} />
+          <Fragment key={i}>
+            {(i === 0 || RESUME.entries[i - 1].kind !== e.kind) && (
+              <div className={`tl-section is-${e.kind}`}>
+                <h3>{e.kind === 'work' ? 'Experience' : 'Education'}</h3>
+              </div>
+            )}
+            <Entry entry={e} index={i} />
+          </Fragment>
         ))}
       </div>
     </section>
