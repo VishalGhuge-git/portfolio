@@ -349,7 +349,7 @@ canvas {
 /* ---------- 履历时间轴 ---------- */
 .resume {
   /* 正文与 resume 间距拉大约一倍 */
-  padding: 20vh 24px 20vh;
+  padding: 14vh 24px 12vh;
 }
 
 .resume-title {
@@ -386,13 +386,13 @@ canvas {
   position: relative;
   padding-left: 34px;
   /* 拉长节点间距：每条履历约占一屏，便于相机随滚动依次聚焦对应锚点 */
-  padding-bottom: 46vh;
+  padding-bottom: clamp(48px, 9vh, 96px);
 }
 
 .tl-entry:last-child {
   /* 末条尾部空间：与 .resume 底部 padding 合计约 70vh，
      使滚到底时末条顶部正好停在视口 30vh（NODE_LINE）处、动画走满第 250 帧 */
-  padding-bottom: 38vh;
+  padding-bottom: clamp(32px, 6vh, 64px);
 }
 
 .tl-dot {
