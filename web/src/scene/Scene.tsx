@@ -1,0 +1,94 @@
+import { useMemo } from 'react'
+import { useFrame } from '@react-three/fiber'
+import * as THREE from 'three'
+import Bust from './Bust'
+import Stickers from './Stickers'
+
+// Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
+// (Stickers.tsx), and a camera that moves with page scroll.
+// Phase 2: swap <Bust /> for a real avatar (glb) if wanted; the stickers and camera carry over.
+
+// Vertical gradient backdrop (sage -> sand), wraps the camera
+function GradientBackground() {
+  const uniforms = useMemo(
+    () => ({
+      uTop: { value: new THREE.Color('#6f906f') },
+      uBottom: { value: new THREE.Color('#dbd3b5') },
+      uSteep: { value: 1.4 },
+    }),
+    []
+  )
+  return (
+    <mesh scale={100}>
+      <sphereGeometry args={[1, 32, 32]} />
+      <shaderMaterial
+        side={THREE.BackSide}
+        depthWrite={false}
+        uniforms={uniforms}
+        vertexShader={/* glsl */ `
+          varying vec3 vDir;
+          void main() {
+            vDir = normalize(position);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `}
+        fragmentShader={/* glsl */ `
+          uniform vec3 uTop;
+          uniform vec3 uBottom;
+          uniform float uSteep;
+          varying vec3 vDir;
+          void main() {
+            float t = clamp(vDir.y * uSteep * 0.5 + 0.5, 0.0, 1.0);
+            gl_FragColor = vec4(mix(uBottom, uTop, t), 1.0);
+          }
+        `}
+      />
+    </mesh>
+  )
+}
+
+function Lights() {
+  return (
+    <>
+      {/* soft sky/ground fill keeps the clay shadows warm instead of black */}
+      <hemisphereLight args={['#fff4ea', '#5b5a4a', 1.0]} />
+      {/* warm key from the front-right */}
+      <directionalLight position={[4, 6, 6]} intensity={2.4} color="#ffd9c0" />
+      {/* cool fill from the left */}
+      <directionalLight position={[-6, 2, 4]} intensity={1.0} color="#a9c8ff" />
+      {/* rim light from behind lifts the silhouette off the background */}
+      <directionalLight position={[0, 4, -6]} intensity={1.6} color="#ffffff" />
+    </>
+  )
+}
+
+// Scroll-driven camera: starts framing the face, drifts closer and sideways as you scroll.
+function CameraRig() {
+  const target = useMemo(() => new THREE.Vector3(0, 0.2, 0), [])
+  useFrame((state) => {
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+    const p = Math.min(1, Math.max(0, window.scrollY / max))
+    const cam = state.camera
+    const wantPos = new THREE.Vector3(
+      THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)),
+      THREE.MathUtils.lerp(0.6, 0.3, p),
+      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2))
+    )
+    cam.position.lerp(wantPos, 0.06)
+    cam.lookAt(target)
+  })
+  return null
+}
+
+export default function Scene() {
+  return (
+    <>
+      <GradientBackground />
+      <Lights />
+      <Bust>
+        <Stickers />
+      </Bust>
+      <CameraRig />
+    </>
+  )
+}
