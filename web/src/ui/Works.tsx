@@ -209,9 +209,7 @@ function WorkDetail({
             <img src={banner} alt={title} onError={() => setBannerError(true)} />
           </div>
         ) : (
-          <div className="wk-detail-banner is-ph" aria-hidden="true">
-            <span className="wk-detail-ph-text">{title}</span>
-          </div>
+          <div className="wk-detail-spacer" aria-hidden="true" />
         )}
 
         <article className="wk-detail-article">
