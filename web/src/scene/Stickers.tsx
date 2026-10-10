@@ -19,16 +19,17 @@ interface StickerDef {
   phi: number
   spin: number
   size?: number // longest side in head units (default 0.75)
+  chest?: [number, number] // [x, y] on the hoodie instead of theta/phi (cast straight from the front)
   slug?: string // opens this case study; without it the click scrolls to the résumé
 }
 
 const STICKERS: StickerDef[] = [
   { id: 'iqigai', slug: 'iqigai', label: 'iqigai', img: 'iqigai.png', theta: -0.78, phi: 0.22, spin: 0.3, size: 0.36 },
-  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: -0.98, phi: -0.12, spin: -0.4, size: 0.42 },
-  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0.52, phi: -0.45, spin: 0.15, size: 0.46 },
-  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: -0.5, phi: -0.42, spin: -0.2, size: 0.4 },
+  { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.8, phi: 0.12, spin: -0.4, size: 0.38 },
+  { id: 'te', slug: 'te-design-tool', label: 'Total Environment', img: 'te.png', theta: 0, phi: 0, spin: 0.2, size: 0.55, chest: [0.8, -1.5] },
+  { id: 'mx', slug: 'mx-content-ops', label: 'Amazon MX Player', img: 'mx.png', theta: 0, phi: 0, spin: -0.25, size: 0.5, chest: [-0.85, -1.55] },
   { id: 'fractal', label: 'Fractal Analytics', img: 'fractal.png', theta: 0.12, phi: 0.66, spin: 0.1, size: 0.55 },
-  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0.88, phi: 0.08, spin: 0.3, size: 0.36 },
+  { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.1, size: 0.5, chest: [0.05, -1.72] },
 ]
 
 const HOVER_SCALE = 1.35
@@ -56,7 +57,8 @@ function Sticker({ def }: { def: StickerDef }) {
 
   const surface = useSurface()
   const { position, quaternion, labelPos } = useMemo(() => {
-    const f = surface?.(def.theta, def.phi) ?? surfaceFrame(def.theta, def.phi)
+    const f = (def.chest ? surface?.front(def.chest[0], def.chest[1]) : surface?.angles(def.theta, def.phi)) ??
+      surfaceFrame(def.theta, def.phi)
     return {
       position: f.position.clone().addScaledVector(f.normal, 0.03),
       quaternion: faceNormal(f.normal, def.spin),

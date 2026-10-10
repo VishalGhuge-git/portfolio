@@ -18,7 +18,11 @@ export interface SurfaceFrame {
   position: THREE.Vector3
   normal: THREE.Vector3
 }
-const SurfaceCtx = createContext<((theta: number, phi: number) => SurfaceFrame | null) | null>(null)
+interface Surface {
+  angles: (theta: number, phi: number) => SurfaceFrame | null // around the head centre
+  front: (x: number, y: number) => SurfaceFrame | null // straight in from the front, for the chest
+}
+const SurfaceCtx = createContext<Surface | null>(null)
 export const useSurface = () => useContext(SurfaceCtx)
 
 export default function Avatar({ children }: { children?: ReactNode }) {
@@ -43,18 +47,24 @@ export default function Avatar({ children }: { children?: ReactNode }) {
     return root
   }, [gltf])
 
-  const frameAt = useMemo(() => {
+  const surface = useMemo<Surface>(() => {
     const meshes: THREE.Mesh[] = []
     model.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
     const rc = new THREE.Raycaster()
-    return (theta: number, phi: number): SurfaceFrame | null => {
-      const dir = new THREE.Vector3(Math.sin(theta) * Math.cos(phi), Math.sin(phi), Math.cos(theta) * Math.cos(phi))
-      rc.set(HEAD_CENTER.clone().addScaledVector(dir, 4), dir.clone().negate())
+    const cast = (origin: THREE.Vector3, dir: THREE.Vector3): SurfaceFrame | null => {
+      rc.set(origin, dir)
       const hit = rc.intersectObjects(meshes, false)[0]
       if (!hit || !hit.face) return null
       const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
-      if (normal.dot(dir) < 0) normal.negate()
+      if (normal.dot(dir) > 0) normal.negate() // face the ray origin
       return { position: hit.point.clone(), normal }
+    }
+    return {
+      angles: (theta, phi) => {
+        const dir = new THREE.Vector3(Math.sin(theta) * Math.cos(phi), Math.sin(phi), Math.cos(theta) * Math.cos(phi))
+        return cast(HEAD_CENTER.clone().addScaledVector(dir, 4), dir.clone().negate())
+      },
+      front: (x, y) => cast(new THREE.Vector3(x, y, 5), new THREE.Vector3(0, 0, -1)),
     }
   }, [model])
 
@@ -71,7 +81,7 @@ export default function Avatar({ children }: { children?: ReactNode }) {
   return (
     <group ref={turn} position={[0, 0, 0]}>
       <primitive object={model} />
-      <SurfaceCtx.Provider value={frameAt}>{children}</SurfaceCtx.Provider>
+      <SurfaceCtx.Provider value={surface}>{children}</SurfaceCtx.Provider>
     </group>
   )
 }
