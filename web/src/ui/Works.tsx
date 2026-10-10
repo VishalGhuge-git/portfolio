@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { WORKS, SECTION_COVERS, type WorkListItem, type WorkSection, type WorksLang } from '../data/works'
 import { getWorkDoc } from '../data/workDocs'
+import ScrollTopButton from './ScrollTopButton'
 import { useStore } from '../store'
 import { track } from '../analytics'
 
@@ -127,6 +128,7 @@ function WorkDetail({
   const [bannerError, setBannerError] = useState(false)
   const doc = getWorkDoc(item.slug)
   const mdRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
   const [copied, setCopied] = useState(false)
   const copyLink = () => {
     const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(item.slug || item.name)}`
@@ -189,6 +191,7 @@ function WorkDetail({
       />
       <motion.div
         className="wk-detail"
+        ref={scrollRef}
         initial={{ opacity: 0, scale: 0.985, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.99, y: 6 }}
@@ -257,6 +260,7 @@ function WorkDetail({
           )}
         </article>
       </motion.div>
+      <ScrollTopButton containerRef={scrollRef} className="to-top-panel" />
     </>
   )
 }

@@ -1769,21 +1769,23 @@ canvas {
   .hero .about.is-min { padding-block: 14px; }
 }
 
-/* Back to top: appears after scrolling about a screen and a half */
+/* Back to top: centred near the bottom, shown when you scroll up (page and long panels) */
 .to-top {
-  position: fixed; right: 22px; bottom: 22px; z-index: 55;
-  display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px 0 14px;
+  position: fixed; left: 50%; bottom: 56px; z-index: 55;
+  display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px 0 16px;
   border-radius: 999px; cursor: pointer;
-  color: #fff; background: rgba(15, 20, 25, 0.62); border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  color: #fff; background: rgba(15, 20, 25, 0.78); border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   font: 600 12px 'Helvetica Neue', system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
-  opacity: 0; transform: translateY(10px); pointer-events: none;
+  opacity: 0; transform: translate(-50%, 12px); pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
 }
+.to-top.to-top-panel { z-index: 75; }
 .to-top em { font-style: normal; }
 .to-top span { font-size: 16px; line-height: 1; }
-.to-top.is-on { opacity: 1; transform: none; pointer-events: auto; }
-.to-top.is-on:hover { background: rgba(15, 20, 25, 0.85); }
+.to-top.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.to-top.is-on:hover { background: rgba(15, 20, 25, 0.95); }
 @media (max-width: 640px) {
-  .to-top { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); height: 42px; padding: 0 14px; }
+  .to-top { bottom: calc(22px + env(safe-area-inset-bottom, 0px)); height: 46px; }
 }
