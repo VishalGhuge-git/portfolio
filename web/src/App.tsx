@@ -135,10 +135,10 @@ function RoleRotator() {
 
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
-  { n: '1,108+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai' },
-  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment' },
-  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player' },
-  { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate' },
+  { n: '1,108+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
+  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
+  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player', logo: 'mx.png' },
+  { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
 ]
 
 function Proof() {
@@ -155,6 +155,7 @@ function Proof() {
             setActive(p.slug)
           }}
         >
+          <img className="proof-logo" src={`${import.meta.env.BASE_URL}stickers/${p.logo}`} alt="" aria-hidden="true" />
           <b>{p.n}</b>
           <span>{p.label}</span>
           <em>{p.sub}</em>
@@ -183,9 +184,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
         {/* Entrance animation lives on the inner node so its fill doesn't override the scroll opacity */}
         <div className="about-intro">
           <div className="about-head">
-            <motion.h1 className="about-title" style={{ y: titleY, letterSpacing: titleSpacing }}>
-              {COPY.title}
-            </motion.h1>
+            <h1 className="sr-only">{COPY.title}</h1>
             <button
               className="about-toggle"
               aria-expanded={expanded}
