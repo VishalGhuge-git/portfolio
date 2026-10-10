@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import Bust from './Bust'
+import Avatar from './Avatar'
 import Stickers from './Stickers'
 import { useStore } from '../store'
 
@@ -100,9 +100,9 @@ export default function Scene() {
     <>
       <GradientBackground />
       <Lights />
-      <Bust>
+      <Avatar>
         <Stickers />
-      </Bust>
+      </Avatar>
       <CameraRig />
     </>
   )
