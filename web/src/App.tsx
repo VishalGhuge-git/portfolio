@@ -7,13 +7,12 @@ import NoiseOverlay from './ui/NoiseOverlay'
 import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
+import ContactModal, { LINKEDIN_URL, EMAIL } from './ui/ContactModal'
 import LoadingScreen from './ui/LoadingScreen'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
 import { track } from './analytics'
 import { useStore } from './store'
 
-const LINKEDIN_URL = 'https://www.linkedin.com/in/vishal-ghuge'
-const EMAIL = 'vishalghuge26@gmail.com'
 const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
 
 // WebGL check: without it we skip the 3D scene and show the page on a plain gradient
@@ -33,12 +32,14 @@ function jumpTo(id: string) {
 function TopBar() {
   // Hide while a case study is open so it never crowds the case study's own buttons
   const open = useStore((s) => s.active !== null)
+  const [talk, setTalk] = useState(false)
   const jump = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     track('nav_jump', id)
     jumpTo(id)
   }
   return (
+    <>
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
@@ -52,10 +53,12 @@ function TopBar() {
       <a className="topbar-li" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
         LinkedIn
       </a>
-      <a className="topbar-cta" href={`mailto:${EMAIL}`} onClick={() => track('email_click')}>
+      <button type="button" className="topbar-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
         Let’s talk
-      </a>
+      </button>
     </nav>
+    <ContactModal open={talk} onClose={() => setTalk(false)} />
+    </>
   )
 }
 
@@ -146,11 +149,16 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               {expanded ? 'Hide' : 'Read more'}
             </button>
           </div>
-          {COPY.paragraphs.map((p, i) => (
-            <motion.p key={i} className="about-body" style={{ y: bodyY }}>
-              {p}
-            </motion.p>
-          ))}
+          {COPY.paragraphs.map((p, i) => {
+            // First sentence stays visible on phones when the card is compact
+            const cut = p.indexOf('one.') + 4
+            return (
+              <motion.p key={i} className="about-body" style={{ y: bodyY }}>
+                <span className="about-lead">{p.slice(0, cut)}</span>
+                <span className="about-rest">{p.slice(cut)}</span>
+              </motion.p>
+            )
+          })}
           <Proof />
         </div>
       </motion.div>
@@ -200,6 +208,7 @@ export default function App() {
   const { scrollY } = useScroll()
   // Darken the 3D scene after leaving the hero so the résumé text stays readable
   const scrimOpacity = useTransform(scrollY, [0, 520], [0, 0.4])
+  const blurOpacity = useTransform(scrollY, [80, 520], [0, 1])
   // Scroll cue fades out as soon as scrolling starts
   const cueOpacity = useTransform(scrollY, [0, 160], [1, 0])
   // Frosted right rail fades in once the résumé starts (hero stays unfrosted)
@@ -233,6 +242,9 @@ export default function App() {
         </Canvas>
         )}
       </div>
+
+      {/* Scroll blur: softens the 3D behind the text once you leave the hero (stronger on phones) */}
+      <motion.div className="scroll-blur" style={{ opacity: blurOpacity }} aria-hidden="true" />
 
       {/* Scroll darkening scrim */}
       <motion.div className="scrim" style={{ opacity: scrimOpacity }} aria-hidden="true" />
