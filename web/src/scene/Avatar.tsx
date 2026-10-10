@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import { useStore } from '../store'
 import * as THREE from 'three'
 
 // Image-to-3D avatar (public/models/avatar.glb). Tunables for fitting the model into the scene:
@@ -94,7 +95,9 @@ export default function Avatar({ children }: { children?: ReactNode }) {
     const g = turn.current
     if (!g) return
     const { x, y } = state.pointer
-    g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, x * TURN, 0.06)
+    // Scrolling to the SDA Bocconi entry turns him round to show the logo on the back of the hoodie
+    const showBack = useStore.getState().focus === 'bocconi' && window.scrollY > window.innerHeight * 0.7
+    g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, (showBack ? Math.PI : 0) + x * TURN * (showBack ? -1 : 1), 0.06)
     g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, -y * TILT, 0.06)
   })
 
