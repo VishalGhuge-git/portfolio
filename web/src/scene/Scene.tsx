@@ -78,14 +78,14 @@ function CameraRig() {
     // (and pans toward the cursor) so the stickers can be read. Only at the top of the page.
     const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active
     const d = Math.hypot(state.pointer.x * 1.1, (state.pointer.y - 0.05) * 1.4)
-    const want = atTop ? THREE.MathUtils.smoothstep(0.8 - d, 0, 0.4) : 0
+    const want = atTop ? THREE.MathUtils.smoothstep(0.9 - d, 0, 0.4) : 0
     zoom.current = THREE.MathUtils.lerp(zoom.current, want, 0.06)
     const z = zoom.current
 
     wantPos.set(
       THREE.MathUtils.lerp(0, -2.2, Math.min(1, p * 2.2)) + state.pointer.x * 0.9 * z,
       THREE.MathUtils.lerp(0.6, 0.3, p) + state.pointer.y * 0.5 * z,
-      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 3.5 * z
+      THREE.MathUtils.lerp(7.5, 4.2, Math.min(1, p * 2.2)) - 4.3 * z
     )
     cam.position.lerp(wantPos, 0.08)
     wantTarget.set(state.pointer.x * 0.45 * z, 0.2 + state.pointer.y * 0.3 * z, 0)
