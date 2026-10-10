@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { faceNormal, surfaceFrame } from './headShape'
 import { useStore } from '../store'
 import { useSurface } from './Avatar'
+import { track } from '../analytics'
 
 // Project stickers on the bust. Clicking one opens that project's case study.
 //   slug   must match an item `slug` in src/data/works.ts (and a file in src/content/works/)
@@ -101,6 +102,8 @@ function Sticker({ def }: { def: StickerDef }) {
     if (!canInteract()) return
     e.stopPropagation()
     document.body.style.cursor = ''
+    track('sticker_click', def.label)
+    useStore.setState({ touched: true })
     if (def.slug) setActive(def.slug)
     else document.querySelector('.resume')?.scrollIntoView({ behavior: 'smooth' })
   }

@@ -6,6 +6,7 @@ import rehypeRaw from 'rehype-raw'
 import { WORKS, SECTION_COVERS, type WorkListItem, type WorkSection, type WorksLang } from '../data/works'
 import { getWorkDoc } from '../data/workDocs'
 import { useStore } from '../store'
+import { track } from '../analytics'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -233,6 +234,9 @@ export default function Works({ lang, innerRef }: { lang: 'en'; innerRef: Ref<HT
   const activeKey = useStore((s) => s.active)
   const setActiveKey = useStore((s) => s.setActive)
   const active = findItem(sections, activeKey)
+  useEffect(() => {
+    if (activeKey) track('case_open', activeKey)
+  }, [activeKey])
   const setActive = (item: WorkListItem | null) => setActiveKey(item ? item.slug || item.name : null)
 
   // 竖滚 pin 转横移：测量整排卡片的实际可横移距离（px），竖滚进度 → 横移
