@@ -22,6 +22,9 @@ interface StickerDef {
   spin: number
   size?: number // longest side in head units (default 0.75)
   chest?: [number, number] // [x, y] on the hoodie instead of theta/phi (cast straight from the front)
+  back?: [number, number] // [x, y] on the back of the hoodie (cast straight in from behind)
+  depth?: number // decal projection depth (default DEPTH); larger for stickers on strongly curved parts
+  scrollTo?: string // element id to scroll to on click when there is no case study
   slug?: string // opens this case study; without it the click scrolls to the résumé
 }
 
@@ -33,6 +36,8 @@ const STICKERS: StickerDef[] = [
   { id: 'foyr', slug: 'foyr-ideate', label: 'Foyr Ideate', img: 'foyr.png', theta: 0.66, phi: -0.36, spin: -0.3, size: 0.3 },
   { id: 'mx', slug: 'mx-player', label: 'Amazon MX Player', img: 'mx.png', theta: 0.6, phi: -0.62, spin: 0.3, size: 0.25 },
   // hoodie, left shoulder (clear of the drawstrings)
+  // back of the hoodie: turn the model round to find it
+  { id: 'bocconi', label: 'SDA Bocconi', img: 'bocconi.png', theta: 0, phi: 0, spin: Math.PI, size: 0.8, depth: 0.6, back: [0, -1.5], scrollTo: 'education' },
   { id: 'xaviers', label: "St. Xavier's College", img: 'xaviers.png', theta: 0, phi: 0, spin: 0.12, size: 0.38, chest: [-1.05, -1.5] },
 ]
 
@@ -66,14 +71,14 @@ function Sticker({ def }: { def: StickerDef }) {
 
   const surface = useSurface()
   const { position, quaternion, labelPos, decal } = useMemo(() => {
-    const f: SurfaceFrame = (def.chest ? surface?.front(def.chest[0], def.chest[1]) : surface?.angles(def.theta, def.phi)) ??
+    const f: SurfaceFrame = (def.back ? surface?.back(def.back[0], def.back[1]) : def.chest ? surface?.front(def.chest[0], def.chest[1]) : surface?.angles(def.theta, def.phi)) ??
       surfaceFrame(def.theta, def.phi)
     const quaternion = faceNormal(f.normal, def.spin)
     // Project the sticker onto the real mesh so it wraps the cheek/chest instead of floating flat.
     // Geometry is re-centred on the sticker point so hover scaling grows it in place.
     let decal: THREE.BufferGeometry | null = null
     if (f.mesh) {
-      const g = new DecalGeometry(f.mesh, f.position, new THREE.Euler().setFromQuaternion(quaternion), new THREE.Vector3(sw, sh, DEPTH))
+      const g = new DecalGeometry(f.mesh, f.position, new THREE.Euler().setFromQuaternion(quaternion), new THREE.Vector3(sw, sh, def.depth ?? DEPTH))
       if (g.getAttribute('position')?.count) {
         g.translate(-f.position.x, -f.position.y, -f.position.z)
         decal = g
@@ -123,7 +128,7 @@ function Sticker({ def }: { def: StickerDef }) {
     track('sticker_click', def.label)
     useStore.setState({ touched: true })
     if (def.slug) setActive(def.slug)
-    else document.querySelector('.resume')?.scrollIntoView({ behavior: 'smooth' })
+    else (document.getElementById(def.scrollTo ?? '') ?? document.querySelector('.resume'))?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
