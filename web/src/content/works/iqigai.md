@@ -40,13 +40,21 @@ The process lived in **large Excel files and pivot tables**, with **one person w
 
 ## Baseline: the funnel
 
-Of every 100 people on the bench:
+Of every 100 people on the bench, most never made it to a project manager's shortlist, and only **1 in 10 was selected**:
 
-| Stage | People |
+<div class="funnel">
+  <div class="funnel-row"><span class="funnel-label">Receive AI matches</span><span class="funnel-bar" style="width:70%">70%</span></div>
+  <div class="funnel-row"><span class="funnel-label">Recommended to a project manager</span><span class="funnel-bar" style="width:30%">30%</span></div>
+  <div class="funnel-row"><span class="funnel-label">Selected for a project</span><span class="funnel-bar" style="width:10%">10%</span></div>
+</div>
+
+| Step | Rate |
 | --- | --- |
-| Receive AI matches | 70 |
-| Recommended to a project manager | 30 |
-| Selected for a project | 10 |
+| Bench with AI matches | 70% |
+| Bench recommended to a PM | 30% (43% of matched) |
+| Bench selected | 10% (**33% of recommended**) |
+
+Two leaks stand out: **a third of the bench had no AI match at all**, and **only a third of recommendations turned into a selection**. That second leak is why trust in the recommendation became a design goal.
 
 <!-- REFINE: confirm current vs launch baseline, and add the target. -->
 
@@ -69,8 +77,8 @@ My bet was that adoption beats completeness. I scoped the MVP to the **minimum f
 | **MVP** | Matching engine; access for staffing, project managers and candidates with only the few actions each needs; AI agents as standalone tools | The shortest path to a working, usable flow |
 | **Next** | Fold the agents into the platform, in order of funnel impact | Core flow first, then more value per user |
 | **Deferred** | Integrations with Workday, FMS and Hive | They add dependencies and delay launch; prove the flow first |
+| **Deferred** | **Auto-assignment** (the system assigns people itself) | Recommended by stakeholders, but only worth building once the matching algorithm is upgraded. Getting the foundation state-of-the-art came first. |
 
-<!-- REFINE: options you rejected beyond these (buy vs build, skills-only matching, full auto-assignment vs recommend-then-decide), and the criteria you used. -->
 
 ## The product decision that mattered: explainable recommendations
 
@@ -105,9 +113,3 @@ I defined the use case for each agent and ordered the build by **impact on the h
 - **6 AI agents** defined, prioritised and integrated
 
 <!-- REFINE: confirm "50% less time on staffing" and what it measures before publishing. -->
-
-## What I'd do differently
-
-<!-- REFINE: one honest learning. Interviewers weigh this heavily. -->
-
-<!-- REFINE: screens (match view, score breakdown, explanation) in public/works/iqigai/ -->
