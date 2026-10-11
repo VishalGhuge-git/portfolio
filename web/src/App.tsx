@@ -6,7 +6,7 @@ import Scene from './scene/Scene'
 import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
-import ContactModal from './ui/ContactModal'
+import ContactModal, { ContactOptions } from './ui/ContactModal'
 import LoadingScreen from './ui/LoadingScreen'
 import { track } from './analytics'
 import { useStore } from './store'
@@ -232,14 +232,12 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
 }
 
 function Contact() {
-  const [talk, setTalk] = useState(false)
   return (
     <footer className="contact" id="contact" lang="en">
       <h2 className="contact-title">Let’s build something</h2>
-      <button type="button" className="contact-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
-        Let’s talk
-      </button>
-      <ContactModal open={talk} onClose={() => setTalk(false)} />
+      <div className="contact-options">
+        <ContactOptions />
+      </div>
     </footer>
   )
 }

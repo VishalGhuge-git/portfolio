@@ -261,9 +261,12 @@ function Badge({ def, i }: { def: (typeof BADGES)[number]; i: number }) {
   // The column fades in as you leave the hero, so it never sits behind the About card
   const mat = useRef<THREE.MeshBasicMaterial>(null)
   useFrame(() => {
-    if (mat.current) mat.current.opacity = THREE.MathUtils.smoothstep(window.scrollY, window.innerHeight * 0.3, window.innerHeight * 0.75)
+    // ...and fades away again at the very end, where the contact options take over
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+    const out = 1 - THREE.MathUtils.smoothstep(window.scrollY / max, 0.88, 0.96)
+    if (mat.current) mat.current.opacity = THREE.MathUtils.smoothstep(window.scrollY, window.innerHeight * 0.3, window.innerHeight * 0.75) * out
   })
-  const ok = () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5
+  const ok = () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5 && window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight) < 0.9
   return (
     <Hot grow={1.1} float={2} ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
       <mesh>

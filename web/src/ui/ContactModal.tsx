@@ -17,9 +17,36 @@ function PhoneIcon() {
   )
 }
 
-export default function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+// The three ways to reach me, shown directly (footer) and inside the modal.
+export function ContactOptions() {
   const Linkedin = SOCIAL_ICONS.linkedin
   const Mail = SOCIAL_ICONS.mail
+  return (
+    <div className="cm-list">
+      <a className="cm-row" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
+        <span className="cm-ico"><Linkedin /></span>
+        <span className="cm-txt"><b>LinkedIn</b><em>Open my profile</em></span>
+        <span className="cm-go">→</span>
+      </a>
+      <div className="cm-rowwrap">
+        <a className="cm-row" href={MAIL_HREF} onClick={() => track('email_click')}>
+          <span className="cm-ico"><Mail /></span>
+          <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
+          <span className="cm-go">→</span>
+        </a>
+      </div>
+      <div className="cm-rowwrap">
+        <a className="cm-row" href={`tel:${PHONE}`} onClick={() => track('call_click')}>
+          <span className="cm-ico"><PhoneIcon /></span>
+          <span className="cm-txt"><b>Call</b><em>{PHONE_SHOWN}</em></span>
+          <span className="cm-go">→</span>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+export default function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
@@ -56,27 +83,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
             <button type="button" className="cm-close" aria-label="Close" onClick={onClose}>×</button>
             <h2 className="cm-title">Let’s talk</h2>
             <p className="cm-sub">Pick whichever is easiest.</p>
-            <div className="cm-list">
-              <a className="cm-row" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click')}>
-                <span className="cm-ico"><Linkedin /></span>
-                <span className="cm-txt"><b>LinkedIn</b><em>Open my profile</em></span>
-                <span className="cm-go">→</span>
-              </a>
-              <div className="cm-rowwrap">
-                <a className="cm-row" href={MAIL_HREF} onClick={() => track('email_click')}>
-                  <span className="cm-ico"><Mail /></span>
-                  <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
-                  <span className="cm-go">→</span>
-                </a>
-              </div>
-              <div className="cm-rowwrap">
-                <a className="cm-row" href={`tel:${PHONE}`} onClick={() => track('call_click')}>
-                  <span className="cm-ico"><PhoneIcon /></span>
-                  <span className="cm-txt"><b>Call</b><em>{PHONE_SHOWN}</em></span>
-                  <span className="cm-go">→</span>
-                </a>
-              </div>
-            </div>
+            <ContactOptions />
           </motion.div>
         </motion.div>
       )}
