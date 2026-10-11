@@ -205,21 +205,20 @@ function XaviersCap() {
           <mesh material={GOLD} position={[u * 0.8, -0.008 * H, 0]}>
             <cylinderGeometry args={[0.007 * H, 0.0035 * H, 0.03 * H, 12]} />
           </mesh>
-          {/* crest, hung beneath */}
-          <mesh position={[0, -0.075 * H, 0]} rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
-            <cylinderGeometry args={[0.03 * H, 0.03 * H, 0.008 * H, 40]} />
-          </mesh>
-          <mesh position={[0, -0.075 * H, 0.0045 * H]}>
-            <circleGeometry args={[0.025 * H, 40]} />
-            <meshStandardMaterial color="#ffffff" roughness={0.35} />
-          </mesh>
-          <mesh position={[0, -0.075 * H, 0.0055 * H]}>
-            <planeGeometry args={[0.04 * H, 0.04 * H]} />
-            <meshBasicMaterial map={tex} transparent toneMapped={false} />
-          </mesh>
-          <mesh material={GOLD} position={[0, -0.035 * H, 0]}>
-            <cylinderGeometry args={[0.0012 * H, 0.0012 * H, 0.04 * H, 6]} />
-          </mesh>
+          {/* crest, set on the front of the cap band */}
+          <group position={[0, 0.006 * H, u * 0.6]}>
+            <mesh rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
+              <cylinderGeometry args={[0.026 * H, 0.026 * H, 0.008 * H, 40]} />
+            </mesh>
+            <mesh position={[0, 0, 0.0045 * H]}>
+              <circleGeometry args={[0.022 * H, 40]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.35} />
+            </mesh>
+            <mesh position={[0, 0, 0.0055 * H]}>
+              <planeGeometry args={[0.036 * H, 0.036 * H]} />
+              <meshBasicMaterial map={tex} transparent toneMapped={false} />
+            </mesh>
+          </group>
         </group>
       </Hot>
     </group>
