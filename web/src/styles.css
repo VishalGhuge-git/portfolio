@@ -1909,3 +1909,14 @@ body.exploring .content,body.exploring .scroll-blur,body.exploring .scrim,body.e
 @media (max-width:1099px){.explore-bar{bottom:calc(18px + env(safe-area-inset-bottom));max-width:calc(100vw - 20px)}.eb-btn{padding:10px 11px;font-size:12.5px}}
 .explore-bar.idle{left:auto;right:22px;transform:none}
 @media (max-width:1099px){.explore-bar.idle{right:12px}}
+
+/* ---- About card actions: Explore 3D + Read more side by side ---- */
+.about-actions{display:flex;gap:10px;margin-top:14px;pointer-events:auto}
+.about-btn{flex:1 1 0;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:42px;padding:0 16px;border-radius:999px;cursor:pointer;pointer-events:auto;
+  font:600 13px/1 'Helvetica Neue',system-ui,sans-serif;letter-spacing:.04em;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);transition:background .2s ease,transform .15s ease}
+.about-btn:hover{background:rgba(255,255,255,.2)}
+.about-btn:active{transform:scale(.98)}
+.about-btn-primary{background:#f4e4cc;color:#17110a;border-color:#f4e4cc}
+.about-btn-primary:hover{background:#fff1dc}
+@media (min-width:1100px){.about-btn-more{display:none}.about-btn-primary{flex:1 1 auto}}
+@media (max-width:1099px){.hero .about.is-min .about-actions{margin-top:10px}.about-btn{height:40px;font-size:12.5px}}

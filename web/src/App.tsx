@@ -7,6 +7,7 @@ import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import ExploreBar from './ui/ExploreBar'
+import { resetView } from './scene/orbit'
 import ContactModal, { ContactOptions } from './ui/ContactModal'
 import LoadingScreen from './ui/LoadingScreen'
 import { track } from './analytics'
@@ -184,19 +185,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
       <motion.div className={`about${expanded ? '' : ' is-min'}`} lang="en" ref={aboutRef} style={{ filter: blur, opacity }}>
         {/* Entrance animation lives on the inner node so its fill doesn't override the scroll opacity */}
         <div className="about-intro">
-          <div className="about-head">
-            <h1 className="sr-only">{COPY.title}</h1>
-            <button
-              className="about-toggle"
-              aria-expanded={expanded}
-              onClick={() => {
-                track('about_toggle', expanded ? 'collapse' : 'expand')
-                setExpanded((v) => !v)
-              }}
-            >
-              {expanded ? 'Hide' : 'Read more'}
-            </button>
-          </div>
+          <h1 className="sr-only">{COPY.title}</h1>
           <motion.p className="about-body" style={{ y: bodyY }}>
             {/* Both copies share one grid cell: the hidden one (longest role) holds the height so the
                 card and the chips below never jump as the role changes */}
@@ -220,6 +209,28 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
             </span>
           </motion.p>
           <Proof />
+          <div className="about-actions">
+            <button
+              className="about-btn about-btn-primary"
+              onClick={() => {
+                track('explore_3d', 'open')
+                resetView()
+                useStore.getState().setExplore('person')
+              }}
+            >
+              <span aria-hidden="true">⟳</span> Explore 3D
+            </button>
+            <button
+              className="about-btn about-btn-more"
+              aria-expanded={expanded}
+              onClick={() => {
+                track('about_toggle', expanded ? 'collapse' : 'expand')
+                setExpanded((v) => !v)
+              }}
+            >
+              {expanded ? 'Hide' : 'Read more'}
+            </button>
+          </div>
         </div>
       </motion.div>
       <motion.div className="scroll-cue" style={{ opacity: cueOpacity }} aria-hidden="true">

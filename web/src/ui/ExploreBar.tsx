@@ -11,6 +11,7 @@ export default function ExploreBar() {
   const active = useStore((s) => s.active)
   const [back, setBack] = useState(false)
   const [nearEnd, setNearEnd] = useState(false)
+  const [inHero, setInHero] = useState(true)
 
   useEffect(() => {
     document.body.classList.toggle('exploring', !!explore)
@@ -21,6 +22,7 @@ export default function ExploreBar() {
     const onScroll = () => {
       const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
       setNearEnd(window.scrollY / max > 0.85)
+      setInHero(window.scrollY < window.innerHeight * 0.5)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -42,7 +44,7 @@ export default function ExploreBar() {
 
   if (active) return null
   if (!explore) {
-    if (nearEnd) return null
+    if (nearEnd || inHero) return null
     return (
       <div className="explore-bar idle">
         <button className="eb-btn eb-main" onClick={() => { resetView(); setExplore('person') }}>
