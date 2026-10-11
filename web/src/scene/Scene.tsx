@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar from './Avatar'
-import { LapelPins, Briefcase, Badges, stickerRefs } from './SuitItems'
+import { Emblems, Briefcase, Badges, stickerRefs } from './SuitItems'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
 
@@ -103,8 +103,8 @@ function Env() {
 // back to show the whole figure at the end. While a résumé block is on screen it flies in to that item.
 const FACE_Y = 3.4
 const FOCUS: Record<string, { dist: number; side: number }> = {
-  iqigai: { dist: 2.4, side: 0.4 },
-  xaviers: { dist: 2.4, side: 0.4 },
+  iqigai: { dist: 3.2, side: 0.9 },
+  xaviers: { dist: 3.2, side: 0.9 },
   foyr: { dist: 3.3, side: 0.8 },
   te: { dist: 3.3, side: 0.8 },
   mx: { dist: 3.3, side: 0.8 },
@@ -169,11 +169,10 @@ export default function Scene() {
       <GradientBackground />
       <Lights />
       <Env />
-      <Avatar>
-        <LapelPins />
-      </Avatar>
+      <Avatar />
       <Briefcase />
       <Badges />
+      <Emblems />
       <CameraRig />
     </>
   )

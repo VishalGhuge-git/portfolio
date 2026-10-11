@@ -4,7 +4,7 @@ import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { useStore } from '../store'
-import { useSurface, HEIGHT as H } from './Avatar'
+import { HEIGHT as H } from './Avatar'
 import { track } from '../analytics'
 
 // What he wears and carries: two lapel pins, a briefcase with a luggage tag, and a column of glass badges.
@@ -103,46 +103,134 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
   )
 }
 
-// ---- lapel pins (rendered inside <Avatar>, so they turn with the body) ------------------------------------
+// ---- floating emblems in the space beside him: iqigai (an orb with orbiting agents) and St. Xavier's (a graduation cap) ----
 
-function Pin({ id, label, slug, scrollTo, img, px, py, r }: { id: string; label: string; slug?: string; scrollTo?: string; img: string; px: number; py: number; r: number }) {
-  const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/${img}`)
+// Fades the emblems in after the hero and away again at the very end (they scale from 0, so nothing pops).
+function useEmblemFade(): { ref: React.RefObject<THREE.Group>; ok: () => boolean } {
+  const ref = useRef<THREE.Group>(null)
+  const prog = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+  useFrame((_, delta) => {
+    const g = ref.current
+    if (!g) return
+    const inn = THREE.MathUtils.smoothstep(window.scrollY, window.innerHeight * 0.3, window.innerHeight * 0.75)
+    const out = 1 - THREE.MathUtils.smoothstep(prog(), 0.88, 0.96)
+    const t = inn * out
+    const k = 1 - Math.exp(-8 * Math.min(delta, 0.1))
+    const sc = THREE.MathUtils.lerp(g.scale.x, t, k)
+    g.scale.setScalar(Math.max(sc, 0.0001))
+    g.visible = sc > 0.01
+  })
+  return { ref, ok: () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5 && prog() < 0.9 }
+}
+
+function IqigaiOrb() {
+  const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/iqigai.png`)
   tex.colorSpace = THREE.SRGBColorSpace
-  const surface = useSurface()
-  const frame = useMemo(() => {
-    // px, py: fractions of the avatar height from its centre line / feet -> avatar space
-    const f = surface?.front(((px - 450) / 978) * H, ((1055 - py) / 995) * H)
-    if (!f) return null
-    const pos = f.position.clone().addScaledVector(f.normal, 0.012)
-    const look = new THREE.Object3D()
-    look.position.copy(pos)
-    look.lookAt(pos.clone().add(new THREE.Vector3(f.normal.x * 0.3, 0, 1).normalize()))
-    return { pos, q: look.quaternion.clone() }
-  }, [surface, px, py])
-  if (!frame) return null
-  const rad = r * H
+  const { ref, ok } = useEmblemFade()
+  const ring = useRef<THREE.Group>(null)
+  const bob = useRef<THREE.Group>(null)
+  const R = 0.04 * H
+  useFrame((state) => {
+    if (ring.current) ring.current.rotation.y = state.clock.elapsedTime * 0.9
+    if (bob.current) bob.current.position.y = Math.sin(state.clock.elapsedTime * 1.3) * 0.012 * H
+  })
   return (
-    <Hot grow={1.2} id={id} label={label} slug={slug} scrollTo={scrollTo} hit={rad * 2.2} position={frame.pos} quaternion={frame.q} labelOffset={[0, 0.25, 0.1]}>
-      <mesh rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
-        <cylinderGeometry args={[rad, rad, 0.02, 48]} />
-      </mesh>
-      <mesh position={[0, 0, 0.011]}>
-        <circleGeometry args={[rad * 0.82, 48]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.35} />
-      </mesh>
-      <mesh position={[0, 0, 0.014]}>
-        <planeGeometry args={[rad * 1.25, rad * 1.25]} />
-        <meshBasicMaterial map={tex} transparent toneMapped={false} />
-      </mesh>
-    </Hot>
+    <group ref={ref} position={[-0.37 * H, 0.955 * H, 0.04 * H]}>
+      <Hot grow={1.15} float={0} ok={ok} id="iqigai" slug="iqigai" label="iqigai by Fractal" hit={R * 2.6} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
+        <group ref={bob}>
+          <mesh>
+            <sphereGeometry args={[R, 40, 40]} />
+            <meshStandardMaterial color="#ffd9b3" emissive="#ff9d4d" emissiveIntensity={0.55} roughness={0.25} metalness={0.1} transparent opacity={0.92} />
+          </mesh>
+          <mesh position={[0, 0, R * 0.98]}>
+            <circleGeometry args={[R * 0.62, 40]} />
+            <meshStandardMaterial color="#ffffff" roughness={0.35} />
+          </mesh>
+          <mesh position={[0, 0, R * 0.98 + 0.002]}>
+            <planeGeometry args={[R * 0.9, R * 0.9]} />
+            <meshBasicMaterial map={tex} transparent toneMapped={false} />
+          </mesh>
+          <group ref={ring} rotation={[0.45, 0, 0.25]}>
+            {Array.from({ length: 6 }, (_, i) => {
+              const a = (i / 6) * Math.PI * 2
+              return (
+                <mesh key={i} position={[Math.cos(a) * R * 1.75, 0, Math.sin(a) * R * 1.75]}>
+                  <sphereGeometry args={[R * 0.17, 16, 16]} />
+                  <meshStandardMaterial color="#fff2dc" emissive="#ffb66e" emissiveIntensity={0.9} />
+                </mesh>
+              )
+            })}
+          </group>
+        </group>
+      </Hot>
+    </group>
   )
 }
 
-export function LapelPins() {
+const CAP = new THREE.MeshStandardMaterial({ color: 0x151a24, roughness: 0.55, metalness: 0.15 })
+
+function XaviersCap() {
+  const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/xaviers.png`)
+  tex.colorSpace = THREE.SRGBColorSpace
+  const { ref, ok } = useEmblemFade()
+  const sway = useRef<THREE.Group>(null)
+  const u = 0.1 * H // half-width of the mortarboard
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    if (sway.current) {
+      sway.current.position.y = Math.sin(t * 1.1 + 1) * 0.012 * H
+      sway.current.rotation.y = Math.sin(t * 0.7) * 0.35
+      sway.current.rotation.z = Math.sin(t * 0.9) * 0.05
+    }
+  })
+  return (
+    <group ref={ref} position={[-0.35 * H, 0.825 * H, 0.04 * H]}>
+      <Hot grow={1.15} float={0} ok={ok} id="xaviers" scrollTo="education" label="St. Xavier's College" hit={u * 1.4} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
+        <group ref={sway} rotation={[0.25, 0, 0]} scale={0.8}>
+          {/* mortarboard */}
+          <mesh material={CAP} position={[0, 0.04 * H, 0]} rotation={[0, Math.PI / 4, 0]}>
+            <boxGeometry args={[u * 1.5, 0.012 * H, u * 1.5]} />
+          </mesh>
+          {/* skull cap */}
+          <mesh material={CAP} position={[0, 0.012 * H, 0]}>
+            <cylinderGeometry args={[u * 0.5, u * 0.58, 0.05 * H, 28]} />
+          </mesh>
+          {/* button, cord and tassel */}
+          <mesh material={GOLD} position={[0, 0.0475 * H, 0]}>
+            <sphereGeometry args={[0.008 * H, 16, 16]} />
+          </mesh>
+          <mesh material={GOLD} position={[u * 0.78, 0.025 * H, 0]} rotation={[0, 0, -0.1]}>
+            <cylinderGeometry args={[0.0022 * H, 0.0022 * H, 0.04 * H, 8]} />
+          </mesh>
+          <mesh material={GOLD} position={[u * 0.8, -0.008 * H, 0]}>
+            <cylinderGeometry args={[0.007 * H, 0.0035 * H, 0.03 * H, 12]} />
+          </mesh>
+          {/* crest, hung beneath */}
+          <mesh position={[0, -0.075 * H, 0]} rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
+            <cylinderGeometry args={[0.03 * H, 0.03 * H, 0.008 * H, 40]} />
+          </mesh>
+          <mesh position={[0, -0.075 * H, 0.0045 * H]}>
+            <circleGeometry args={[0.025 * H, 40]} />
+            <meshStandardMaterial color="#ffffff" roughness={0.35} />
+          </mesh>
+          <mesh position={[0, -0.075 * H, 0.0055 * H]}>
+            <planeGeometry args={[0.04 * H, 0.04 * H]} />
+            <meshBasicMaterial map={tex} transparent toneMapped={false} />
+          </mesh>
+          <mesh material={GOLD} position={[0, -0.035 * H, 0]}>
+            <cylinderGeometry args={[0.0012 * H, 0.0012 * H, 0.04 * H, 6]} />
+          </mesh>
+        </group>
+      </Hot>
+    </group>
+  )
+}
+
+export function Emblems() {
   return (
     <>
-      <Pin id="iqigai" slug="iqigai" label="iqigai by Fractal" img="iqigai.png" px={494} py={308} r={0.0086} />
-      <Pin id="xaviers" scrollTo="education" label="St. Xavier's College" img="xaviers.png" px={487} py={330} r={0.0078} />
+      <IqigaiOrb />
+      <XaviersCap />
     </>
   )
 }
