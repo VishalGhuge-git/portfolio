@@ -135,7 +135,7 @@ function IqigaiOrb() {
     if (bob.current) bob.current.position.y = Math.sin(state.clock.elapsedTime * 1.3) * 0.012 * H
   })
   return (
-    <group ref={ref} position={[-0.37 * H, 0.955 * H, 0.04 * H]}>
+    <group ref={ref} position={[-0.4 * H, 0.93 * H, 0.08 * H]}>
       <Hot grow={1.15} float={0} ok={ok} id="iqigai" slug="iqigai" label="iqigai by Fractal" hit={R * 2.6} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <group ref={bob}>
           <mesh>
@@ -184,7 +184,7 @@ function XaviersCap() {
     }
   })
   return (
-    <group ref={ref} position={[-0.35 * H, 0.825 * H, 0.04 * H]}>
+    <group ref={ref} position={[-0.21 * H, 0.99 * H, -0.14 * H]}>
       <Hot grow={1.15} float={0} ok={ok} id="xaviers" scrollTo="education" label="St. Xavier's College" hit={u * 1.4} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <group ref={sway} rotation={[0.25, 0, 0]} scale={0.8}>
           {/* mortarboard */}
@@ -302,74 +302,129 @@ export function Briefcase() {
   )
 }
 
-// ---- floating glass badges (past work) -------------------------------------------------------------------
+// ---- three more objects for past work: a chair (Foyr), a house (Total Environment) and a TV (MX Player) -------------
+// Scattered in the space around him, not in a column; the fade, bob and click behaviour is shared.
 
-function badgeTexture(img: HTMLImageElement, label: string) {
-  const c = document.createElement('canvas')
-  c.width = 1024
-  c.height = 256
-  const g = c.getContext('2d')!
-  g.beginPath()
-  g.roundRect(4, 4, 1016, 248, 124)
-  const gr = g.createLinearGradient(0, 0, 0, 256)
-  gr.addColorStop(0, 'rgba(255,255,255,0.22)')
-  gr.addColorStop(1, 'rgba(255,255,255,0.07)')
-  g.fillStyle = gr
-  g.fill()
-  g.lineWidth = 3
-  g.strokeStyle = 'rgba(255,255,255,0.42)'
-  g.stroke()
-  g.beginPath()
-  g.arc(128, 128, 92, 0, Math.PI * 2)
-  g.fillStyle = '#f5f5f7'
-  g.fill()
-  const sc = Math.min(130 / img.width, 130 / img.height)
-  g.drawImage(img, 128 - (img.width * sc) / 2, 128 - (img.height * sc) / 2, img.width * sc, img.height * sc)
-  g.fillStyle = '#f2f3f6'
-  g.font = '500 76px Inter, Helvetica, Arial, sans-serif'
-  g.textBaseline = 'middle'
-  g.fillText(label, 262, 132)
-  const t = new THREE.CanvasTexture(c)
-  t.colorSpace = THREE.SRGBColorSpace
-  t.anisotropy = 8
-  return t
-}
+const LOGO_DISC = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.35 })
 
-const BADGES = [
-  { id: 'foyr', slug: 'foyr-ideate', name: 'Foyr', label: 'Foyr Ideate', img: 'foyr.png' },
-  { id: 'te', slug: 'total-environment', name: 'Total Environment', label: 'Total Environment', img: 'te.png' },
-  { id: 'mx', slug: 'mx-player', name: 'MX Player', label: 'Amazon MX Player', img: 'mx.png' },
-]
-
-function Badge({ def, i }: { def: (typeof BADGES)[number]; i: number }) {
-  const img = useLoader(THREE.TextureLoader, `${BASE}stickers/${def.img}`).image as HTMLImageElement
-  const tex = useMemo(() => badgeTexture(img, def.name), [img, def.name])
-  useEffect(() => () => tex.dispose(), [tex])
-  // The column fades in as you leave the hero, so it never sits behind the About card
-  const mat = useRef<THREE.MeshBasicMaterial>(null)
-  useFrame(() => {
-    // ...and fades away again at the very end, where the contact options take over
-    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-    const out = 1 - THREE.MathUtils.smoothstep(window.scrollY / max, 0.88, 0.96)
-    if (mat.current) mat.current.opacity = THREE.MathUtils.smoothstep(window.scrollY, window.innerHeight * 0.3, window.innerHeight * 0.75) * out
-  })
-  const ok = () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5 && window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight) < 0.9
+function Logo({ img, r, position }: { img: string; r: number; position: [number, number, number] }) {
+  const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/${img}`)
+  tex.colorSpace = THREE.SRGBColorSpace
   return (
-    <Hot grow={1.1} float={2} ok={ok} id={def.id} slug={def.slug} label={def.label} hit={0.5} position={[-0.33 * H, (0.7 - i * 0.07) * H, 0.04 * H]} rotation={[0, 0.28, 0]} labelOffset={[0, 0.3, 0.1]}>
-      <mesh>
-        <planeGeometry args={[0.21 * H, 0.0525 * H]} />
-        <meshBasicMaterial ref={mat} map={tex} transparent opacity={0} depthWrite={false} toneMapped={false} />
+    <group position={position}>
+      <mesh rotation={[Math.PI / 2, 0, 0]} material={GOLD}>
+        <cylinderGeometry args={[r * 1.12, r * 1.12, 0.006 * H, 36]} />
       </mesh>
-    </Hot>
+      <mesh position={[0, 0, 0.0035 * H]} material={LOGO_DISC}>
+        <circleGeometry args={[r, 36]} />
+      </mesh>
+      <mesh position={[0, 0, 0.0045 * H]}>
+        <planeGeometry args={[r * 1.5, r * 1.5]} />
+        <meshBasicMaterial map={tex} transparent toneMapped={false} />
+      </mesh>
+    </group>
   )
 }
 
-export function Badges() {
+function Floating({ id, label, slug, pos, phase, children }: { id: string; label: string; slug: string; pos: [number, number, number]; phase: number; children: ReactNode }) {
+  const { ref, ok } = useEmblemFade()
+  const bob = useRef<THREE.Group>(null)
+  useFrame((state) => {
+    const t = state.clock.elapsedTime + phase
+    if (bob.current) {
+      bob.current.position.y = Math.sin(t * 1.0) * 0.01 * H
+      bob.current.rotation.y = Math.sin(t * 0.6) * 0.5
+    }
+  })
+  return (
+    <group ref={ref} position={[pos[0] * H, pos[1] * H, pos[2] * H]}>
+      <Hot grow={1.15} float={0} ok={ok} id={id} slug={slug} label={label} hit={0.07 * H} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
+        <group ref={bob}>{children}</group>
+      </Hot>
+    </group>
+  )
+}
+
+const WOOD = new THREE.MeshStandardMaterial({ color: 0xb98a5a, roughness: 0.6 })
+const CUSHION = new THREE.MeshStandardMaterial({ color: 0xe8dcc6, roughness: 0.85 })
+
+function FoyrChair() {
+  const u = 0.04 * H
+  return (
+    <Floating id="foyr" slug="foyr-ideate" label="Foyr Ideate" pos={[-0.55, 0.8, -0.1]} phase={1.7}>
+      <group rotation={[0, 0.3, 0]}>
+        <mesh material={CUSHION} position={[0, 0, 0]}>
+          <boxGeometry args={[u * 2, 0.016 * H, u * 2]} />
+        </mesh>
+        {[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([x, z], i) => (
+          <mesh key={i} material={WOOD} position={[x * u * 0.82, -0.026 * H, z * u * 0.82]}>
+            <cylinderGeometry args={[0.0035 * H, 0.0025 * H, 0.05 * H, 8]} />
+          </mesh>
+        ))}
+        <mesh material={WOOD} position={[0, 0.036 * H, -u * 0.95]}>
+          <boxGeometry args={[u * 2, 0.07 * H, 0.008 * H]} />
+        </mesh>
+        <Logo img="foyr.png" r={0.022 * H} position={[0, 0.038 * H, -u * 0.95 + 0.005 * H]} />
+      </group>
+    </Floating>
+  )
+}
+
+const WALL = new THREE.MeshStandardMaterial({ color: 0xece4d6, roughness: 0.75 })
+const ROOF = new THREE.MeshStandardMaterial({ color: 0xb5532f, roughness: 0.6 })
+
+function TotalEnvHouse() {
+  const w = 0.1 * H
+  return (
+    <Floating id="te" slug="total-environment" label="Total Environment" pos={[-0.26, 0.64, 0.1]} phase={0.4}>
+      <group rotation={[0, -0.35, 0]}>
+        <mesh material={WALL} position={[0, 0, 0]}>
+          <boxGeometry args={[w, w * 0.7, w * 0.8]} />
+        </mesh>
+        <mesh material={ROOF} position={[0, w * 0.7, 0]} rotation={[0, Math.PI / 4, 0]}>
+          <coneGeometry args={[w * 0.82, w * 0.5, 4]} />
+        </mesh>
+        <mesh material={WOOD} position={[w * 0.28, -w * 0.12, w * 0.4 + 0.001]}>
+          <boxGeometry args={[w * 0.2, w * 0.38, 0.004 * H]} />
+        </mesh>
+        <Logo img="te.png" r={0.017 * H} position={[-w * 0.18, w * 0.08, w * 0.4 + 0.002]} />
+      </group>
+    </Floating>
+  )
+}
+
+const TV_BODY = new THREE.MeshStandardMaterial({ color: 0x121821, roughness: 0.4, metalness: 0.3 })
+const TV_SCREEN = new THREE.MeshStandardMaterial({ color: 0x0b1424, emissive: 0x13294f, emissiveIntensity: 0.6, roughness: 0.2 })
+
+function MxTv() {
+  const w = 0.13 * H
+  const h = 0.085 * H
+  const body = useMemo(() => new RoundedBoxGeometry(w, h, 0.02 * H, 4, 0.008 * H), [w, h])
+  return (
+    <Floating id="mx" slug="mx-player" label="Amazon MX Player" pos={[-0.5, 0.5, 0.04]} phase={2.6}>
+      <group rotation={[0, 0.25, 0]}>
+        <mesh geometry={body} material={TV_BODY} />
+        <mesh material={TV_SCREEN} position={[0, 0, 0.0105 * H]}>
+          <planeGeometry args={[w * 0.9, h * 0.86]} />
+        </mesh>
+        <Logo img="mx.png" r={0.022 * H} position={[0, 0, 0.011 * H]} />
+        <mesh material={TV_BODY} position={[0, -h * 0.62, 0]}>
+          <cylinderGeometry args={[0.004 * H, 0.004 * H, 0.03 * H, 8]} />
+        </mesh>
+        <mesh material={TV_BODY} position={[0, -h * 0.78, 0]}>
+          <cylinderGeometry args={[0.03 * H, 0.03 * H, 0.004 * H, 24]} />
+        </mesh>
+      </group>
+    </Floating>
+  )
+}
+
+export function WorkObjects() {
   return (
     <>
-      {BADGES.map((b, i) => (
-        <Badge key={b.id} def={b} i={i} />
-      ))}
+      <FoyrChair />
+      <TotalEnvHouse />
+      <MxTv />
     </>
   )
 }
