@@ -71,7 +71,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   if (touched) return null
   return (
     <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
-      Tap the pins and badges: each one is a project
+      Tap the floating objects: each one is a project
     </motion.div>
   )
 }

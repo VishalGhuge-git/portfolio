@@ -144,7 +144,7 @@ function CameraRig() {
 
     const focusId = useStore.getState().focus
     const item = focusId ? stickerRefs.get(focusId) : undefined
-    const wantF = item && !atTop && !useStore.getState().active && end < 0.5 ? 1 : 0
+    const wantF = item && aspect >= 1.05 && !atTop && !useStore.getState().active && end < 0.5 ? 1 : 0
     focusAmt.current = THREE.MathUtils.lerp(focusAmt.current, wantF, 0.07)
     if (item) item.getWorldPosition(focusPt)
     const f = focusAmt.current

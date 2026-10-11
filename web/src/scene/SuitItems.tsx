@@ -105,28 +105,53 @@ function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, r
 
 // ---- floating emblems in the space beside him: iqigai (an orb with orbiting agents) and St. Xavier's (a graduation cap) ----
 
-// Fades the emblems in after the hero and away again at the very end (they scale from 0, so nothing pops).
-function useEmblemFade(): { ref: React.RefObject<THREE.Group>; ok: () => boolean } {
+// One slot per object, in order: iqigai orb, St. Xavier's cap, Foyr chair, Total Environment house, MX Player TV.
+// Desktop: a zig-zag down the open space on his left, evenly spaced. Phone: two rows in the empty sky above his head.
+// Positions are fractions of his height; SIZE evens out how big each object looks.
+const SLOTS_DESKTOP: [number, number, number][] = [
+  [-0.28, 0.98, 0.08], [-0.52, 0.84, -0.06], [-0.28, 0.7, 0.08], [-0.52, 0.56, -0.06], [-0.28, 0.42, 0.08],
+]
+const SLOTS_PHONE: [number, number, number][] = [
+  [-0.17, 1.25, 0], [0.01, 1.25, 0], [0.19, 1.25, 0], [-0.08, 1.08, 0], [0.1, 1.08, 0],
+]
+const SIZE = [0.95, 1.0, 1.15, 0.8, 0.9]
+const isPhone = () => window.innerWidth / window.innerHeight < 1.05
+
+// Places the object in its slot and fades it: desktop in after the hero and out at the very end; phone visible
+// in the hero and gone once the text takes the screen. It scales from 0, so nothing pops.
+function useEmblemFade(slot: number): { ref: React.RefObject<THREE.Group>; ok: () => boolean } {
   const ref = useRef<THREE.Group>(null)
   const prog = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+  const want = () => {
+    const ih = window.innerHeight
+    if (isPhone()) return 1 - THREE.MathUtils.smoothstep(window.scrollY, ih * 0.12, ih * 0.4)
+    return THREE.MathUtils.smoothstep(window.scrollY, ih * 0.3, ih * 0.75) * (1 - THREE.MathUtils.smoothstep(prog(), 0.88, 0.96))
+  }
   useFrame((_, delta) => {
     const g = ref.current
     if (!g) return
-    const inn = THREE.MathUtils.smoothstep(window.scrollY, window.innerHeight * 0.3, window.innerHeight * 0.75)
-    const out = 1 - THREE.MathUtils.smoothstep(prog(), 0.88, 0.96)
-    const t = inn * out
+    const phone = isPhone()
+    const sl = (phone ? SLOTS_PHONE : SLOTS_DESKTOP)[slot]
+    g.position.set(sl[0] * H, sl[1] * H, sl[2] * H)
     const k = 1 - Math.exp(-8 * Math.min(delta, 0.1))
-    const sc = THREE.MathUtils.lerp(g.scale.x, t, k)
-    g.scale.setScalar(Math.max(sc, 0.0001))
-    g.visible = sc > 0.01
+    const f = THREE.MathUtils.lerp((g.userData.f as number) ?? 0, want(), k)
+    g.userData.f = f
+    g.scale.setScalar(Math.max(f * SIZE[slot] * (phone ? 0.62 : 1), 0.0001))
+    g.visible = f > 0.01
   })
-  return { ref, ok: () => !useStore.getState().active && window.scrollY > window.innerHeight * 0.5 && prog() < 0.9 }
+  return {
+    ref,
+    ok: () => {
+      if (useStore.getState().active) return false
+      return isPhone() ? window.scrollY < window.innerHeight * 0.3 : window.scrollY > window.innerHeight * 0.5 && prog() < 0.9
+    },
+  }
 }
 
 function IqigaiOrb() {
   const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/iqigai.png`)
   tex.colorSpace = THREE.SRGBColorSpace
-  const { ref, ok } = useEmblemFade()
+  const { ref, ok } = useEmblemFade(0)
   const ring = useRef<THREE.Group>(null)
   const bob = useRef<THREE.Group>(null)
   const R = 0.04 * H
@@ -135,7 +160,7 @@ function IqigaiOrb() {
     if (bob.current) bob.current.position.y = Math.sin(state.clock.elapsedTime * 1.3) * 0.012 * H
   })
   return (
-    <group ref={ref} position={[-0.4 * H, 0.93 * H, 0.08 * H]}>
+    <group ref={ref}>
       <Hot grow={1.15} float={0} ok={ok} id="iqigai" slug="iqigai" label="iqigai by Fractal" hit={R * 2.6} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <group ref={bob}>
           <mesh>
@@ -172,7 +197,7 @@ const CAP = new THREE.MeshStandardMaterial({ color: 0x151a24, roughness: 0.55, m
 function XaviersCap() {
   const tex = useLoader(THREE.TextureLoader, `${BASE}stickers/xaviers.png`)
   tex.colorSpace = THREE.SRGBColorSpace
-  const { ref, ok } = useEmblemFade()
+  const { ref, ok } = useEmblemFade(1)
   const sway = useRef<THREE.Group>(null)
   const u = 0.1 * H // half-width of the mortarboard
   useFrame((state) => {
@@ -184,7 +209,7 @@ function XaviersCap() {
     }
   })
   return (
-    <group ref={ref} position={[-0.21 * H, 0.99 * H, -0.14 * H]}>
+    <group ref={ref}>
       <Hot grow={1.15} float={0} ok={ok} id="xaviers" scrollTo="education" label="St. Xavier's College" hit={u * 1.4} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <group ref={sway} rotation={[0.25, 0, 0]} scale={0.8}>
           {/* mortarboard */}
@@ -326,8 +351,8 @@ function Logo({ img, r, position }: { img: string; r: number; position: [number,
   )
 }
 
-function Floating({ id, label, slug, pos, phase, children }: { id: string; label: string; slug: string; pos: [number, number, number]; phase: number; children: ReactNode }) {
-  const { ref, ok } = useEmblemFade()
+function Floating({ id, label, slug, slot, phase, children }: { id: string; label: string; slug: string; slot: number; phase: number; children: ReactNode }) {
+  const { ref, ok } = useEmblemFade(slot)
   const bob = useRef<THREE.Group>(null)
   useFrame((state) => {
     const t = state.clock.elapsedTime + phase
@@ -337,7 +362,7 @@ function Floating({ id, label, slug, pos, phase, children }: { id: string; label
     }
   })
   return (
-    <group ref={ref} position={[pos[0] * H, pos[1] * H, pos[2] * H]}>
+    <group ref={ref}>
       <Hot grow={1.15} float={0} ok={ok} id={id} slug={slug} label={label} hit={0.07 * H} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <group ref={bob}>{children}</group>
       </Hot>
@@ -351,7 +376,7 @@ const CUSHION = new THREE.MeshStandardMaterial({ color: 0xe8dcc6, roughness: 0.8
 function FoyrChair() {
   const u = 0.04 * H
   return (
-    <Floating id="foyr" slug="foyr-ideate" label="Foyr Ideate" pos={[-0.55, 0.8, -0.1]} phase={1.7}>
+    <Floating id="foyr" slug="foyr-ideate" label="Foyr Ideate" slot={2} phase={1.7}>
       <group rotation={[0, 0.3, 0]}>
         <mesh material={CUSHION} position={[0, 0, 0]}>
           <boxGeometry args={[u * 2, 0.016 * H, u * 2]} />
@@ -376,7 +401,7 @@ const ROOF = new THREE.MeshStandardMaterial({ color: 0xb5532f, roughness: 0.6 })
 function TotalEnvHouse() {
   const w = 0.1 * H
   return (
-    <Floating id="te" slug="total-environment" label="Total Environment" pos={[-0.26, 0.64, 0.1]} phase={0.4}>
+    <Floating id="te" slug="total-environment" label="Total Environment" slot={3} phase={0.4}>
       <group rotation={[0, -0.35, 0]}>
         <mesh material={WALL} position={[0, 0, 0]}>
           <boxGeometry args={[w, w * 0.7, w * 0.8]} />
@@ -401,7 +426,7 @@ function MxTv() {
   const h = 0.085 * H
   const body = useMemo(() => new RoundedBoxGeometry(w, h, 0.02 * H, 4, 0.008 * H), [w, h])
   return (
-    <Floating id="mx" slug="mx-player" label="Amazon MX Player" pos={[-0.5, 0.5, 0.04]} phase={2.6}>
+    <Floating id="mx" slug="mx-player" label="Amazon MX Player" slot={4} phase={2.6}>
       <group rotation={[0, 0.25, 0]}>
         <mesh geometry={body} material={TV_BODY} />
         <mesh material={TV_SCREEN} position={[0, 0, 0.0105 * H]}>
