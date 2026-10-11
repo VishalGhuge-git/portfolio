@@ -121,9 +121,11 @@ function Monitor() {
   const body = useMemo(() => new RoundedBoxGeometry(w, h, 0.012 * H, 4, 0.006 * H), [w, h])
   return (
     <group position={[-0.16 * H, 0.0, -0.06 * H]}>
-      <Cyl r={0.026} h={0.004} p={[0, 0.008, 0]} m={INK} />
-      <Cyl r={0.004} h={0.03} p={[0, 0.024, 0]} m={INK} />
       <Hot grow={1.45} float={1} ok={studioOk} id="mx" slug="mx-player" label="Amazon MX Player" hit={w * 0.7} position={[0, 0.07 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
+        <group position={[0, -0.07 * H, 0]}>
+          <Cyl r={0.026} h={0.004} p={[0, 0.008, 0]} m={INK} />
+          <Cyl r={0.004} h={0.03} p={[0, 0.024, 0]} m={INK} />
+        </group>
         <mesh geometry={body} material={INK} />
         <mesh material={SCREEN} position={[0, 0, 0.0065 * H]}>
           <planeGeometry args={[w * 0.92, h * 0.88]} />
@@ -257,13 +259,15 @@ function Mug() {
 function Chair() {
   return (
     <group position={[0.0, -0.105 * H, 0.17 * H]} rotation={[0, 0.4, 0]}>
-      <Box s={[0.07, 0.014, 0.07]} p={[0, 0, 0]} m={CREAM} />
-      {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
-        <mesh key={i} material={OAK_D} position={[x * 0.027 * H, -0.04 * H, z * 0.027 * H]}>
-          <cylinderGeometry args={[0.0028 * H, 0.002 * H, 0.08 * H, 8]} />
-        </mesh>
-      ))}
       <Hot grow={1.45} float={1} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
+        <group position={[0, -0.04 * H, 0.032 * H]}>
+        <Box s={[0.07, 0.014, 0.07]} p={[0, 0, 0]} m={CREAM} />
+        {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
+          <mesh key={i} material={OAK_D} position={[x * 0.027 * H, -0.04 * H, z * 0.027 * H]}>
+            <cylinderGeometry args={[0.0028 * H, 0.002 * H, 0.08 * H, 8]} />
+          </mesh>
+        ))}
+        </group>
         <Box s={[0.07, 0.07, 0.008]} p={[0, 0, 0]} m={OAK_D} />
         <Logo img="foyr.png" r={0.02 * H} position={[0, 0.002 * H, 0.0055 * H]} />
       </Hot>
