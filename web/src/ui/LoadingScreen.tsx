@@ -28,6 +28,13 @@ export default function LoadingScreen() {
     return () => clearTimeout(t)
   }, [total])
 
+  // Failsafe: never keep the mask up for more than 8 s (slow networks, a stalled asset, or a
+  // progress counter that never reports 100). The scene keeps loading behind it.
+  useEffect(() => {
+    const t = setTimeout(() => setReached(true), 8000)
+    return () => clearTimeout(t)
+  }, [])
+
   // 到过 100% 后：停留片刻 → 淡出 → 卸载（一次性，锁定不受后续进度变化影响）
   useEffect(() => {
     if (!reached) return
