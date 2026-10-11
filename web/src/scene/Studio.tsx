@@ -38,6 +38,7 @@ const isPhone = () => window.innerWidth / window.innerHeight < 1.05
 // Clickable only while the studio is actually showing
 const studioOk = () => {
   if (useStore.getState().active) return false
+  if (useStore.getState().explore) return true
   const p = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
   return isPhone() ? window.scrollY < window.innerHeight * 0.3 : window.scrollY > window.innerHeight * 0.5 && p < 0.9
 }
@@ -285,9 +286,10 @@ export function Studio() {
   useFrame((st, delta) => {
     const g = ref.current
     if (!g) return
-    const phone = isPhone()
+    const ex = useStore.getState().explore
+    const phone = ex ? false : isPhone()
     const ih = window.innerHeight
-    const want = phone
+    const want = ex ? 1 : phone
       ? 1 - THREE.MathUtils.smoothstep(window.scrollY, ih * 0.12, ih * 0.4)
       : THREE.MathUtils.smoothstep(window.scrollY, ih * 0.3, ih * 0.75) * (1 - THREE.MathUtils.smoothstep(prog(), 0.88, 0.96))
     const p = phone ? PHONE_POS : DESK_POS

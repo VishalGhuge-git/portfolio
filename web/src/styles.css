@@ -1895,3 +1895,17 @@ canvas {
 .contact-options { margin: 26px auto 0; width: min(420px, 88vw); pointer-events: auto; text-align: left; }
 .contact-options .cm-list { display: flex; flex-direction: column; gap: 10px; }
 .contact-options .cm-row { background: rgba(10, 14, 18, 0.62); backdrop-filter: blur(10px); }
+
+/* ---- Explore 3D bar ---- */
+.explore-bar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(14,18,28,.82);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.eb-btn{font:500 13px/1 Inter,system-ui,sans-serif;letter-spacing:.02em;color:#e9edf5;background:transparent;border:1px solid transparent;border-radius:999px;padding:10px 15px;cursor:pointer;min-height:40px}
+.eb-btn:hover{background:rgba(255,255,255,.1)}
+.eb-btn.on{background:#f4e4cc;color:#17110a}
+.eb-main{border-color:rgba(255,255,255,.22);padding:10px 18px}
+.eb-reset{border-color:rgba(255,255,255,.28)}
+body.exploring{overflow:hidden;touch-action:none}
+body.exploring .content,body.exploring .scroll-blur,body.exploring .scrim,body.exploring .glass-rail,body.exploring .hero-chrome,body.exploring .scroll-cue,body.exploring .sticker-hint{opacity:0!important;pointer-events:none!important}
+.content,.scroll-blur,.scrim,.glass-rail,.hero-chrome{transition:opacity .35s ease}
+@media (max-width:1099px){.explore-bar{bottom:calc(18px + env(safe-area-inset-bottom));max-width:calc(100vw - 20px)}.eb-btn{padding:10px 11px;font-size:12.5px}}
+.explore-bar.idle{left:auto;right:22px;transform:none}
+@media (max-width:1099px){.explore-bar.idle{right:12px}}

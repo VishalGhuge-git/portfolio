@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import Avatar from './Avatar'
+import Avatar, { HEIGHT } from './Avatar'
 import { Briefcase, stickerRefs } from './SuitItems'
 import { Studio } from './Studio'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
+import { orbit } from './orbit'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
 // (Stickers.tsx), and a camera that moves with page scroll.
@@ -111,9 +112,9 @@ const FOCUS: Record<string, { dist: number; side: number }> = {
   mx: { dist: 1.9, side: 0.35 },
   bocconi: { dist: 3.4, side: 0.9 },
 }
-// Drag (mouse) or swipe sideways (touch) to look around the scene; it eases back on release.
-const orbit = { yaw: 0, pitch: 0, ty: 0, tp: 0, down: false, x: 0, y: 0 }
-const SKIP = 'a,button,input,textarea,select,[role="dialog"],.cm-modal,.case-modal,.chip'
+// Drag (mouse) or swipe sideways (touch) to look around the scene. Outside explore mode it eases back on
+// release; in explore mode it stays where you leave it, goes all the way round, and the wheel zooms.
+const SKIP = 'a,button,input,textarea,select,[role="dialog"],.cm-modal,.case-modal,.chip,.explore-bar'
 function useOrbitInput() {
   useEffect(() => {
     const start = (x: number, y: number, t: EventTarget | null) => {
@@ -130,15 +131,26 @@ function useOrbitInput() {
       const dy = y - orbit.y
       orbit.x = x
       orbit.y = y
+      if (useStore.getState().explore) {
+        orbit.ty -= dx * 0.008
+        orbit.tp = THREE.MathUtils.clamp(orbit.tp + dy * 0.004, -0.5, 0.6)
+        return
+      }
       if (touch && Math.abs(dy) > Math.abs(dx) * 1.5) return // a vertical swipe is just scrolling
       orbit.ty = THREE.MathUtils.clamp(orbit.ty - dx * 0.006, -1.2, 1.2)
       if (!touch) orbit.tp = THREE.MathUtils.clamp(orbit.tp + dy * 0.003, -0.35, 0.35)
     }
     const up = () => { orbit.down = false }
+    const wheel = (e: WheelEvent) => {
+      if (!useStore.getState().explore) return
+      e.preventDefault()
+      orbit.tz = THREE.MathUtils.clamp(orbit.tz * Math.exp(e.deltaY * 0.001), 0.45, 1.7)
+    }
     const pd = (e: PointerEvent) => { if (e.pointerType === 'mouse' && e.button === 0) start(e.clientX, e.clientY, e.target) }
     const pm = (e: PointerEvent) => { if (e.pointerType === 'mouse') move(e.clientX, e.clientY, false) }
     const ts = (e: TouchEvent) => { const t = e.touches[0]; if (t) start(t.clientX, t.clientY, e.target) }
     const tm = (e: TouchEvent) => { const t = e.touches[0]; if (t) move(t.clientX, t.clientY, true) }
+    window.addEventListener('wheel', wheel, { passive: false })
     window.addEventListener('pointerdown', pd)
     window.addEventListener('pointermove', pm)
     window.addEventListener('pointerup', up)
@@ -147,6 +159,7 @@ function useOrbitInput() {
     window.addEventListener('touchend', up)
     window.addEventListener('touchcancel', up)
     return () => {
+      window.removeEventListener('wheel', wheel)
       window.removeEventListener('pointerdown', pd)
       window.removeEventListener('pointermove', pm)
       window.removeEventListener('pointerup', up)
@@ -159,6 +172,7 @@ function useOrbitInput() {
 }
 
 const UP = new THREE.Vector3(0, 1, 0)
+const DESK_CENTER = new THREE.Vector3(-0.44 * HEIGHT, 0.6 * HEIGHT, 0)
 function CameraRig() {
   useOrbitInput()
   const target = useMemo(() => new THREE.Vector3(0, FACE_Y, 0), [])
@@ -192,9 +206,26 @@ function CameraRig() {
     )
     wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
 
+    const ex = useStore.getState().explore
+    if (ex) {
+      // Explore mode: free views instead of the scroll camera
+      const dk = DESK_CENTER
+      if (ex === 'desk') {
+        wantTarget.set(dk.x, dk.y - 0.1, dk.z)
+        wantPos.set(dk.x + 0.4, dk.y + 0.2, dk.z + 4.3 + back * 1.3)
+      } else if (ex === 'wide') {
+        wantTarget.set(-0.9, 2.5, 0)
+        wantPos.set(-0.9, 3.0, 9.2 + back * 2)
+      } else {
+        wantTarget.set(0, 2.7, 0)
+        wantPos.set(0, 3.0, 6.6 + back * 1.5)
+      }
+      wantPos.sub(wantTarget).multiplyScalar(orbit.zoom).add(wantTarget)
+    }
+
     const focusId = useStore.getState().focus
     const item = focusId ? stickerRefs.get(focusId) : undefined
-    const wantF = item && aspect >= 1.05 && !atTop && !useStore.getState().active && end < 0.5 ? 1 : 0
+    const wantF = !ex && item && aspect >= 1.05 && !atTop && !useStore.getState().active && end < 0.5 ? 1 : 0
     focusAmt.current = THREE.MathUtils.lerp(focusAmt.current, wantF, 0.07)
     if (item) item.getWorldPosition(focusPt)
     const f = focusAmt.current
@@ -207,10 +238,11 @@ function CameraRig() {
     }
 
     // ease the drag offset back to centre once let go, and apply it around the look-at point
-    if (!orbit.down) {
+    if (!orbit.down && !ex) {
       orbit.ty = THREE.MathUtils.lerp(orbit.ty, 0, 0.03)
       orbit.tp = THREE.MathUtils.lerp(orbit.tp, 0, 0.03)
     }
+    orbit.zoom = THREE.MathUtils.lerp(orbit.zoom, ex ? orbit.tz : 1, 0.12)
     orbit.yaw = THREE.MathUtils.lerp(orbit.yaw, orbit.ty, 0.15)
     orbit.pitch = THREE.MathUtils.lerp(orbit.pitch, orbit.tp, 0.15)
     if (Math.abs(orbit.yaw) > 1e-4 || Math.abs(orbit.pitch) > 1e-4) {

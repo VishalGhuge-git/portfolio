@@ -6,6 +6,7 @@ import Scene from './scene/Scene'
 import Resume from './ui/Resume'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
+import ExploreBar from './ui/ExploreBar'
 import ContactModal, { ContactOptions } from './ui/ContactModal'
 import LoadingScreen from './ui/LoadingScreen'
 import { track } from './analytics'
@@ -308,6 +309,7 @@ export default function App() {
       <TopBar />
       <CaseStudyHost />
       <PageTopButton />
+      <ExploreBar />
       <StickerHint opacity={heroChromeOpacity} />
 
       {/* Full-screen film grain (multiply blend) */}
