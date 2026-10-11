@@ -3,8 +3,8 @@ import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Full-body suited avatar (public/models/guest.glb, Meshy). Feet stand on y = 0, centred on x/z.
-const URL = `${import.meta.env.BASE_URL}models/guest.glb`
+// Full-body suited avatar (public/models/suit.glb, Meshy). Feet stand on y = 0, centred on x/z.
+const URL = `${import.meta.env.BASE_URL}models/suit.glb`
 export const HEIGHT = 4.2 // world height of the avatar
 const TURN = 0.22 // how far the body turns toward the cursor (radians)
 
@@ -18,6 +18,28 @@ interface Surface {
 const SurfaceCtx = createContext<Surface | null>(null)
 export const useSurface = () => useContext(SurfaceCtx)
 
+// Fine diagonal suit weave, drawn in the shader so it stays crisp at any zoom and fades with distance.
+function weave(mat: THREE.MeshStandardMaterial, nativeHeight: number) {
+  mat.onBeforeCompile = (sh) => {
+    sh.uniforms.uK = { value: (2 * Math.PI) / (0.0025 * nativeHeight) }
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObj;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObj = transformed;')
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObj;\nuniform float uK;')
+      .replace(
+        '#include <normal_fragment_maps>',
+        `#include <normal_fragment_maps>
+      { vec3 dc = diffuseColor.rgb;
+        float suit = step(dc.r + 0.02, dc.b) * (1.0 - smoothstep(0.10, 0.22, dot(dc, vec3(0.3,0.5,0.2))));
+        float f = (vObj.x + vObj.y + vObj.z * 0.5) * uK; float aa = clamp(1.0 - fwidth(f) * 0.35, 0.0, 1.0);
+        float w = cos(f) * 0.5 + 0.5 * cos((vObj.x - vObj.y) * uK * 0.5);
+        normal = normalize(normal + suit * aa * 0.09 * w * normalize(vec3(1.0, 1.0, 0.0))); }`
+      )
+  }
+  mat.needsUpdate = true
+}
+
 export default function Avatar({ children }: { children?: ReactNode }) {
   const gltf = useGLTF(URL)
   const turn = useRef<THREE.Group>(null)
@@ -30,7 +52,9 @@ export default function Avatar({ children }: { children?: ReactNode }) {
       const m = o as THREE.Mesh
       if (!m.isMesh) return
       const mat = (Array.isArray(m.material) ? m.material[0] : m.material) as THREE.MeshStandardMaterial
-      mat.envMapIntensity = 0.8
+      mat.metalness = 0
+      mat.roughness = 0.82
+      weave(mat, size.y)
     })
     const k = HEIGHT / size.y
     root.scale.setScalar(k)

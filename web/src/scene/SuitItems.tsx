@@ -111,7 +111,7 @@ function Pin({ id, label, slug, scrollTo, img, px, py, r }: { id: string; label:
   const surface = useSurface()
   const frame = useMemo(() => {
     // px, py: fractions of the avatar height from its centre line / feet -> avatar space
-    const f = surface?.front(px * H, py * H)
+    const f = surface?.front(((px - 450) / 978) * H, ((1055 - py) / 995) * H)
     if (!f) return null
     const pos = f.position.clone().addScaledVector(f.normal, 0.012)
     const look = new THREE.Object3D()
@@ -141,8 +141,8 @@ function Pin({ id, label, slug, scrollTo, img, px, py, r }: { id: string; label:
 export function LapelPins() {
   return (
     <>
-      <Pin id="iqigai" slug="iqigai" label="iqigai by Fractal" img="iqigai.png" px={-0.052} py={0.79} r={0.0086} />
-      <Pin id="xaviers" scrollTo="education" label="St. Xavier's College" img="xaviers.png" px={-0.052} py={0.755} r={0.0078} />
+      <Pin id="iqigai" slug="iqigai" label="iqigai by Fractal" img="iqigai.png" px={494} py={308} r={0.0086} />
+      <Pin id="xaviers" scrollTo="education" label="St. Xavier's College" img="xaviers.png" px={487} py={330} r={0.0078} />
     </>
   )
 }
