@@ -32,7 +32,7 @@ const LAMP_GLOW = new THREE.MeshStandardMaterial({ color: 0xfff1d6, emissive: 0x
 const RUG = new THREE.MeshStandardMaterial({ color: 0xcdbb9c, roughness: 1, transparent: true, opacity: 0.28, depthWrite: false })
 
 // Desktop: open space on his left. Phone: the empty sky above his head (shown in the hero only).
-const DESK_POS: [number, number, number] = [-0.43 * H, 0.6 * H, 0]
+const DESK_POS: [number, number, number] = [-0.44 * H, 0.6 * H, 0]
 const PHONE_POS: [number, number, number] = [0, 1.1 * H, 0]
 const isPhone = () => window.innerWidth / window.innerHeight < 1.05
 // Clickable only while the studio is actually showing
@@ -120,7 +120,7 @@ function Monitor() {
   const h = 0.078 * H
   const body = useMemo(() => new RoundedBoxGeometry(w, h, 0.012 * H, 4, 0.006 * H), [w, h])
   return (
-    <group position={[-0.08 * H, 0.0, -0.035 * H]}>
+    <group position={[-0.16 * H, 0.0, -0.06 * H]}>
       <Cyl r={0.026} h={0.004} p={[0, 0.008, 0]} m={INK} />
       <Cyl r={0.004} h={0.03} p={[0, 0.024, 0]} m={INK} />
       <Hot grow={1.15} float={0} ok={studioOk} id="mx" slug="mx-player" label="Amazon MX Player" hit={w * 0.7} position={[0, 0.07 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
@@ -130,9 +130,6 @@ function Monitor() {
         </mesh>
         <Logo img="mx.png" r={0.02 * H} position={[0, 0, 0.007 * H]} />
       </Hot>
-      {/* sticky notes on the bezel */}
-      <Box s={[0.02, 0.02, 0.0008]} p={[0.052, 0.098, 0.0075]} m={MUSTARD} r={[0, 0, 0.12]} />
-      <Box s={[0.018, 0.018, 0.0008]} p={[0.056, 0.078, 0.0075]} m={TERRA} r={[0, 0, -0.1]} />
     </group>
   )
 }
@@ -140,7 +137,7 @@ function Monitor() {
 function Model() {
   const w = 0.07 * H
   return (
-    <group position={[-0.005 * H, 0.006 * H, 0.04 * H]} rotation={[0, -0.4, 0]}>
+    <group position={[0.0, 0.006 * H, 0.055 * H]} rotation={[0, -0.4, 0]}>
       <Hot grow={1.15} float={0} ok={studioOk} id="te" slug="total-environment" label="Total Environment" hit={w * 0.9} position={[0, 0.035 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
         <mesh material={CREAM} position={[0, 0, 0]}>
           <boxGeometry args={[w * 1.5, 0.004 * H, w * 1.2]} />
@@ -155,11 +152,6 @@ function Model() {
           <Box s={[0.013, 0.02, 0.003]} p={[0.008, -0.005, 0.0217]} m={OAK_D} />
           <Logo img="te.png" r={0.011 * H} position={[-w * 0.17, w * 0.04, w * 0.3 + 0.001 * H]} />
         </group>
-        {/* tiny tree */}
-        <Cyl r={0.0035} h={0.018} p={[0.0385, 0.009, 0.014]} m={OAK_D} />
-        <mesh material={SAGE} position={[0.0385 * H, 0.026 * H, 0.014 * H]}>
-          <sphereGeometry args={[0.011 * H, 16, 16]} />
-        </mesh>
       </Hot>
     </group>
   )
@@ -167,7 +159,7 @@ function Model() {
 
 function Books() {
   return (
-    <group position={[0.115 * H, 0.0, -0.03 * H]}>
+    <group position={[0.17 * H, 0.0, -0.03 * H]}>
       <Box s={[0.06, 0.012, 0.042]} p={[0, 0.012, 0]} m={NAVY} r={[0, 0.1, 0]} />
       <Box s={[0.055, 0.011, 0.04]} p={[0.002, 0.0235, 0]} m={WINE} r={[0, -0.15, 0]} />
       <Box s={[0.05, 0.01, 0.038]} p={[-0.001, 0.034, 0]} m={MUSTARD} r={[0, 0.2, 0]} />
@@ -203,7 +195,7 @@ function Cap() {
 
 function Lamp() {
   return (
-    <group position={[0.15 * H, 0, 0.04 * H]}>
+    <group position={[0.27 * H, 0, -0.08 * H]}>
       <Cyl r={0.016} h={0.004} p={[0, 0.008, 0]} m={BRASS} />
       <Cyl r={0.0022} h={0.07} p={[0, 0.045, 0]} m={BRASS} />
       <mesh material={BRASS} position={[-0.01 * H, 0.088 * H, 0]} rotation={[0, 0, 0.55]}>
@@ -218,7 +210,7 @@ function Lamp() {
 
 function Plant() {
   return (
-    <group position={[-0.145 * H, 0.0, 0.02 * H]}>
+    <group position={[-0.27 * H, -0.175 * H, 0.1 * H]} scale={1.5}>
       <Cyl r={0.014} r2={0.011} h={0.026} p={[0, 0.019, 0]} m={TERRA} />
       {[0, 1, 2, 3, 4].map((i) => {
         const a = (i / 5) * Math.PI * 2
@@ -245,7 +237,7 @@ function Mug() {
     })
   })
   return (
-    <group position={[0.075 * H, 0.0, 0.055 * H]}>
+    <group position={[-0.23 * H, 0.0, 0.07 * H]}>
       <Cyl r={0.009} h={0.02} p={[0, 0.016, 0]} m={CREAM} />
       <mesh material={CREAM} position={[0.0105 * H, 0.016 * H, 0]} rotation={[0, 0, 0]}>
         <torusGeometry args={[0.005 * H, 0.0016 * H, 8, 16]} />
@@ -264,7 +256,7 @@ function Mug() {
 
 function Chair() {
   return (
-    <group position={[-0.04 * H, -0.105 * H, 0.14 * H]} rotation={[0, 0.5, 0]}>
+    <group position={[0.0, -0.105 * H, 0.17 * H]} rotation={[0, 0.4, 0]}>
       <Box s={[0.07, 0.014, 0.07]} p={[0, 0, 0]} m={CREAM} />
       {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
         <mesh key={i} material={OAK_D} position={[x * 0.027 * H, -0.04 * H, z * 0.027 * H]}>
@@ -284,6 +276,7 @@ function Chair() {
 export function Studio() {
   const ref = useRef<THREE.Group>(null)
   const sway = useRef<THREE.Group>(null)
+  const extras = useRef<THREE.Group>(null)
   const prog = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
   useFrame((st, delta) => {
     const g = ref.current
@@ -297,8 +290,9 @@ export function Studio() {
     g.position.set(p[0], p[1], p[2])
     const f = THREE.MathUtils.lerp((g.userData.f as number) ?? 0, want, 1 - Math.exp(-8 * Math.min(delta, 0.1)))
     g.userData.f = f
-    g.scale.setScalar(Math.max(f * (phone ? 0.46 : 0.88), 0.0001))
+    g.scale.setScalar(Math.max(f * (phone ? 0.46 : 0.82), 0.0001))
     g.visible = f > 0.01
+    if (extras.current) extras.current.visible = !phone
     if (sway.current) {
       const t = st.clock.elapsedTime
       sway.current.position.y = Math.sin(t * 0.9) * 0.008 * H
@@ -310,22 +304,24 @@ export function Studio() {
       <group ref={sway}>
         {/* rug */}
         <mesh material={RUG} position={[0, -0.175 * H, 0.03 * H]}>
-          <cylinderGeometry args={[0.21 * H, 0.21 * H, 0.003 * H, 48]} />
+          <cylinderGeometry args={[0.34 * H, 0.34 * H, 0.003 * H, 48]} />
         </mesh>
         {/* desk */}
-        <Box s={[0.34, 0.012, 0.16]} p={[0, -0.006, 0]} m={OAK} />
-        <Box s={[0.34, 0.03, 0.006]} p={[0, -0.027, 0.07]} m={OAK_D} />
+        <Box s={[0.6, 0.012, 0.25]} p={[0, -0.006, 0]} m={OAK} />
+        <Box s={[0.6, 0.03, 0.006]} p={[0, -0.027, 0.115]} m={OAK_D} />
         {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
-          <mesh key={i} material={OAK_D} position={[x * 0.155 * H, -0.09 * H, z * 0.06 * H]}>
+          <mesh key={i} material={OAK_D} position={[x * 0.28 * H, -0.09 * H, z * 0.1 * H]}>
             <cylinderGeometry args={[0.005 * H, 0.0035 * H, 0.16 * H, 10]} />
           </mesh>
         ))}
         <Monitor />
         <Model />
         <Books />
-        <Lamp />
-        <Plant />
-        <Mug />
+        <group ref={extras}>
+          <Lamp />
+          <Plant />
+          <Mug />
+        </group>
         <Chair />
         <PendantOrb />
       </group>
