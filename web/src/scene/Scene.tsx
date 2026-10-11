@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar from './Avatar'
@@ -111,7 +111,56 @@ const FOCUS: Record<string, { dist: number; side: number }> = {
   mx: { dist: 1.9, side: 0.35 },
   bocconi: { dist: 3.4, side: 0.9 },
 }
+// Drag (mouse) or swipe sideways (touch) to look around the scene; it eases back on release.
+const orbit = { yaw: 0, pitch: 0, ty: 0, tp: 0, down: false, x: 0, y: 0 }
+const SKIP = 'a,button,input,textarea,select,[role="dialog"],.cm-modal,.case-modal,.chip'
+function useOrbitInput() {
+  useEffect(() => {
+    const start = (x: number, y: number, t: EventTarget | null) => {
+      if (useStore.getState().active) return false
+      if (t instanceof Element && t.closest(SKIP)) return false
+      orbit.down = true
+      orbit.x = x
+      orbit.y = y
+      return true
+    }
+    const move = (x: number, y: number, touch: boolean) => {
+      if (!orbit.down) return
+      const dx = x - orbit.x
+      const dy = y - orbit.y
+      orbit.x = x
+      orbit.y = y
+      if (touch && Math.abs(dy) > Math.abs(dx) * 1.5) return // a vertical swipe is just scrolling
+      orbit.ty = THREE.MathUtils.clamp(orbit.ty - dx * 0.006, -1.2, 1.2)
+      if (!touch) orbit.tp = THREE.MathUtils.clamp(orbit.tp + dy * 0.003, -0.35, 0.35)
+    }
+    const up = () => { orbit.down = false }
+    const pd = (e: PointerEvent) => { if (e.pointerType === 'mouse' && e.button === 0) start(e.clientX, e.clientY, e.target) }
+    const pm = (e: PointerEvent) => { if (e.pointerType === 'mouse') move(e.clientX, e.clientY, false) }
+    const ts = (e: TouchEvent) => { const t = e.touches[0]; if (t) start(t.clientX, t.clientY, e.target) }
+    const tm = (e: TouchEvent) => { const t = e.touches[0]; if (t) move(t.clientX, t.clientY, true) }
+    window.addEventListener('pointerdown', pd)
+    window.addEventListener('pointermove', pm)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('touchstart', ts, { passive: true })
+    window.addEventListener('touchmove', tm, { passive: true })
+    window.addEventListener('touchend', up)
+    window.addEventListener('touchcancel', up)
+    return () => {
+      window.removeEventListener('pointerdown', pd)
+      window.removeEventListener('pointermove', pm)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('touchstart', ts)
+      window.removeEventListener('touchmove', tm)
+      window.removeEventListener('touchend', up)
+      window.removeEventListener('touchcancel', up)
+    }
+  }, [])
+}
+
+const UP = new THREE.Vector3(0, 1, 0)
 function CameraRig() {
+  useOrbitInput()
   const target = useMemo(() => new THREE.Vector3(0, FACE_Y, 0), [])
   const wantTarget = useMemo(() => new THREE.Vector3(), [])
   const wantPos = useMemo(() => new THREE.Vector3(), [])
@@ -155,6 +204,20 @@ function CameraRig() {
       wantPos.lerp(tmp, f)
       tmp.set(focusPt.x + fo.side, focusPt.y, focusPt.z)
       wantTarget.lerp(tmp, f)
+    }
+
+    // ease the drag offset back to centre once let go, and apply it around the look-at point
+    if (!orbit.down) {
+      orbit.ty = THREE.MathUtils.lerp(orbit.ty, 0, 0.03)
+      orbit.tp = THREE.MathUtils.lerp(orbit.tp, 0, 0.03)
+    }
+    orbit.yaw = THREE.MathUtils.lerp(orbit.yaw, orbit.ty, 0.15)
+    orbit.pitch = THREE.MathUtils.lerp(orbit.pitch, orbit.tp, 0.15)
+    if (Math.abs(orbit.yaw) > 1e-4 || Math.abs(orbit.pitch) > 1e-4) {
+      tmp.copy(wantPos).sub(wantTarget)
+      tmp.applyAxisAngle(UP, orbit.yaw)
+      tmp.y += Math.sin(orbit.pitch) * tmp.length()
+      wantPos.copy(wantTarget).add(tmp)
     }
 
     cam.position.lerp(wantPos, 0.08)
