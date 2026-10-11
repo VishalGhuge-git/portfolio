@@ -104,11 +104,11 @@ function Env() {
 // back to show the whole figure at the end. While a résumé block is on screen it flies in to that item.
 const FACE_Y = 3.4
 const FOCUS: Record<string, { dist: number; side: number }> = {
-  iqigai: { dist: 3.2, side: 0.9 },
-  xaviers: { dist: 3.2, side: 0.9 },
-  foyr: { dist: 3.3, side: 0.8 },
-  te: { dist: 3.3, side: 0.8 },
-  mx: { dist: 3.3, side: 0.8 },
+  iqigai: { dist: 1.9, side: 0.35 },
+  xaviers: { dist: 1.7, side: 0.35 },
+  foyr: { dist: 2.0, side: 0.35 },
+  te: { dist: 1.7, side: 0.35 },
+  mx: { dist: 1.9, side: 0.35 },
   bocconi: { dist: 3.4, side: 0.9 },
 }
 function CameraRig() {
