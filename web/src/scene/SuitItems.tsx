@@ -13,14 +13,14 @@ import { track } from '../analytics'
 // Live groups by id, so the camera can find where to zoom for the résumé focus.
 export const stickerRefs = new Map<string, THREE.Group>()
 
-const BASE = import.meta.env.BASE_URL
-const GOLD = new THREE.MeshStandardMaterial({ color: 0xd9b45e, metalness: 1, roughness: 0.22 })
+export const BASE = import.meta.env.BASE_URL
+export const GOLD = new THREE.MeshStandardMaterial({ color: 0xd9b45e, metalness: 1, roughness: 0.22 })
 
 const canInteract = () =>
   typeof window !== 'undefined' && window.scrollY < window.innerHeight * 0.7 && !useStore.getState().active
 
 // Wraps an item: registers it for the camera, pulses when its résumé entry is focused, hover label, click action.
-function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1 }: {
+export function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1 }: {
   ok?: () => boolean
   grow?: number // scale while focused
   float?: number // 0 = no float/sway (items packed close together)

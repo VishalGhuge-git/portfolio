@@ -2,7 +2,8 @@ import { useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar from './Avatar'
-import { Emblems, WorkObjects, Briefcase, stickerRefs } from './SuitItems'
+import { Briefcase, stickerRefs } from './SuitItems'
+import { Studio } from './Studio'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
 
@@ -171,8 +172,7 @@ export default function Scene() {
       <Env />
       <Avatar />
       <Briefcase />
-      <WorkObjects />
-      <Emblems />
+      <Studio />
       <CameraRig />
     </>
   )
