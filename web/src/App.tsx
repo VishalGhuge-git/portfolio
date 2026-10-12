@@ -9,7 +9,8 @@ import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import ExploreBar from './ui/ExploreBar'
 import { resetView } from './scene/orbit'
-import ContactModal, { ContactOptions } from './ui/ContactModal'
+import ContactModal, { LINKEDIN_URL, MAIL_HREF, PHONE, PhoneIcon } from './ui/ContactModal'
+import { SOCIAL_ICONS } from './ui/SocialIcons'
 import LoadingScreen from './ui/LoadingScreen'
 import { track } from './analytics'
 import { useStore } from './store'
@@ -248,12 +249,43 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
   )
 }
 
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16" />
+    </svg>
+  )
+}
+
+// Slim glass bar at the end of the page: who, and four ways to reach me. The 3D scene stays in view above it.
 function Contact() {
+  const Linkedin = SOCIAL_ICONS.linkedin
+  const Mail = SOCIAL_ICONS.mail
   return (
     <footer className="contact" id="contact" lang="en">
-      <h2 className="contact-title">Let’s build something</h2>
-      <div className="contact-options">
-        <ContactOptions />
+      <div className="foot-bar">
+        <div className="foot-id">
+          <b>Vishal Ghuge</b>
+          <span>Product Manager · Mumbai</span>
+        </div>
+        <nav className="foot-links" aria-label="Contact">
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click', 'footer')}>
+            <Linkedin /> LinkedIn
+          </a>
+          <a href={MAIL_HREF} onClick={() => track('email_click', 'footer')}>
+            <Mail /> Email
+          </a>
+          <a href={`tel:${PHONE}`} onClick={() => track('call_click', 'footer')}>
+            <PhoneIcon /> Call
+          </a>
+          <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'footer')}>
+            <DownloadIcon /> CV
+          </a>
+        </nav>
+      </div>
+      <div className="foot-meta">
+        <span>© {new Date().getFullYear()} Vishal Ghuge</span>
+        <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑ Back to top</button>
       </div>
     </footer>
   )
@@ -263,7 +295,11 @@ export default function App() {
   const { scrollY } = useScroll()
   // Darken the 3D scene after leaving the hero so the résumé text stays readable
   const scrimOpacity = useTransform(scrollY, [0, 520], [0, 0.4])
-  const blurOpacity = useTransform(scrollY, [80, 520], [0, 1])
+  const blurIn = useTransform(scrollY, [80, 520], [0, 1])
+  // ease the blur off at the very end so Vishal and the platform are clear behind the footer
+  const { scrollYProgress } = useScroll()
+  const blurEnd = useTransform(scrollYProgress, [0.86, 0.98], [1, 0.1])
+  const blurOpacity = useTransform([blurIn, blurEnd], ([a, b]: number[]) => a * b)
   // Scroll cue fades out as soon as scrolling starts
   const cueOpacity = useTransform(scrollY, [0, 160], [1, 0])
   // Frosted right rail fades in once the résumé starts (hero stays unfrosted)

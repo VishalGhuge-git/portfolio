@@ -2045,3 +2045,17 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
 .about-btn,.cm-close,.wk-detail-close{background:var(--chip-bg);border:1px solid var(--chip-line);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
 .about-btn-primary{background:#f4e4cc;border-color:#f4e4cc}
 .cm-backdrop,.wk-detail-backdrop{background:rgba(6,9,14,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+
+/* ---- footer: slim glass bar, scene stays in view above it ---- */
+.contact{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 clamp(16px,4vw,48px) 20px;text-align:left}
+.foot-bar{pointer-events:auto;width:min(780px,100%);display:flex;align-items:center;justify-content:space-between;gap:14px 20px;flex-wrap:wrap;padding:14px 16px 14px 20px;background:var(--glass);border:1px solid var(--glass-line);border-radius:var(--r-card);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
+.foot-id b{display:block;font:600 15px/1.2 Inter,system-ui,sans-serif;color:#fff}
+.foot-id span{font:400 12.5px/1.4 Inter,system-ui,sans-serif;color:rgba(255,255,255,.65)}
+.foot-links{display:flex;gap:8px;flex-wrap:wrap}
+.foot-links a{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:var(--r-pill);background:var(--chip-bg);border:1px solid var(--chip-line);color:#fff;text-decoration:none;font:500 13px/1 Inter,system-ui,sans-serif;transition:background .2s,border-color .2s}
+.foot-links a svg{width:16px;height:16px;flex:none}
+.foot-links a:hover{background:rgba(255,255,255,.16);border-color:rgba(255,217,179,.6)}
+.foot-meta{pointer-events:auto;width:min(780px,100%);display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:0 6px;font:400 12px/1 Inter,system-ui,sans-serif;color:rgba(255,255,255,.55)}
+.foot-meta button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:6px 0}
+.foot-meta button:hover{color:#ffd9b3}
+@media (max-width:640px){.foot-bar{flex-direction:column;align-items:stretch;padding:14px}.foot-links{display:grid;grid-template-columns:1fr 1fr}.foot-links a{justify-content:center}}
