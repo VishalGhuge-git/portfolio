@@ -385,7 +385,7 @@ function Mug() {
 
 function Chair() {
   return (
-    <group position={[-0.2 * H, -0.09 * H, 0.26 * H]} rotation={[0, 0.5, 0]} scale={2.0}>
+    <group position={[-0.04 * H, -0.09 * H, 0.5 * H]} rotation={[0, 0.3, 0]} scale={1.85}>
       <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
           {/* upholstered seat on a slim frame */}
