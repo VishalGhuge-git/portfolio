@@ -49,7 +49,7 @@ export default function ExploreBar() {
     if (explore !== 'tour' || !playing || active) return
     const t = window.setInterval(() => setIdx((useStore.getState().tourIdx + 1) % TOUR.length), STEP_MS)
     return () => window.clearInterval(t)
-  }, [explore, playing, active, setIdx])
+  }, [explore, playing, active, idx, setIdx])
 
   // When a case study is closed, the tour picks up again by default (only Reset / Free end it)
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function ExploreBar() {
     setExplore(v)
   }
   const step = (d: number) => {
-    setPlaying(false)
+    // Prev/Next just jump; the tour keeps playing from the new stop
     setIdx((idx + d + TOUR.length) % TOUR.length)
   }
   const btn = (v: View, label: string) => (
@@ -126,19 +126,30 @@ export default function ExploreBar() {
           <span className="tc-name">{stop.name}</span>
           <span className="tc-sub">{stop.sub}</span>
           {!stop.me && <span className="tc-tap">{stop.slug ? 'Open case study →' : 'See education →'}</span>}
+          <span className="tc-next">Next: {TOUR[(idx + 1) % TOUR.length].name}</span>
         </button>
+      )}
+      {explore === 'tour' && (
+        <div className="tour-status" aria-hidden="true">
+          {playing ? 'Auto tour' : 'Paused'} · {(idx % TOUR.length) + 1} of {TOUR.length}
+        </div>
       )}
       <div className="explore-bar" role="toolbar" aria-label="3D view">
         {explore === 'tour' ? (
           <>
             <button className="eb-btn eb-arrow" onClick={() => step(-1)} aria-label="Previous">‹</button>
-            <span className="eb-dots" aria-hidden="true">
+            <span className={`eb-dots${playing ? '' : ' paused'}`} aria-hidden="true">
               {TOUR.map((t, i) => (
-                <i key={t.id} className={i === idx % TOUR.length ? 'on' : ''} />
+                <i key={i === idx % TOUR.length ? `${t.id}-${playing}` : t.id} className={i === idx % TOUR.length ? 'on' : ''} />
               ))}
             </span>
             <button className="eb-btn eb-arrow" onClick={() => step(1)} aria-label="Next">›</button>
-            <button className="eb-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pause' : 'Play'}</button>
+            <button className="eb-btn eb-play" onClick={() => setPlaying(!playing)}>
+              <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
+                {playing ? <path d="M2.5 1.5h2.6v9H2.5zM6.9 1.5h2.6v9H6.9z" fill="currentColor" /> : <path d="M3 1.5l7 4.5-7 4.5z" fill="currentColor" />}
+              </svg>
+              {playing ? 'Pause' : 'Play'}
+            </button>
             <button className="eb-btn" onClick={() => go('person')}>Free</button>
           </>
         ) : (

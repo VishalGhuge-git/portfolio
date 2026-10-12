@@ -1930,8 +1930,11 @@ body.exploring .content,body.exploring .scroll-blur,body.exploring .scrim,body.e
 @keyframes tc-in{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 .eb-arrow{font-size:20px;line-height:1;padding:8px 13px}
 .eb-dots{display:inline-flex;align-items:center;gap:6px;padding:0 6px}
-.eb-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .2s,transform .2s}
-.eb-dots i.on{background:#f4e4cc;transform:scale(1.35)}
+.eb-dots i{position:relative;width:6px;height:6px;border-radius:3px;overflow:hidden;background:rgba(255,255,255,.3);transition:width .25s ease}
+.eb-dots i.on{width:26px}
+.eb-dots i.on::after{content:'';position:absolute;inset:0;background:#f4e4cc;transform-origin:left center;animation:tourFill 4.6s linear forwards}
+.eb-dots.paused i.on::after{animation-play-state:paused}
+@keyframes tourFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (max-width:1099px){.tour-caption{bottom:calc(84px + env(safe-area-inset-bottom))}.eb-arrow{padding:8px 10px}.eb-dots{gap:5px;padding:0 3px}}
 @media (prefers-reduced-motion:reduce){.tour-caption{animation:none}}
 .eb-btn,.tc-tap,.tc-sub,.tc-name{white-space:nowrap}
@@ -1939,3 +1942,23 @@ body.exploring .content,body.exploring .scroll-blur,body.exploring .scrim,body.e
 
 .tour-caption.is-me{cursor:default;pointer-events:none}
 .tour-caption:not(.is-me):hover{background:rgba(30,36,50,.92)}
+
+.eb-play{display:inline-flex;align-items:center;gap:6px}
+.tour-status{position:fixed;left:50%;bottom:74px;transform:translateX(-50%);z-index:60;font:600 10.5px/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);text-shadow:0 1px 6px rgba(0,0,0,.6);pointer-events:none;white-space:nowrap}
+.tc-next{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.12);font:400 11px/1 Inter,system-ui,sans-serif;color:rgba(255,255,255,.55)}
+.tour-caption{bottom:104px}
+@media (max-width:1099px){.tour-status{bottom:calc(68px + env(safe-area-inset-bottom))}.tour-caption{bottom:calc(98px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.eb-dots i.on::after{animation:none}}
+
+.tour-status{bottom:82px}
+.tour-caption{bottom:112px}
+@media (max-width:1099px){
+  .tour-status{bottom:calc(80px + env(safe-area-inset-bottom))}
+  .tour-caption{bottom:calc(108px + env(safe-area-inset-bottom))}
+  .explore-bar{gap:2px;padding:5px}
+  .explore-bar .eb-btn{padding-inline:8px;font-size:12px}
+  .explore-bar .eb-arrow{padding:6px 8px}
+  .eb-dots{gap:4px;padding:0 2px}
+  .eb-dots i.on{width:20px}
+}
+.tour-status{padding:6px 11px;border-radius:999px;background:rgba(14,18,28,.72);text-shadow:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
