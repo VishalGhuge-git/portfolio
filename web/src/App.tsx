@@ -81,7 +81,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   )
 }
 
-const ROLES = ['product manager', '0-to-1 builder', 'AI product builder', 'firefighter']
+const ROLES = ['product manager', 'problem solver', 'creative thinker', 'firefighter', 'product owner']
 // Every role stacked in one grid cell (invisible): the cell is as wide as the widest actual word, in pixels
 function RoleSizer() {
   return (
