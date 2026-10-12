@@ -123,16 +123,15 @@ export default function ExploreBar() {
             }
           }}
         >
-          <span className="tc-name">{stop.name}</span>
-          <span className="tc-sub">{stop.sub}</span>
-          {!stop.me && <span className="tc-tap">{stop.slug ? 'Open case study →' : 'See education →'}</span>}
-          <span className="tc-next">Next: {TOUR[(idx + 1) % TOUR.length].name}</span>
+          <span className="tc-top">
+            <span className="tc-name">{stop.name}</span>
+            <span className="tc-sub">{stop.sub}</span>
+          </span>
+          <span className="tc-bot">
+            <span className="tc-tap">{stop.me ? 'Meet Vishal' : stop.slug ? 'Open case study →' : 'See education →'}</span>
+            <span className="tc-stat">{playing ? 'Auto' : 'Paused'} · {(idx % TOUR.length) + 1}/{TOUR.length}</span>
+          </span>
         </button>
-      )}
-      {explore === 'tour' && (
-        <div className="tour-status" aria-hidden="true">
-          {playing ? 'Auto tour' : 'Paused'} · {(idx % TOUR.length) + 1} of {TOUR.length}
-        </div>
       )}
       <div className="explore-bar" role="toolbar" aria-label="3D view">
         {explore === 'tour' ? (
