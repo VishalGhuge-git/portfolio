@@ -231,7 +231,9 @@ function CameraRig() {
         } else if (it) {
           it.getWorldPosition(focusPt)
           const fo = FOCUS[stop.id] ?? { dist: 2.4, side: 0.5 }
-          wantTarget.set(focusPt.x, focusPt.y, focusPt.z)
+          // frame the item in the upper part of the screen so the tour card under it never covers it
+          const lift = fo.dist * (aspect < 1.05 ? 0.2 : 0.15)
+          wantTarget.set(focusPt.x, focusPt.y - lift, focusPt.z)
           wantPos.set(focusPt.x + fo.side, focusPt.y + 0.12, focusPt.z + fo.dist + back * 0.5)
         }
       } else if (ex === 'desk') {
