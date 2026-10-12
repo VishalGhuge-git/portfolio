@@ -22,10 +22,11 @@ const canInteract = () =>
   typeof window !== 'undefined' && window.scrollY < window.innerHeight * 0.7 && !useStore.getState().active
 
 // Wraps an item: registers it for the camera, pulses when its résumé entry is focused, hover label, click action.
-export function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1 }: {
+export function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1, lift = 0 }: {
   ok?: () => boolean
   grow?: number // scale while focused
   float?: number // 0 = no float/sway (items packed close together)
+  lift?: number // height of the group origin above the item's resting surface: growing then keeps the base on the surface
   id: string; label: string; slug?: string; scrollTo?: string; children: ReactNode
   hit: number // radius of the invisible click target
   position: THREE.Vector3 | [number, number, number]
@@ -54,6 +55,7 @@ export function Hot({ id, label, slug, scrollTo, children, hit, position, quater
     const t = focused ? grow : hover ? 1.18 : 1 + 0.025 * Math.sin(state.clock.elapsedTime * 2 + id.length)
     const k = 1 - Math.exp(-6 * Math.min(delta, 0.1))
     group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, t, k))
+    if (lift) group.current.position.y = (Array.isArray(position) ? position[1] : position.y) + lift * (group.current.scale.x - 1)
     // gentle float and sway while the camera is on it, eased back to rest otherwise
     const a = inner.current
     if (a) {

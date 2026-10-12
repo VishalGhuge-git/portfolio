@@ -2062,3 +2062,11 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
 
 /* phone: the card already has Explore 3D; the hint would sit on the head */
 @media (max-width:640px){.sticker-hint{display:none}}
+
+/* phone/tablet: keep the About card clear of the hairline frame */
+@media (max-width:1099px){.hero .about{left:calc(var(--m) + 12px);right:calc(var(--m) + 12px)}}
+/* proof-chip badge stays on the number row so it never sits on the label text */
+.proof-logo{top:7px;right:8px;width:22px;height:22px;padding:3px}
+.proof-chip{padding-top:9px}
+@media (max-width:1099px){.proof-logo{top:6px;right:7px;width:20px;height:20px;padding:3px}}
+.proof-logo{width:20px;height:20px;top:6px}
