@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { SOCIAL_ICONS } from './SocialIcons'
 import { track } from '../analytics'
@@ -18,7 +18,20 @@ export function PhoneIcon() {
 }
 
 // The three ways to reach me, shown directly (footer) and inside the modal.
+const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
+
 export function ContactOptions() {
+  const [copied, setCopied] = useState(false)
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL)
+      setCopied(true)
+      track('email_copy')
+      window.setTimeout(() => setCopied(false), 1800)
+    } catch {
+      window.location.href = MAIL_HREF
+    }
+  }
   const Linkedin = SOCIAL_ICONS.linkedin
   const Mail = SOCIAL_ICONS.mail
   return (
@@ -34,11 +47,23 @@ export function ContactOptions() {
           <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
           <span className="cm-go">→</span>
         </a>
+        <button type="button" className="cm-copy" onClick={copyEmail} aria-live="polite">
+          {copied ? 'Copied' : 'Copy'}
+        </button>
       </div>
       <div className="cm-rowwrap">
         <a className="cm-row" href={`tel:${PHONE}`} onClick={() => track('call_click')}>
           <span className="cm-ico"><PhoneIcon /></span>
           <span className="cm-txt"><b>Call</b><em>{PHONE_SHOWN}</em></span>
+          <span className="cm-go">→</span>
+        </a>
+      </div>
+      <div className="cm-rowwrap">
+        <a className="cm-row" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'modal')}>
+          <span className="cm-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16" /></svg>
+          </span>
+          <span className="cm-txt"><b>CV</b><em>Download PDF</em></span>
           <span className="cm-go">→</span>
         </a>
       </div>
