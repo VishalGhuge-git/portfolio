@@ -331,11 +331,6 @@ export function Briefcase() {
           <planeGeometry args={[p.bw * 0.96, p.bh * 0.96]} />
         </mesh>
       ))}
-      {[-1, 1].flatMap((sx) => [-1, 1].map((sy) => (
-        <mesh key={`${sx}${sy}`} material={GOLD} position={[sx * (p.bw / 2 - 0.0026 * H), sy * (p.bh / 2 - 0.0026 * H), 0]}>
-          <boxGeometry args={[0.0055 * H, 0.0055 * H, p.bd * 0.9]} />
-        </mesh>
-      )))}
       <mesh material={GOLD} position={[0, p.bh * 0.3, p.bd / 2 + 0.0022 * H]}>
         <cylinderGeometry args={[0.0042 * H, 0.0042 * H, 0.0022 * H, 20]} />
       </mesh>
