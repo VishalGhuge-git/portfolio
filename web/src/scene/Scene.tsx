@@ -209,10 +209,10 @@ function CameraRig() {
 
     // Hero on wide screens: pull back and look right of Vishal so the platform and desk fit beside the About card
     const pull = aspect >= 1.05 ? (1 - drift) * (1 - end) : 0
-    wantPos.x += 1.4 * pull
-    wantTarget.x += 1.4 * pull
+    wantPos.x += 1.5 * pull
+    wantTarget.x += 1.5 * pull
     wantTarget.y -= 1.5 * pull
-    wantPos.y -= 0.7 * pull
+    wantPos.y -= 1.6 * pull
     wantPos.z += 5.2 * pull
 
     const ex = useStore.getState().explore

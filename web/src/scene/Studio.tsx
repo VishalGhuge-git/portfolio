@@ -332,7 +332,7 @@ function Lamp() {
 
 function Plant() {
   return (
-    <group position={[0.38 * H, -FLOOR * H, -0.14 * H]} scale={1.9}>
+    <group position={[0.05 * H, -FLOOR * H, -0.2 * H]} scale={1.9}>
       <Shadow p={[0, 0.0005, 0]} r={0.025} />
       <Cyl r={0.014} r2={0.011} h={0.026} p={[0, 0.016, 0]} m={TERRA} />
       <Cyl r={0.0152} r2={0.0152} h={0.004} p={[0, 0.0305, 0]} m={TERRA} />
@@ -385,7 +385,7 @@ function Mug() {
 
 function Chair() {
   return (
-    <group position={[-0.04 * H, -0.09 * H, 0.5 * H]} rotation={[0, 0.3, 0]} scale={1.85}>
+    <group position={[0.36 * H, -0.09 * H, 0.3 * H]} rotation={[0, -1.0, 0]} scale={1.85}>
       <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
           {/* upholstered seat on a slim frame */}
