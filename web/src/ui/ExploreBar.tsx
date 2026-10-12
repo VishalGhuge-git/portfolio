@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { orbit, resetView, setSide } from '../scene/orbit'
 import { TOUR } from '../scene/tour'
@@ -70,6 +70,17 @@ export default function ExploreBar() {
     return () => window.removeEventListener('keydown', k)
   }, [])
 
+  // the tour card is exactly as wide as the bar under it
+  const barRef = useRef<HTMLDivElement>(null)
+  const [barW, setBarW] = useState(0)
+  useEffect(() => {
+    const el = barRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => setBarW(Math.round(el.getBoundingClientRect().width)))
+    ro.observe(el)
+    setBarW(Math.round(el.getBoundingClientRect().width))
+    return () => ro.disconnect()
+  }, [explore])
   if (active) return null
   if (!explore) {
     if (nearEnd || inHero) return null
@@ -112,6 +123,7 @@ export default function ExploreBar() {
       {explore === 'tour' && (
         <button
           className={`tour-caption${stop.me ? ' is-me' : ''}`}
+          style={barW ? { width: barW, minWidth: 0 } : undefined}
           key={stop.id}
           aria-live="polite"
           disabled={!!stop.me}
@@ -135,7 +147,7 @@ export default function ExploreBar() {
           </span>
         </button>
       )}
-      <div className="explore-bar" role="toolbar" aria-label="3D view">
+      <div className="explore-bar" role="toolbar" aria-label="3D view" ref={barRef}>
         {explore === 'tour' ? (
           <>
             <button className="eb-btn eb-arrow" onClick={() => step(-1)} aria-label="Previous">‹</button>
