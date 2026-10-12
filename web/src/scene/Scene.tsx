@@ -7,6 +7,7 @@ import { Studio } from './Studio'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
 import { orbit } from './orbit'
+import { TOUR } from './tour'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
 // (Stickers.tsx), and a camera that moves with page scroll.
@@ -210,7 +211,16 @@ function CameraRig() {
     if (ex) {
       // Explore mode: free views instead of the scroll camera
       const dk = DESK_CENTER
-      if (ex === 'desk') {
+      if (ex === 'tour') {
+        const stop = TOUR[useStore.getState().tourIdx % TOUR.length]
+        const it = stickerRefs.get(stop.id)
+        if (it) {
+          it.getWorldPosition(focusPt)
+          const fo = FOCUS[stop.id] ?? { dist: 2.4, side: 0.5 }
+          wantTarget.set(focusPt.x, focusPt.y, focusPt.z)
+          wantPos.set(focusPt.x + fo.side, focusPt.y + 0.12, focusPt.z + fo.dist + back * 0.5)
+        }
+      } else if (ex === 'desk') {
         wantTarget.set(dk.x, dk.y - 0.1, dk.z)
         wantPos.set(dk.x + 0.4, dk.y + 0.2, dk.z + 4.3 + back * 1.3)
       } else if (ex === 'wide') {

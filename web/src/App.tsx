@@ -215,7 +215,9 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
               onClick={() => {
                 track('explore_3d', 'open')
                 resetView()
-                useStore.getState().setExplore('person')
+                useStore.getState().setTourIdx(0)
+                useStore.getState().setTourPlaying(true)
+                useStore.getState().setExplore('tour')
               }}
             >
               <span aria-hidden="true">⟳</span> Explore 3D

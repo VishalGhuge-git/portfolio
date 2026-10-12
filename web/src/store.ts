@@ -12,8 +12,12 @@ interface StoreState {
   focus: string | null
   setFocus: (id: string | null) => void
   // 3D explore mode: free camera views of Vishal / the desk, instead of the scroll-driven camera
-  explore: null | 'person' | 'desk' | 'wide'
-  setExplore: (v: null | 'person' | 'desk' | 'wide') => void
+  explore: null | 'person' | 'desk' | 'wide' | 'tour'
+  setExplore: (v: null | 'person' | 'desk' | 'wide' | 'tour') => void
+  tourIdx: number
+  setTourIdx: (i: number) => void
+  tourPlaying: boolean
+  setTourPlaying: (p: boolean) => void
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -24,6 +28,10 @@ export const useStore = create<StoreState>((set) => ({
   setFocus: (id) => set((st) => (st.focus === id ? st : { focus: id })),
   explore: null,
   setExplore: (v) => set({ explore: v }),
+  tourIdx: 0,
+  setTourIdx: (i) => set({ tourIdx: i }),
+  tourPlaying: true,
+  setTourPlaying: (p) => set({ tourPlaying: p }),
 }))
 
 // Dev-only console hook, e.g. __store.getState().setActive('iqigai')

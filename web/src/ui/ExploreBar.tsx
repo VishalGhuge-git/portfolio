@@ -1,14 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { orbit, resetView, setSide } from '../scene/orbit'
+import { TOUR } from '../scene/tour'
 
-// Small control bar for moving round the 3D scene: Vishal / Desk / Wide views, Front-Back flip, Reset.
-// Entering explore mode hides the page text and locks scrolling so the scene is free to move in;
-// Reset (or Esc) puts the scroll story back exactly where it was.
+type View = 'tour' | 'person' | 'desk' | 'wide'
+const STEP_MS = 3800
+
+// Controls for moving round the 3D scene. Explore starts as a guided tour that visits every clickable
+// item in a loop (so it is obvious what can be tapped); Prev/Next/Pause steer it, and Vishal / Desk /
+// Wide / Back give free views. Explore hides the page text and locks scrolling; Reset (or Esc) puts the
+// scroll story back exactly where it was.
 export default function ExploreBar() {
   const explore = useStore((s) => s.explore)
   const setExplore = useStore((s) => s.setExplore)
   const active = useStore((s) => s.active)
+  const idx = useStore((s) => s.tourIdx)
+  const setIdx = useStore((s) => s.setTourIdx)
+  const playing = useStore((s) => s.tourPlaying)
+  const setPlaying = useStore((s) => s.setTourPlaying)
   const [back, setBack] = useState(false)
   const [nearEnd, setNearEnd] = useState(false)
   const [inHero, setInHero] = useState(true)
@@ -29,9 +38,35 @@ export default function ExploreBar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Tour: the current stop pulses (the scene reads `focus`), and the camera follows tourIdx
+  useEffect(() => {
+    if (explore === 'tour') useStore.getState().setFocus(TOUR[idx % TOUR.length].id)
+    else useStore.getState().setFocus(null)
+  }, [explore, idx])
+
+  // Auto-advance, looping; stops while a case study is open or the user has paused
+  useEffect(() => {
+    if (explore !== 'tour' || !playing || active) return
+    const t = window.setInterval(() => setIdx((useStore.getState().tourIdx + 1) % TOUR.length), STEP_MS)
+    return () => window.clearInterval(t)
+  }, [explore, playing, active, setIdx])
+
+  // Touching or dragging the scene itself pauses the tour so it doesn't fight the user
+  useEffect(() => {
+    const down = (e: Event) => {
+      if (useStore.getState().explore !== 'tour') return
+      const t = e.target
+      if (t instanceof Element && t.closest('.explore-bar,.tour-caption,button,a')) return
+      setPlaying(false)
+    }
+    window.addEventListener('pointerdown', down)
+    return () => window.removeEventListener('pointerdown', down)
+  }, [setPlaying])
+
   const exit = () => {
     resetView()
     setBack(false)
+    setPlaying(true)
     setExplore(null)
   }
   useEffect(() => {
@@ -47,39 +82,81 @@ export default function ExploreBar() {
     if (nearEnd || inHero) return null
     return (
       <div className="explore-bar idle">
-        <button className="eb-btn eb-main" onClick={() => { resetView(); setExplore('person') }}>
+        <button
+          className="eb-btn eb-main"
+          onClick={() => {
+            resetView()
+            setIdx(0)
+            setPlaying(true)
+            setExplore('tour')
+          }}
+        >
           Explore 3D
         </button>
       </div>
     )
   }
-  const go = (v: 'person' | 'desk' | 'wide') => {
+
+  const go = (v: View) => {
     orbit.tz = 1
     orbit.tp = 0
+    orbit.ty = back ? Math.PI : 0
+    if (v === 'tour') setPlaying(true)
     setExplore(v)
   }
-  const btn = (v: 'person' | 'desk' | 'wide', label: string) => (
+  const step = (d: number) => {
+    setPlaying(false)
+    setIdx((idx + d + TOUR.length) % TOUR.length)
+  }
+  const btn = (v: View, label: string) => (
     <button className={`eb-btn${explore === v ? ' on' : ''}`} onClick={() => go(v)}>
       {label}
     </button>
   )
+  const stop = TOUR[idx % TOUR.length]
   return (
-    <div className="explore-bar" role="toolbar" aria-label="3D view">
-      {btn('person', 'Vishal')}
-      {btn('desk', 'Desk')}
-      {btn('wide', 'Wide')}
-      <button
-        className="eb-btn"
-        onClick={() => {
-          setSide(!back)
-          setBack(!back)
-        }}
-      >
-        {back ? 'Front' : 'Back'}
-      </button>
-      <button className="eb-btn eb-reset" onClick={exit}>
-        Reset
-      </button>
-    </div>
+    <>
+      {explore === 'tour' && (
+        <div className="tour-caption" key={stop.id} aria-live="polite">
+          <span className="tc-name">{stop.name}</span>
+          <span className="tc-sub">{stop.sub}</span>
+          <span className="tc-tap">Tap it to open the case study</span>
+        </div>
+      )}
+      <div className="explore-bar" role="toolbar" aria-label="3D view">
+        {explore === 'tour' ? (
+          <>
+            <button className="eb-btn eb-arrow" onClick={() => step(-1)} aria-label="Previous">‹</button>
+            <span className="eb-dots" aria-hidden="true">
+              {TOUR.map((t, i) => (
+                <i key={t.id} className={i === idx % TOUR.length ? 'on' : ''} />
+              ))}
+            </span>
+            <button className="eb-btn eb-arrow" onClick={() => step(1)} aria-label="Next">›</button>
+            <button className="eb-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pause' : 'Play'}</button>
+            <button className="eb-btn" onClick={() => go('person')}>Free</button>
+          </>
+        ) : (
+          <>
+            {btn('tour', 'Tour')}
+            {btn('person', 'Vishal')}
+            {btn('desk', 'Desk')}
+            {btn('wide', 'Wide')}
+            <button
+              className="eb-btn"
+              onClick={() => {
+                setSide(!back)
+                setBack(!back)
+              }}
+            >
+              {back ? 'Front' : 'Back'}
+            </button>
+          </>
+        )}
+        <button className="eb-btn eb-reset" onClick={exit}>
+          Reset
+        </button>
+      </div>
+    </>
   )
 }
