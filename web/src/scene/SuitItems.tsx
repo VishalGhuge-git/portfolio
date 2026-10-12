@@ -269,6 +269,24 @@ export function Emblems() {
 
 // ---- briefcase with the SDA Bocconi luggage tag ----------------------------------------------------------
 
+function leatherTex(stitch = false) {
+  const c = document.createElement('canvas'); c.width = c.height = 256
+  const g = c.getContext('2d')!
+  g.fillStyle = '#808080'; g.fillRect(0, 0, 256, 256)
+  for (let i = 0; i < 9000; i++) { const v = 100 + Math.random() * 60; g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(Math.random() * 256, Math.random() * 256, 2, 2) }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 2); return t
+}
+const LEATHER = new THREE.MeshPhysicalMaterial({ color: '#4f2e1d', roughness: 0.42, clearcoat: 0.55, clearcoatRoughness: 0.35, bumpMap: leatherTex(), bumpScale: 0.6 })
+function stitchTex() {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 352
+  const g = c.getContext('2d')!
+  g.strokeStyle = '#d9b97a'; g.lineWidth = 3; g.setLineDash([9, 7])
+  const r = 22, m = 20
+  g.beginPath(); g.roundRect(m, m, 512 - 2 * m, 352 - 2 * m, r); g.stroke()
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t
+}
+const STITCH = new THREE.MeshBasicMaterial({ map: stitchTex(), transparent: true, depthWrite: false, toneMapped: false })
+
 export function Briefcase() {
   const logo = useLoader(THREE.TextureLoader, `${BASE}stickers/bocconi.png`)
   logo.colorSpace = THREE.SRGBColorSpace
@@ -297,10 +315,10 @@ export function Briefcase() {
   const p = parts
   return (
     <group position={[0.29 * H, p.bh / 2 + 0.002 * H, 0.05 * H]} rotation={[0, -0.5, 0]}>
-      <mesh geometry={p.body}><meshStandardMaterial color="#4a2c1c" roughness={0.45} /></mesh>
+      <mesh geometry={p.body}><primitive object={LEATHER} attach="material" /></mesh>
       <mesh position={[0, p.bh / 2, 0]}>
         <torusGeometry args={[p.HR, p.HT, 12, 40, Math.PI]} />
-        <meshStandardMaterial color="#4a2c1c" roughness={0.45} />
+        <primitive object={LEATHER} attach="material" />
       </mesh>
       {[-1, 1].map((s) => (
         <group key={s}>
@@ -308,6 +326,19 @@ export function Briefcase() {
           <mesh geometry={p.clasp} material={GOLD} position={[s * 0.062 * H, p.bh * 0.36, p.bd / 2 + 0.002 * H]} />
         </group>
       ))}
+      {[1, -1].map((f) => (
+        <mesh key={f} material={STITCH} position={[0, 0, f * (p.bd / 2 + 0.0004 * H)]} rotation={[0, f < 0 ? Math.PI : 0, 0]} renderOrder={2}>
+          <planeGeometry args={[p.bw * 0.96, p.bh * 0.96]} />
+        </mesh>
+      ))}
+      {[-1, 1].flatMap((sx) => [-1, 1].map((sy) => (
+        <mesh key={`${sx}${sy}`} material={GOLD} position={[sx * (p.bw / 2 - 0.0026 * H), sy * (p.bh / 2 - 0.0026 * H), 0]}>
+          <boxGeometry args={[0.0055 * H, 0.0055 * H, p.bd * 0.9]} />
+        </mesh>
+      )))}
+      <mesh material={GOLD} position={[0, p.bh * 0.3, p.bd / 2 + 0.0022 * H]}>
+        <cylinderGeometry args={[0.0042 * H, 0.0042 * H, 0.0022 * H, 20]} />
+      </mesh>
       <mesh position={[0, p.bh * 0.28, p.bd / 2 + 0.0005 * H]}>
         <boxGeometry args={[p.bw * 0.98, 0.0015 * H, 0.001 * H]} />
         <meshStandardMaterial color="#2e1b11" />

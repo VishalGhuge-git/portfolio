@@ -76,8 +76,8 @@ function screenTexture() {
 const OAK = phys(0xffffff, 0.5, 0.25, woodTexture('#dcc196', '#9a6f3e'))
 const OAK_D = phys(0xffffff, 0.55, 0.2, woodTexture('#bd935f', '#6e4a22'))
 const CREAM = phys(0xf1e9da, 0.7, 0.15)
-const BRASS = mat(0xcfa64e, 0.22, 0.95)
-const STEEL = mat(0xb9bfc9, 0.28, 0.9)
+const BRASS = new THREE.MeshStandardMaterial({ color: 0xd9b25a, roughness: 0.18, metalness: 1, envMapIntensity: 1.3 })
+const STEEL = new THREE.MeshStandardMaterial({ color: 0xc4cad4, roughness: 0.2, metalness: 1, envMapIntensity: 1.2 })
 const TERRA = mat(0xc46a45, 0.7)
 const SAGE = mat(0x7f9b7a, 0.65)
 const SAGE_D = mat(0x5f7f5d, 0.65)
@@ -87,6 +87,11 @@ const WINE = phys(0x7a2f3a, 0.5, 0.3)
 const PAPER = mat(0xf4efe3, 0.9)
 const INK = mat(0x151a24, 0.4, 0.3)
 const WALL = phys(0xf3ecdf, 0.7, 0.1)
+const FRAME = phys(0xfaf6ee, 0.45, 0.4)
+const LEAF_A = new THREE.MeshPhysicalMaterial({ color: 0x6f9a68, roughness: 0.5, sheen: 0.6, sheenColor: new THREE.Color(0xb8d8a8) })
+const LEAF_B = new THREE.MeshPhysicalMaterial({ color: 0x4f7c52, roughness: 0.5, sheen: 0.6, sheenColor: new THREE.Color(0xa8cfa0) })
+const GLASS_TOP = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.07, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.03, depthWrite: false })
+const LED = new THREE.MeshBasicMaterial({ color: 0xffd9a0 })
 const ROOF = phys(0xb5532f, 0.55, 0.2)
 const GLASS = new THREE.MeshStandardMaterial({ color: 0x6fa8d8, roughness: 0.1, metalness: 0.4, emissive: 0x1d3a5c, emissiveIntensity: 0.4 })
 const GRASS = mat(0x6f9a5a, 0.85)
@@ -186,6 +191,13 @@ function PendantOrb() {
           <planeGeometry args={[R * 0.9, R * 0.9]} />
           <meshBasicMaterial map={tex} transparent toneMapped={false} />
         </mesh>
+        <mesh>
+          <sphereGeometry args={[R * 1.22, 32, 32]} />
+          <meshBasicMaterial color="#ffb877" transparent opacity={0.1} depthWrite={false} />
+        </mesh>
+        <mesh position={[0, R * 0.98, 0]} material={BRASS}>
+          <cylinderGeometry args={[R * 0.2, R * 0.28, R * 0.22, 20]} />
+        </mesh>
         <group ref={ring} rotation={[0.45, 0, 0.25]}>
           {Array.from({ length: 6 }, (_, i) => {
             const a = (i / 6) * Math.PI * 2
@@ -222,6 +234,13 @@ function Monitor() {
           <planeGeometry args={[w * 0.93, h * 0.84]} />
         </mesh>
         <Logo img="mx.png" r={0.021 * H} position={[0, 0.001 * H, 0.0072 * H]} />
+        <mesh material={GLASS_TOP} position={[0, 0.0015 * H, 0.0068 * H]} renderOrder={2}>
+          <planeGeometry args={[w * 0.93, h * 0.84]} />
+        </mesh>
+        <mesh material={INK} position={[0, 0, -0.0085 * H]} geometry={rbox(w * 0.7, h * 0.7, 0.008 * H, 0.003 * H)} />
+        <mesh material={LED} position={[w * 0.4, -h * 0.455, 0.0066 * H]}>
+          <circleGeometry args={[0.0011 * H, 12]} />
+        </mesh>
       </Hot>
     </group>
   )
@@ -252,11 +271,35 @@ function Model() {
             <Box s={[0.012, 0.011, 0.003]} p={[-0.017, 0.024, 0.0225]} m={GLASS} round={0.2} />
             <Box s={[0.012, 0.011, 0.003]} p={[0.017, 0.026, 0.0225]} m={GLASS} round={0.2} />
             <Logo img="te.png" r={0.0105 * H} position={[-0.012 * H, 0.0085 * H, 0.0238 * H]} />
+            {[-0.017, 0.017].map((wx, i) => (
+              <group key={i} position={[wx, i ? 0.026 : 0.024, 0.0242]}>
+                <Box s={[0.0145, 0.0014, 0.002]} p={[0, 0.0065, 0]} m={FRAME} round={0.3} />
+                <Box s={[0.0145, 0.0014, 0.002]} p={[0, -0.0065, 0]} m={FRAME} round={0.3} />
+                <Box s={[0.0014, 0.0135, 0.002]} p={[-0.0066, 0, 0]} m={FRAME} round={0.3} />
+                <Box s={[0.0014, 0.0135, 0.002]} p={[0.0066, 0, 0]} m={FRAME} round={0.3} />
+                <Box s={[0.0011, 0.0125, 0.002]} p={[0, 0, 0]} m={FRAME} round={0.3} />
+                <Box s={[0.0135, 0.0011, 0.002]} p={[0, 0, 0]} m={FRAME} round={0.3} />
+              </group>
+            ))}
+            <Box s={[0.015, 0.0025, 0.007]} p={[0.012, 0.0013, 0.0255]} m={CREAM} round={0.4} />
+            <Box s={[0.062, 0.0022, 0.052]} p={[0, 0.0338, 0]} m={FRAME} round={0.4} />
           </group>
+          <Box s={[0.012, 0.0014, 0.03]} p={[0.0, 0.0097, 0.043]} m={CREAM} round={0.4} />
+          {[[-0.043, -0.026, 0.0075], [0.045, -0.03, 0.006]].map(([bx, bz, br], i) => (
+            <mesh key={i} material={i ? SAGE_D : SAGE} position={[bx * H, (0.0098 + br * 0.7) * H, bz * H]}>
+              <icosahedronGeometry args={[br * H, 2]} />
+            </mesh>
+          ))}
           {/* tiny tree */}
           <Cyl r={0.0016} h={0.012} p={[0.04, 0.016, 0.02]} m={OAK_D} />
           <mesh material={SAGE} position={[0.04 * H, 0.03 * H, 0.02 * H]}>
-            <icosahedronGeometry args={[0.009 * H, 1]} />
+            <icosahedronGeometry args={[0.009 * H, 2]} />
+          </mesh>
+          <mesh material={SAGE_D} position={[0.0435 * H, 0.0365 * H, 0.0175 * H]}>
+            <icosahedronGeometry args={[0.0062 * H, 2]} />
+          </mesh>
+          <mesh material={SAGE} position={[0.0365 * H, 0.0245 * H, 0.0235 * H]}>
+            <icosahedronGeometry args={[0.0052 * H, 2]} />
           </mesh>
         </group>
       </Hot>
@@ -270,6 +313,8 @@ function Books() {
       <Box s={[w, h, d]} p={[0, 0, 0]} m={m} round={0.12} />
       {/* page block visible on the open edge */}
       <Box s={[w * 0.96, h * 0.7, d * 0.02]} p={[0, 0, d * 0.5]} m={PAPER} round={0.05} />
+      <Box s={[w * 0.9, h * 0.08, d * 0.012]} p={[0, h * 0.18, -d * 0.5]} m={BRASS} round={0.3} />
+      <Box s={[w * 0.9, h * 0.08, d * 0.012]} p={[0, -h * 0.18, -d * 0.5]} m={BRASS} round={0.3} />
     </group>
   )
   return (
@@ -300,6 +345,9 @@ function Cap() {
         <mesh material={BRASS} position={[u * 0.75, 0.002 * H, 0]}>
           <cylinderGeometry args={[0.003 * H, 0.0015 * H, 0.016 * H, 10]} />
         </mesh>
+        <mesh material={BRASS} position={[u * 0.38, 0.0195 * H, 0]} rotation={[0, 0, -Math.PI / 2 + 0.05]}>
+          <cylinderGeometry args={[0.0004 * H, 0.0004 * H, u * 0.74, 6]} />
+        </mesh>
         <group position={[0, 0.003 * H, u * 0.58]}>
           <Logo img="xaviers.png" r={0.011 * H} position={[0, 0, 0]} />
         </group>
@@ -315,7 +363,11 @@ function Lamp() {
       <Cyl r={0.017} r2={0.015} h={0.005} p={[0, 0.0025, 0]} m={BRASS} />
       <Cyl r={0.0021} h={0.075} p={[0, 0.0425, 0]} m={BRASS} />
       <mesh material={BRASS} position={[0, 0.082 * H, 0]}>
-        <sphereGeometry args={[0.004 * H, 12, 12]} />
+        <sphereGeometry args={[0.004 * H, 20, 20]} />
+      </mesh>
+      <Cyl r={0.0034} h={0.0016} p={[0, 0.03, 0]} m={BRASS} />
+      <mesh material={INK} position={[0.0045 * H, 0.0012 * H, 0.0055 * H]} rotation={[Math.PI / 2, 0, 0.4]}>
+        <torusGeometry args={[0.004 * H, 0.0005 * H, 6, 16, Math.PI * 1.2]} />
       </mesh>
       <group position={[-0.008 * H, 0.088 * H, 0]} rotation={[0, 0, 0.55]}>
         <mesh>
@@ -337,12 +389,18 @@ function Plant() {
       <Cyl r={0.014} r2={0.011} h={0.026} p={[0, 0.016, 0]} m={TERRA} />
       <Cyl r={0.0152} r2={0.0152} h={0.004} p={[0, 0.0305, 0]} m={TERRA} />
       <Cyl r={0.0125} r2={0.0125} h={0.001} p={[0, 0.0322, 0]} m={COFFEE} />
-      {Array.from({ length: 9 }, (_, i) => {
-        const a = (i / 9) * Math.PI * 2
-        const tall = i % 3 === 0
+      <Cyl r={0.0165} r2={0.0145} h={0.0025} p={[0, 0.0013, 0]} m={TERRA} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <mesh key={i} material={STEEL} position={[Math.cos(i * 1.9) * 0.007 * H, 0.0335 * H, Math.sin(i * 1.9) * 0.007 * H]}>
+          <icosahedronGeometry args={[0.0013 * H, 1]} />
+        </mesh>
+      ))}
+      {Array.from({ length: 14 }, (_, i) => {
+        const a = (i / 14) * Math.PI * 2 + (i % 2) * 0.2
+        const tall = i % 4 === 0
         const rr = tall ? 0.004 : 0.011
         return (
-          <mesh key={i} material={i % 2 ? SAGE : SAGE_D} position={[Math.cos(a) * rr * H, (tall ? 0.062 : 0.052) * H, Math.sin(a) * rr * H]} rotation={[Math.sin(a) * (tall ? 0.25 : 0.7), 0, -Math.cos(a) * (tall ? 0.25 : 0.7)]} scale={[0.45, tall ? 1.9 : 1.5, 0.25]}>
+          <mesh key={i} material={i % 2 ? LEAF_A : LEAF_B} position={[Math.cos(a) * rr * H, (tall ? 0.062 + (i % 3) * 0.003 : 0.05 + (i % 3) * 0.003) * H, Math.sin(a) * rr * H]} rotation={[Math.sin(a) * (tall ? 0.25 : 0.7), 0, -Math.cos(a) * (tall ? 0.25 : 0.7)]} scale={[0.45, tall ? 1.9 : 1.5, 0.25]}>
             <sphereGeometry args={[0.012 * H, 14, 14]} />
           </mesh>
         )
@@ -366,10 +424,11 @@ function Mug() {
   return (
     <group position={[-0.23 * H, 0.0, 0.07 * H]}>
       <Shadow p={[0.003, 0, 0]} r={0.022} />
-      <Cyl r={0.009} h={0.02} p={[0, 0.01, 0]} m={CREAM} />
-      <Cyl r={0.0078} h={0.0008} p={[0, 0.0196, 0]} m={COFFEE} />
-      <mesh material={CREAM} position={[0.0105 * H, 0.011 * H, 0]} rotation={[0, 0, 0]}>
-        <torusGeometry args={[0.005 * H, 0.0016 * H, 8, 16]} />
+      <Cyl r={0.0155} r2={0.0135} h={0.0016} p={[0, 0.0008, 0]} m={CREAM} />
+      <Cyl r={0.009} h={0.02} p={[0, 0.0116, 0]} m={CREAM} />
+      <Cyl r={0.0078} h={0.0008} p={[0, 0.0212, 0]} m={COFFEE} />
+      <mesh material={CREAM} position={[0.0094 * H, 0.0125 * H, 0]} rotation={[0, 0, -Math.PI / 2]}>
+        <torusGeometry args={[0.0052 * H, 0.0014 * H, 10, 24, Math.PI]} />
       </mesh>
       <group ref={steam}>
         {[0, 1, 2].map((i) => (
@@ -388,6 +447,10 @@ function Chair() {
     <group position={[0.36 * H, -0.09 * H, 0.3 * H]} rotation={[0, -1.0, 0]} scale={1.85}>
       <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
+          <Box s={[0.062, 0.003, 0.003]} p={[0, -0.055, -0.029]} m={OAK_D} round={0.3} />
+          <Box s={[0.062, 0.003, 0.003]} p={[0, -0.055, 0.029]} m={OAK_D} round={0.3} />
+          <Box s={[0.003, 0.003, 0.058]} p={[-0.029, -0.055, 0]} m={OAK_D} round={0.3} />
+          <Box s={[0.003, 0.003, 0.058]} p={[0.029, -0.055, 0]} m={OAK_D} round={0.3} />
           {/* upholstered seat on a slim frame */}
           <Box s={[0.072, 0.016, 0.072]} p={[0, 0.002, 0]} m={CREAM} round={0.4} />
           <Box s={[0.066, 0.006, 0.066]} p={[0, -0.0075, 0]} m={OAK_D} round={0.2} />
@@ -403,6 +466,11 @@ function Chair() {
           ))}
         </group>
         <Box s={[0.072, 0.074, 0.009]} p={[0, 0.002, 0]} m={OAK_D} round={0.3} />
+        {[-1, 1].map((sx) => (
+          <mesh key={sx} material={BRASS} position={[sx * 0.029 * H, 0.034 * H, 0.0052 * H]}>
+            <sphereGeometry args={[0.0017 * H, 12, 12]} />
+          </mesh>
+        ))}
         <Logo img="foyr.png" r={0.021 * H} position={[0, 0.003 * H, 0.0062 * H]} />
       </Hot>
     </group>
@@ -438,6 +506,15 @@ export function Studio() {
             <cylinderGeometry args={[0.0055 * H, 0.0035 * H, (FLOOR - 0.014) * H, 14]} />
           </mesh>
         ))}
+        <Box s={[0.56, 0.008, 0.006]} p={[0, -0.045, -0.1]} m={OAK_D} round={0.3} />
+        <Box s={[0.56, 0.008, 0.006]} p={[0, -0.045, 0.1]} m={OAK_D} round={0.3} />
+        {[-1, 1].map((sx) => (
+          <Box key={sx} s={[0.006, 0.008, 0.2]} p={[sx * 0.28, -0.045, 0]} m={OAK_D} round={0.3} />
+        ))}
+        <Box s={[0.596, 0.0016, 0.0016]} p={[0, -0.0138, 0.1245]} m={BRASS} round={0.5} />
+        {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
+          <Cyl key={i} r={0.0037} r2={0.0037} h={0.003} p={[x * 0.28, -FLOOR + 0.0015, z * 0.1]} m={BRASS} />
+        ))}
         <Monitor />
         <Model />
         <Books />
@@ -468,6 +545,18 @@ export function Platform() {
       <mesh position={[0, -0.0008 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[r * 0.9, r * 0.905, 128]} />
         <meshBasicMaterial color={0xbfd9f2} transparent opacity={0.35} />
+      </mesh>
+      <mesh position={[0, -0.0012 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[r * 0.955, r * 0.962, 128]} />
+        <meshStandardMaterial color={0xd9b25a} metalness={1} roughness={0.25} />
+      </mesh>
+      <mesh position={[0, -0.001 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[r * 0.9, 96]} />
+        <meshBasicMaterial color={0xdfeaf7} transparent opacity={0.05} depthWrite={false} />
+      </mesh>
+      <mesh position={[0, -0.0215 * H, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[r * 0.985, 0.0014 * H, 8, 128]} />
+        <meshStandardMaterial color={0x9fc2e6} emissive={0x4f8fcf} emissiveIntensity={0.7} roughness={0.3} />
       </mesh>
       {/* soft glow under the glass */}
       <mesh position={[0, -0.03 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
