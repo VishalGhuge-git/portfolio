@@ -114,7 +114,11 @@ const FOCUS: Record<string, { dist: number; side: number }> = {
   bocconi: { dist: 3.4, side: 0.9 },
 }
 // While scrolling the camera looks straight ahead (item sits left of the text), so the tour's side-on chair view doesn't apply
-const FOCUS_SCROLL: Record<string, { dist: number; side: number }> = { ...FOCUS, foyr: { dist: 2.0, side: 0.35 } }
+// The chair back faces front-left, so its "Foyr" logo is only readable from that side: `off` puts the camera there
+const FOCUS_SCROLL: Record<string, { dist: number; side: number; off?: [number, number, number] }> = {
+  ...FOCUS,
+  foyr: { dist: 2.0, side: 0.95, off: [-2.0, 0.15, 2.15] },
+}
 // Drag (mouse) or swipe sideways (touch) to look around the scene. Outside explore mode it eases back on
 // release; in explore mode it stays where you leave it, goes all the way round, and the wheel zooms.
 const SKIP = 'a,button,input,textarea,select,[role="dialog"],.cm-modal,.case-modal,.chip,.explore-bar'
@@ -274,10 +278,20 @@ function CameraRig() {
     const f = focusAmt.current
     if (f > 0.001 && focusId) {
       const fo = FOCUS_SCROLL[focusId] ?? { dist: 2.8, side: 0.7 }
-      tmp.set(focusPt.x + fo.side, focusPt.y + 0.05, focusPt.z + fo.dist + back * 0.6)
-      wantPos.lerp(tmp, f)
-      tmp.set(focusPt.x + fo.side, focusPt.y, focusPt.z)
-      wantTarget.lerp(tmp, f)
+      if (fo.off) {
+        // side-on view: shift the look-at along the camera's right so the item still sits left of the text
+        const [ox, oy, oz] = fo.off
+        const len = Math.hypot(ox, oz)
+        tmp.set(focusPt.x + ox, focusPt.y + oy, focusPt.z + oz + back * 0.6)
+        wantPos.lerp(tmp, f)
+        tmp.set(focusPt.x + (oz / len) * fo.side, focusPt.y, focusPt.z + (ox / len) * fo.side)
+        wantTarget.lerp(tmp, f)
+      } else {
+        tmp.set(focusPt.x + fo.side, focusPt.y + 0.05, focusPt.z + fo.dist + back * 0.6)
+        wantPos.lerp(tmp, f)
+        tmp.set(focusPt.x + fo.side, focusPt.y, focusPt.z)
+        wantTarget.lerp(tmp, f)
+      }
     }
 
     // ease the drag offset back to centre once let go, and apply it around the look-at point
