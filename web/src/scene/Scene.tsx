@@ -217,7 +217,15 @@ function CameraRig() {
 
     // Phones: the About card (hero) and the footer (end) cover the lower half, so lift the figure into the open top half
     if (aspect < 1.05) {
-      const lift = 0.95 * (1 - drift) * (1 - end) + 1.0 * end
+      // Hero: measure where the About card starts and keep his folded hands (about 46% down at lift 0.95) above it,
+      // with a clear gap, whatever the phone size or font. A taller card pushes him up; a shorter one lets him sit lower.
+      let heroLift = 0.95
+      const card = document.querySelector('.hero .about')
+      if (card) {
+        const f = card.getBoundingClientRect().top / window.innerHeight
+        heroLift = THREE.MathUtils.clamp(0.95 + (0.46 - (f - 0.1)) * 0.708 * Math.max(wantPos.z, 6), 0.3, 2.2)
+      }
+      const lift = heroLift * (1 - drift) * (1 - end) + 1.0 * end
       wantTarget.y -= lift
       wantPos.y -= lift
     }
