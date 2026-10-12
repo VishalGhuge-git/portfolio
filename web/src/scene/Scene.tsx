@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import Avatar, { HEIGHT } from './Avatar'
 import { Briefcase, stickerRefs } from './SuitItems'
-import { Studio } from './Studio'
+import { Studio, Platform, PLATFORM, DESK_X, DESK_TOP_Y } from './Studio'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useStore } from '../store'
 import { orbit } from './orbit'
@@ -173,7 +173,7 @@ function useOrbitInput() {
 }
 
 const UP = new THREE.Vector3(0, 1, 0)
-const DESK_CENTER = new THREE.Vector3(-0.44 * HEIGHT, 0.6 * HEIGHT, 0)
+const DESK_CENTER = new THREE.Vector3(DESK_X, DESK_TOP_Y + 0.12 * HEIGHT, 0.04 * HEIGHT)
 function CameraRig() {
   useOrbitInput()
   const target = useMemo(() => new THREE.Vector3(0, FACE_Y, 0), [])
@@ -207,6 +207,14 @@ function CameraRig() {
     )
     wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
 
+    // Hero on wide screens: pull back and look right of Vishal so the platform and desk fit beside the About card
+    const pull = aspect >= 1.05 ? (1 - drift) * (1 - end) : 0
+    wantPos.x += 1.4 * pull
+    wantTarget.x += 1.4 * pull
+    wantTarget.y -= 1.5 * pull
+    wantPos.y -= 0.7 * pull
+    wantPos.z += 5.2 * pull
+
     const ex = useStore.getState().explore
     if (ex) {
       // Explore mode: free views instead of the scroll camera
@@ -230,8 +238,8 @@ function CameraRig() {
         wantTarget.set(dk.x, dk.y - 0.1, dk.z)
         wantPos.set(dk.x + 0.4, dk.y + 0.2, dk.z + 4.3 + back * 1.3)
       } else if (ex === 'wide') {
-        wantTarget.set(-0.9, 2.5, 0)
-        wantPos.set(-0.9, 3.0, 9.2 + back * 2)
+        wantTarget.set(PLATFORM.x, 2.2, 0)
+        wantPos.set(PLATFORM.x, 3.0, 11.5 + back * 2)
       } else {
         wantTarget.set(0, 2.7, 0)
         wantPos.set(0, 3.0, 6.6 + back * 1.5)
@@ -285,6 +293,7 @@ export default function Scene() {
       <Env />
       <Avatar />
       <Briefcase />
+      <Platform />
       <Studio />
       <CameraRig />
     </>

@@ -73,7 +73,9 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   if (touched) return null
   return (
     <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
-      Tap the floating objects: each one is a project
+      {typeof window !== 'undefined' && window.innerWidth / window.innerHeight < 1.05
+        ? 'Tap Explore 3D to tour the projects'
+        : 'Tap the objects on the desk: each one is a project'}
     </motion.div>
   )
 }

@@ -92,22 +92,26 @@ const GLASS = new THREE.MeshStandardMaterial({ color: 0x6fa8d8, roughness: 0.1, 
 const GRASS = mat(0x6f9a5a, 0.85)
 const COFFEE = mat(0x3a2412, 0.3)
 const LAMP_GLOW = new THREE.MeshStandardMaterial({ color: 0xfff1d6, emissive: 0xffb866, emissiveIntensity: 1.2 })
-const RUG = new THREE.MeshStandardMaterial({ color: 0xcdbb9c, roughness: 1, transparent: true, opacity: 0.28, depthWrite: false })
 const SHADOW_TEX = shadowTexture()
 const SHADOW = new THREE.MeshBasicMaterial({ map: SHADOW_TEX, transparent: true, depthWrite: false })
 const SCREEN_TEX = screenTexture()
 const SCREEN = new THREE.MeshStandardMaterial({ map: SCREEN_TEX, emissiveMap: SCREEN_TEX, emissive: 0xffffff, emissiveIntensity: 0.55, roughness: 0.15 })
 
 // Desktop: open space on his left. Phone: the empty sky above his head (shown in the hero only).
-const DESK_POS: [number, number, number] = [-0.44 * H, 0.6 * H, 0]
-const PHONE_POS: [number, number, number] = [0, 1.1 * H, 0]
+// Real-world scale: Vishal is ~1.75 m, so 1 m ≈ 0.57 H. The desk (0.72 m high, ~1.4 m wide) stands on the same
+// glass platform as him, on his right. S scales the whole studio; FLOOR is the leg length in unscaled units.
+export const STUDIO_S = 1.33
+const FLOOR = 0.3
+export const DESK_X = 0.8 * H
+export const DESK_TOP_Y = FLOOR * STUDIO_S * H // world height of the desk top
+export const PLATFORM = { x: 0.58 * H, r: 0.82 * H }
 const isPhone = () => window.innerWidth / window.innerHeight < 1.05
 // Clickable only while the studio is actually showing
 const studioOk = () => {
   if (useStore.getState().active) return false
   if (useStore.getState().explore) return true
   const p = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-  return isPhone() ? window.scrollY < window.innerHeight * 0.3 : window.scrollY > window.innerHeight * 0.5 && p < 0.9
+  return isPhone() ? false : p < 0.9
 }
 
 function Logo({ img, r, position }: { img: string; r: number; position: [number, number, number] }) {
@@ -328,7 +332,7 @@ function Lamp() {
 
 function Plant() {
   return (
-    <group position={[-0.27 * H, -0.175 * H, 0.1 * H]} scale={1.5}>
+    <group position={[0.38 * H, -FLOOR * H, -0.14 * H]} scale={1.9}>
       <Shadow p={[0, 0.0005, 0]} r={0.025} />
       <Cyl r={0.014} r2={0.011} h={0.026} p={[0, 0.016, 0]} m={TERRA} />
       <Cyl r={0.0152} r2={0.0152} h={0.004} p={[0, 0.0305, 0]} m={TERRA} />
@@ -381,7 +385,7 @@ function Mug() {
 
 function Chair() {
   return (
-    <group position={[0.0, -0.105 * H, 0.17 * H]} rotation={[0, 0.4, 0]}>
+    <group position={[-0.2 * H, -0.09 * H, 0.26 * H]} rotation={[0, 0.5, 0]} scale={2.0}>
       <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
           {/* upholstered seat on a slim frame */}
@@ -410,59 +414,66 @@ function Chair() {
 export function Studio() {
   const ref = useRef<THREE.Group>(null)
   const sway = useRef<THREE.Group>(null)
-  const extras = useRef<THREE.Group>(null)
-  const prog = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-  useFrame((st, delta) => {
+  useFrame((st) => {
     const g = ref.current
     if (!g) return
-    const ex = useStore.getState().explore
-    const phone = ex ? false : isPhone()
-    const ih = window.innerHeight
-    const want = ex ? 1 : phone
-      ? 1 - THREE.MathUtils.smoothstep(window.scrollY, ih * 0.12, ih * 0.4)
-      : THREE.MathUtils.smoothstep(window.scrollY, ih * 0.3, ih * 0.75) * (1 - THREE.MathUtils.smoothstep(prog(), 0.88, 0.96))
-    const p = phone ? PHONE_POS : DESK_POS
-    g.position.set(p[0], p[1], p[2])
-    const f = THREE.MathUtils.lerp((g.userData.f as number) ?? 0, want, 1 - Math.exp(-8 * Math.min(delta, 0.1)))
-    g.userData.f = f
-    g.scale.setScalar(Math.max(f * (phone ? 0.46 : 0.82), 0.0001))
-    g.visible = f > 0.01
-    if (extras.current) extras.current.visible = !phone
+    g.position.set(DESK_X, DESK_TOP_Y, 0.04 * H)
+    g.scale.setScalar(STUDIO_S)
     if (sway.current) {
-      const t = st.clock.elapsedTime
-      sway.current.position.y = Math.sin(t * 0.9) * 0.008 * H
-      sway.current.rotation.y = 0.35 + Math.sin(t * 0.5) * 0.16
+      // the desk stays put on its platform; only the pendant orb and steam move
+      sway.current.rotation.y = -0.42
     }
   })
   return (
     <group ref={ref}>
       <group ref={sway}>
-        {/* rug */}
-        <mesh material={RUG} position={[0, -0.175 * H, 0.03 * H]}>
-          <cylinderGeometry args={[0.34 * H, 0.34 * H, 0.003 * H, 48]} />
-        </mesh>
         {/* desk: thick rounded oak top, apron, drawer with brass pull, tapered legs, floor shadow */}
-        <Shadow p={[0, -0.1795, 0.03]} r={0.34} sx={1.1} sz={0.55} />
+        <Shadow p={[0, -FLOOR + 0.0004, 0.05]} r={0.4} sx={1.15} sz={0.65} />
         <Box s={[0.6, 0.014, 0.25]} p={[0, -0.007, 0]} m={OAK} round={0.25} />
         <Box s={[0.56, 0.026, 0.006]} p={[0, -0.027, 0.112]} m={OAK_D} round={0.2} />
         <Box s={[0.17, 0.022, 0.004]} p={[0.17, -0.029, 0.116]} m={OAK} round={0.2} />
         <Box s={[0.05, 0.003, 0.004]} p={[0.17, -0.029, 0.1195]} m={BRASS} round={0.4} />
         {([[-1, -1], [1, -1], [-1, 1], [1, 1]] as [number, number][]).map(([x, z], i) => (
-          <mesh key={i} material={OAK_D} position={[x * 0.28 * H, -0.09 * H, z * 0.1 * H]}>
-            <cylinderGeometry args={[0.0055 * H, 0.0035 * H, 0.16 * H, 14]} />
+          <mesh key={i} material={OAK_D} position={[x * 0.28 * H, -(0.014 + (FLOOR - 0.014) / 2) * H, z * 0.1 * H]}>
+            <cylinderGeometry args={[0.0055 * H, 0.0035 * H, (FLOOR - 0.014) * H, 14]} />
           </mesh>
         ))}
         <Monitor />
         <Model />
         <Books />
-        <group ref={extras}>
-          <Lamp />
-          <Plant />
-          <Mug />
-        </group>
+        <Lamp />
+        <Plant />
+        <Mug />
         <Chair />
         <PendantOrb />
       </group>
+    </group>
+  )
+}
+
+// The circular glass platform Vishal and the desk stand on (top surface at y = 0, where his feet are)
+export function Platform() {
+  const { x, r } = PLATFORM
+  return (
+    <group position={[x, 0, 0]}>
+      <mesh position={[0, -0.011 * H, 0]} receiveShadow>
+        <cylinderGeometry args={[r, r, 0.022 * H, 96]} />
+        <meshPhysicalMaterial color={0x8fa9c4} transparent opacity={0.3} roughness={0.08} metalness={0.1} clearcoat={1} clearcoatRoughness={0.05} envMapIntensity={1.4} depthWrite={false} />
+      </mesh>
+      {/* glowing rim and a thin inner ring, so the glass edge reads */}
+      <mesh position={[0, -0.0005 * H, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[r, 0.0026 * H, 12, 128]} />
+        <meshStandardMaterial color={0xcfe3f5} emissive={0x7fb2e0} emissiveIntensity={0.9} roughness={0.2} />
+      </mesh>
+      <mesh position={[0, -0.0008 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[r * 0.9, r * 0.905, 128]} />
+        <meshBasicMaterial color={0xbfd9f2} transparent opacity={0.35} />
+      </mesh>
+      {/* soft glow under the glass */}
+      <mesh position={[0, -0.03 * H, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[r * 1.12, 64]} />
+        <meshBasicMaterial color={0x3a6ea5} transparent opacity={0.12} depthWrite={false} />
+      </mesh>
     </group>
   )
 }
