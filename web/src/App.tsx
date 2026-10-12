@@ -212,9 +212,6 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
             </span>
           </motion.p>
           <Proof />
-          <button type="button" className="about-open" onClick={() => { track('open_to_roles'); jumpTo('contact') }}>
-            <i aria-hidden="true" /> Open to product roles <span aria-hidden="true">· Get in touch →</span>
-          </button>
           <div className="about-actions">
             <button
               className="about-btn about-btn-primary"
