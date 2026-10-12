@@ -125,8 +125,10 @@ export default function ExploreBar() {
         >
           <span className="tc-top">
             <span className="tc-name">{stop.name}</span>
-            <span className="tc-sub">{stop.sub}</span>
+            {stop.year && <span className="tc-year">{stop.year}</span>}
           </span>
+          <span className="tc-sub">{stop.sub}</span>
+          {stop.blurb && <span className="tc-blurb">{stop.blurb}</span>}
           <span className="tc-bot">
             <span className="tc-tap">{stop.me ? 'Meet Vishal' : stop.slug ? 'Open case study →' : 'See education →'}</span>
             <span className="tc-stat">{playing ? 'Auto' : 'Paused'} · {(idx % TOUR.length) + 1}/{TOUR.length}</span>
