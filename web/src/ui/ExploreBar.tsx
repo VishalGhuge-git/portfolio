@@ -142,7 +142,7 @@ export default function ExploreBar() {
           <span className="tc-sub">{stop.sub}</span>
           {stop.blurb && <span className="tc-blurb">{stop.blurb}</span>}
           <span className="tc-bot">
-            <span className="tc-tap">{stop.me ? 'Meet Vishal' : stop.slug ? 'Open case study →' : 'See education →'}</span>
+            <span className="tc-tap">{stop.me ? 'Use › for the next stop' : stop.slug ? 'Open case study →' : 'See education →'}</span>
             <span className="tc-stat">{playing ? 'Auto' : 'Paused'} · {(idx % TOUR.length) + 1}/{TOUR.length}</span>
           </span>
         </button>
@@ -163,7 +163,7 @@ export default function ExploreBar() {
               </svg>
               {playing ? 'Pause' : 'Play'}
             </button>
-            <button className="eb-btn" onClick={() => go('person')}>Free</button>
+            <button className="eb-btn" onClick={() => go('person')}>Free look</button>
           </>
         ) : (
           <>

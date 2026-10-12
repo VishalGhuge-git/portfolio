@@ -1980,3 +1980,29 @@ body.exploring .content,body.exploring .scroll-blur,body.exploring .scrim,body.e
 .tour-caption .tc-sub{display:block;font-size:11.5px;margin-top:-3px}
 .tour-caption .tc-blurb{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;font:400 12px/1.4 Inter,system-ui,sans-serif;color:rgba(255,255,255,.82)}
 @media (max-width:1099px){.tour-caption{width:min(340px,calc(100vw - 32px));bottom:calc(76px + env(safe-area-inset-bottom))}.tour-caption .tc-sub{display:block}}
+
+/* ---- audit fixes ---- */
+.about-open{pointer-events:auto;display:flex;align-items:center;gap:8px;margin:12px 0 0;padding:0;background:none;border:0;color:#f4f1ea;font:500 13px/1.3 Inter,system-ui,sans-serif;cursor:pointer;text-align:left}
+.about-open i{width:8px;height:8px;border-radius:50%;background:#7ddc9a;box-shadow:0 0 0 3px rgba(125,220,154,.2);flex:none}
+.about-open span{color:rgba(244,241,234,.65)}
+.about-open:hover span{color:#ffd9b3}
+@media (max-width:1099px){.about-open{margin-top:10px;font-size:12.5px}.about-open span{display:none}}
+/* scroll cue: bottom centre everywhere, clear of the platform; phone hides the corner tagline it touched */
+.scroll-cue{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);margin:0;z-index:5}
+@media (max-width:640px){.hero-meta.hm-bl{display:none}}
+/* phone: fade the right edge of the proof chips so it reads as scrollable */
+@media (max-width:1099px){
+  .hero .about.is-min .proof{-webkit-mask-image:linear-gradient(to right,#000 82%,transparent);mask-image:linear-gradient(to right,#000 82%,transparent);padding-right:18px}
+  .scroll-blur{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(10,14,22,.3)}
+}
+/* tour card: a touch larger to read */
+.tour-caption .tc-name{font-size:15px}
+.tour-caption .tc-blurb{font-size:12.5px}
+.tour-caption .tc-tap{font-size:11px}
+/* keyboard focus */
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px solid #ffd9b3;outline-offset:3px;border-radius:8px}
+/* reduced motion: stop decorative animation and smooth scrolling */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

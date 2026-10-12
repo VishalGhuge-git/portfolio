@@ -1,3 +1,4 @@
+import { REDUCE } from './motion'
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useFrame, useLoader, type ThreeEvent } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
@@ -59,8 +60,8 @@ export function Hot({ id, label, slug, scrollTo, children, hit, position, quater
       const tt = state.clock.elapsedTime
       const amp = focused ? 1 : 0
       // lift off the surface (never tilt into it) and bob a little
-      a.position.z = THREE.MathUtils.lerp(a.position.z, amp * float * 0.02 * H, 0.15)
-      a.position.y = THREE.MathUtils.lerp(a.position.y, amp * float * 0.005 * H * Math.sin(tt * 2.2), 0.2)
+      a.position.z = THREE.MathUtils.lerp(a.position.z, amp * (REDUCE ? 0 : float) * 0.02 * H, 0.15)
+      a.position.y = THREE.MathUtils.lerp(a.position.y, amp * (REDUCE ? 0 : float) * 0.005 * H * Math.sin(tt * 2.2), 0.2)
       a.rotation.z = THREE.MathUtils.lerp(a.rotation.z, amp * float * 0.04 * Math.sin(tt * 1.7), 0.2)
     }
   })

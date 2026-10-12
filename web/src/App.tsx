@@ -1,3 +1,4 @@
+import { REDUCE } from './scene/motion'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
@@ -80,7 +81,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   )
 }
 
-const ROLES = ['product manager', 'problem solver', 'creative thinker', 'firefighter', 'product owner']
+const ROLES = ['product manager', '0-to-1 builder', 'AI product builder', 'firefighter']
 // Every role stacked in one grid cell (invisible): the cell is as wide as the widest actual word, in pixels
 function RoleSizer() {
   return (
@@ -95,7 +96,7 @@ const COPY = {
   title: 'About Vishal',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
   lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
-  rest: ' I turn vague asks into products people use: xxxx daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
+  rest: ' I turn vague asks into products people use: xxxx+ daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
 }
 
 // The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
@@ -211,6 +212,9 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
             </span>
           </motion.p>
           <Proof />
+          <button type="button" className="about-open" onClick={() => { track('open_to_roles'); jumpTo('contact') }}>
+            <i aria-hidden="true" /> Open to product roles <span aria-hidden="true">· Get in touch →</span>
+          </button>
           <div className="about-actions">
             <button
               className="about-btn about-btn-primary"
@@ -218,7 +222,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
                 track('explore_3d', 'open')
                 resetView()
                 useStore.getState().setTourIdx(0)
-                useStore.getState().setTourPlaying(true)
+                useStore.getState().setTourPlaying(!REDUCE)
                 useStore.getState().setExplore('tour')
               }}
             >
@@ -315,10 +319,9 @@ export default function App() {
         <span className="hero-mark br">+</span>
         <div className="hero-meta hm-tl">
           <span className="hm-name">Vishal Ghuge</span>
-          <span>Product Manager</span>
+          <span>Product Manager · Mumbai</span>
         </div>
         <div className="hero-meta hm-bl">AI · SaaS · 0 to 1</div>
-        <div className="hero-meta hm-right">Based in Mumbai</div>
       </motion.div>
 
       <TopBar />
