@@ -2064,7 +2064,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
 @media (max-width:640px){.sticker-hint{display:none}}
 
 /* phone/tablet: keep the About card clear of the hairline frame */
-@media (max-width:1099px){.hero .about{left:calc(var(--m) + 12px);right:calc(var(--m) + 12px)}}
+@media (max-width:1099px){.hero .about{left:calc(clamp(16px,2.4vh,30px) + 12px);right:calc(clamp(16px,2.4vh,30px) + 12px)}}
 /* proof-chip badge stays on the number row so it never sits on the label text */
 .proof-logo{top:7px;right:8px;width:22px;height:22px;padding:3px}
 .proof-chip{padding-top:9px}

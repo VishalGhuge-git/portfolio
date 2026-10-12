@@ -113,6 +113,8 @@ const FOCUS: Record<string, { dist: number; side: number }> = {
   mx: { dist: 1.9, side: 0.35 },
   bocconi: { dist: 3.4, side: 0.9 },
 }
+// While scrolling the camera looks straight ahead (item sits left of the text), so the tour's side-on chair view doesn't apply
+const FOCUS_SCROLL: Record<string, { dist: number; side: number }> = { ...FOCUS, foyr: { dist: 2.0, side: 0.35 } }
 // Drag (mouse) or swipe sideways (touch) to look around the scene. Outside explore mode it eases back on
 // release; in explore mode it stays where you leave it, goes all the way round, and the wheel zooms.
 const SKIP = 'a,button,input,textarea,select,[role="dialog"],.cm-modal,.case-modal,.chip,.explore-bar'
@@ -271,7 +273,7 @@ function CameraRig() {
     if (item) item.getWorldPosition(focusPt)
     const f = focusAmt.current
     if (f > 0.001 && focusId) {
-      const fo = FOCUS[focusId] ?? { dist: 2.8, side: 0.7 }
+      const fo = FOCUS_SCROLL[focusId] ?? { dist: 2.8, side: 0.7 }
       tmp.set(focusPt.x + fo.side, focusPt.y + 0.05, focusPt.z + fo.dist + back * 0.6)
       wantPos.lerp(tmp, f)
       tmp.set(focusPt.x + fo.side, focusPt.y, focusPt.z)
