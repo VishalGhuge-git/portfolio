@@ -215,6 +215,13 @@ function CameraRig() {
     wantPos.y -= 1.6 * pull
     wantPos.z += 5.2 * pull
 
+    // Phones: the About card (hero) and the footer (end) cover the lower half, so lift the figure into the open top half
+    if (aspect < 1.05) {
+      const lift = 0.95 * (1 - drift) * (1 - end) + 1.0 * end
+      wantTarget.y -= lift
+      wantPos.y -= lift
+    }
+
     const ex = useStore.getState().explore
     if (ex) {
       // Explore mode: free views instead of the scroll camera

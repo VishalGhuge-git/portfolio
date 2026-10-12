@@ -2059,3 +2059,6 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
 .foot-meta button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:6px 0}
 .foot-meta button:hover{color:#ffd9b3}
 @media (max-width:640px){.foot-bar{flex-direction:column;align-items:stretch;padding:14px}.foot-links{display:grid;grid-template-columns:1fr 1fr}.foot-links a{justify-content:center}}
+
+/* phone: the card already has Explore 3D; the hint would sit on the head */
+@media (max-width:640px){.sticker-hint{display:none}}
