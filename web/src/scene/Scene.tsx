@@ -183,7 +183,7 @@ function CameraRig() {
   const focusAmt = useRef(0)
   const focusPt = useMemo(() => new THREE.Vector3(), [])
   const tmp = useMemo(() => new THREE.Vector3(), [])
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
     const p = Math.min(1, Math.max(0, window.scrollY / max))
     const cam = state.camera
@@ -214,7 +214,13 @@ function CameraRig() {
       if (ex === 'tour') {
         const stop = TOUR[useStore.getState().tourIdx % TOUR.length]
         const it = stickerRefs.get(stop.id)
-        if (it) {
+        if (stop.me === 'face') {
+          wantTarget.set(0, FACE_Y - 0.05, 0)
+          wantPos.set(0.5, FACE_Y + 0.1, 3.7 + back * 1.4)
+        } else if (stop.me === 'body') {
+          wantTarget.set(0, 2.7, 0)
+          wantPos.set(1.6, 3.0, 6.0 + back * 1.5)
+        } else if (it) {
           it.getWorldPosition(focusPt)
           const fo = FOCUS[stop.id] ?? { dist: 2.4, side: 0.5 }
           wantTarget.set(focusPt.x, focusPt.y, focusPt.z)
@@ -262,8 +268,10 @@ function CameraRig() {
       wantPos.copy(wantTarget).add(tmp)
     }
 
-    cam.position.lerp(wantPos, 0.08)
-    target.lerp(wantTarget, 0.08)
+    // Tour moves glide with time-based damping (same feel at any frame rate); everything else keeps the snappier follow
+    const k = ex === 'tour' ? 1 - Math.exp(-Math.min(delta, 0.1) * 2.4) : 0.08
+    cam.position.lerp(wantPos, k)
+    target.lerp(wantTarget, k)
     cam.lookAt(target)
   })
   return null

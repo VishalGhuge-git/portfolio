@@ -169,7 +169,7 @@ function PendantOrb() {
   return (
     <group position={[0, 0.27 * H, 0]}>
       <Cyl r={0.0012} h={0.1} p={[0, 0.07, 0]} m={BRASS} />
-      <Hot grow={1.45} float={1} ok={studioOk} id="iqigai" slug="iqigai" label="iqigai by Fractal" hit={R * 2.4} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
+      <Hot grow={1.22} float={0.5} ok={studioOk} id="iqigai" slug="iqigai" label="iqigai by Fractal" hit={R * 2.4} position={[0, 0, 0]} labelOffset={[0, 0.5, 0.1]}>
         <mesh>
           <sphereGeometry args={[R, 36, 36]} />
           <meshStandardMaterial color="#ffd9b3" emissive="#ff9d4d" emissiveIntensity={0.6} roughness={0.25} transparent opacity={0.94} />
@@ -208,7 +208,7 @@ function Monitor() {
       {/* stand: weighted round base, slim neck */}
       <Cyl r={0.026} r2={0.024} h={0.0045} p={[0, 0.00225, 0]} m={STEEL} />
       <Box s={[0.009, 0.034, 0.005]} p={[0, 0.021, -0.006]} m={STEEL} round={0.3} />
-      <Hot grow={1.45} float={1} ok={studioOk} id="mx" slug="mx-player" label="Amazon MX Player" hit={w * 0.7} position={[0, 0.075 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
+      <Hot grow={1.22} float={0.5} ok={studioOk} id="mx" slug="mx-player" label="Amazon MX Player" hit={w * 0.7} position={[0, 0.075 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.075 * H, 0]}>
           <Cyl r={0.026} r2={0.024} h={0.0045} p={[0, 0.00225, 0]} m={STEEL} />
           <Box s={[0.009, 0.034, 0.005]} p={[0, 0.021, -0.006]} m={STEEL} round={0.3} />
@@ -228,7 +228,7 @@ function Model() {
   return (
     <group position={[0.0, 0.0, 0.055 * H]} rotation={[0, -0.35, 0]}>
       <Shadow p={[0, 0, 0]} r={0.075} sx={1.2} />
-      <Hot grow={1.45} float={1} ok={studioOk} id="te" slug="total-environment" label="Total Environment" hit={w * 0.9} position={[0, 0.04 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
+      <Hot grow={1.22} float={0.5} ok={studioOk} id="te" slug="total-environment" label="Total Environment" hit={w * 0.9} position={[0, 0.04 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0]}>
           {/* plinth + lawn */}
           <Box s={[0.115, 0.007, 0.092]} p={[0, 0.0035, 0]} m={CREAM} round={0.3} />
@@ -282,7 +282,7 @@ function Books() {
 function Cap() {
   const u = 0.036 * H
   return (
-    <Hot grow={1.45} float={1} ok={studioOk} id="xaviers" scrollTo="education" label="St. Xavier's College" hit={u * 1.4} position={[0, 0.041 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
+    <Hot grow={1.22} float={0.5} ok={studioOk} id="xaviers" scrollTo="education" label="St. Xavier's College" hit={u * 1.4} position={[0, 0.041 * H, 0]} labelOffset={[0, 0.4, 0.1]}>
       <group rotation={[0.08, 0.3, 0]}>
         <mesh material={INK} position={[0, 0.016 * H, 0]} rotation={[0, Math.PI / 4, 0]}>
           <boxGeometry args={[u * 1.55, 0.005 * H, u * 1.55]} />
@@ -382,7 +382,7 @@ function Mug() {
 function Chair() {
   return (
     <group position={[0.0, -0.105 * H, 0.17 * H]} rotation={[0, 0.4, 0]}>
-      <Hot grow={1.45} float={1} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
+      <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
           {/* upholstered seat on a slim frame */}
           <Box s={[0.072, 0.016, 0.072]} p={[0, 0.002, 0]} m={CREAM} round={0.4} />

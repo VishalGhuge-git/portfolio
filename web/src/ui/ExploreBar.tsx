@@ -4,7 +4,7 @@ import { orbit, resetView, setSide } from '../scene/orbit'
 import { TOUR } from '../scene/tour'
 
 type View = 'tour' | 'person' | 'desk' | 'wide'
-const STEP_MS = 3800
+const STEP_MS = 4600
 
 // Controls for moving round the 3D scene. Explore starts as a guided tour that visits every clickable
 // item in a loop (so it is obvious what can be tapped); Prev/Next/Pause steer it, and Vishal / Desk /
@@ -120,7 +120,7 @@ export default function ExploreBar() {
         <div className="tour-caption" key={stop.id} aria-live="polite">
           <span className="tc-name">{stop.name}</span>
           <span className="tc-sub">{stop.sub}</span>
-          <span className="tc-tap">Tap it to open the case study</span>
+          {!stop.me && <span className="tc-tap">Tap it to open the case study</span>}
         </div>
       )}
       <div className="explore-bar" role="toolbar" aria-label="3D view">
