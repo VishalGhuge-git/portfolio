@@ -108,7 +108,7 @@ const FACE_Y = 3.4
 const FOCUS: Record<string, { dist: number; side: number }> = {
   iqigai: { dist: 1.9, side: 0.35 },
   xaviers: { dist: 1.7, side: 0.35 },
-  foyr: { dist: 2.0, side: 0.35 },
+  foyr: { dist: 1.4, side: -2.2 },
   te: { dist: 1.7, side: 0.35 },
   mx: { dist: 1.9, side: 0.35 },
   bocconi: { dist: 3.4, side: 0.9 },
