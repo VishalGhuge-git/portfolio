@@ -2,7 +2,7 @@
 title: iqigai
 year: 2025
 role: Product Manager, 0 to 1
-tags: [AI agents, 0 to 1, B2B + B2C, "xxxx daily users"]
+tags: [AI agents, 0 to 1, B2B + B2C, "xxxx+ daily users"]
 ---
 
 <!--
@@ -11,7 +11,7 @@ tags: [AI agents, 0 to 1, B2B + B2C, "xxxx daily users"]
   daily users, screenshots, and what you would do differently.
 -->
 
-**TL;DR** Fractal staffed its bench through spreadsheets and one manual person. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **xxxx people a day**.
+**TL;DR** Fractal staffed its bench through spreadsheets and one manual person. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **xxxx+ people a day**.
 
 | | |
 | --- | --- |
@@ -19,7 +19,7 @@ tags: [AI agents, 0 to 1, B2B + B2C, "xxxx daily users"]
 | **My role** | Product Manager: strategy, roadmap, MVP scope, agent prioritisation |
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
-| **Reach** | xxxx daily active users, used organisation-wide |
+| **Reach** | xxxx+ daily active users, used organisation-wide |
 | **Team** | 7 people: 2 UI/UX designers, 2 backend engineers, 1 AI engineer, 1 QA, 1 APM |
 
 ## Context
@@ -116,7 +116,7 @@ I defined the use case for each agent and ordered the build by **impact on the h
 
 ## Outcome
 
-- **xxxx daily active users**, used organisation-wide
+- **xxxx+ daily active users**, used organisation-wide
 - A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
 - **6 AI agents** defined, prioritised and integrated
 
