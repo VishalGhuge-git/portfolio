@@ -51,17 +51,10 @@ export default function ExploreBar() {
     return () => window.clearInterval(t)
   }, [explore, playing, active, setIdx])
 
-  // Touching or dragging the scene itself pauses the tour so it doesn't fight the user
+  // When a case study is closed, the tour picks up again by default (only Reset / Free end it)
   useEffect(() => {
-    const down = (e: Event) => {
-      if (useStore.getState().explore !== 'tour') return
-      const t = e.target
-      if (t instanceof Element && t.closest('.explore-bar,.tour-caption,button,a')) return
-      setPlaying(false)
-    }
-    window.addEventListener('pointerdown', down)
-    return () => window.removeEventListener('pointerdown', down)
-  }, [setPlaying])
+    if (!active && useStore.getState().explore === 'tour') setPlaying(true)
+  }, [active, setPlaying])
 
   const exit = () => {
     resetView()
@@ -117,11 +110,23 @@ export default function ExploreBar() {
   return (
     <>
       {explore === 'tour' && (
-        <div className="tour-caption" key={stop.id} aria-live="polite">
+        <button
+          className={`tour-caption${stop.me ? ' is-me' : ''}`}
+          key={stop.id}
+          aria-live="polite"
+          disabled={!!stop.me}
+          onClick={() => {
+            if (stop.slug) useStore.getState().setActive(stop.slug)
+            else if (stop.scrollTo) {
+              exit()
+              window.setTimeout(() => document.getElementById(stop.scrollTo!)?.scrollIntoView({ behavior: 'smooth' }), 80)
+            }
+          }}
+        >
           <span className="tc-name">{stop.name}</span>
           <span className="tc-sub">{stop.sub}</span>
-          {!stop.me && <span className="tc-tap">Tap it to open the case study</span>}
-        </div>
+          {!stop.me && <span className="tc-tap">{stop.slug ? 'Open case study →' : 'See education →'}</span>}
+        </button>
       )}
       <div className="explore-bar" role="toolbar" aria-label="3D view">
         {explore === 'tour' ? (

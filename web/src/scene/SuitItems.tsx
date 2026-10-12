@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { useStore } from '../store'
+import { resetView } from './orbit'
 import { HEIGHT as H } from './Avatar'
 import { track } from '../analytics'
 
@@ -81,7 +82,14 @@ export function Hot({ id, label, slug, scrollTo, children, hit, position, quater
     track('sticker_click', label)
     useStore.setState({ touched: true })
     if (slug) setActive(slug)
-    else (document.getElementById(scrollTo ?? '') ?? document.querySelector('.resume'))?.scrollIntoView({ behavior: 'smooth' })
+    else {
+      // In Explore mode the page is hidden and locked, so leave it first, then scroll to the section
+      if (useStore.getState().explore) {
+        resetView()
+        useStore.getState().setExplore(null)
+      }
+      window.setTimeout(() => (document.getElementById(scrollTo ?? '') ?? document.querySelector('.resume'))?.scrollIntoView({ behavior: 'smooth' }), 80)
+    }
   }
 
   return (
