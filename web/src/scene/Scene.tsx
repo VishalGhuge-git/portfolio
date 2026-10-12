@@ -223,7 +223,7 @@ function CameraRig() {
       const card = document.querySelector('.hero .about')
       if (card) {
         const f = card.getBoundingClientRect().top / window.innerHeight
-        heroLift = THREE.MathUtils.clamp(0.95 + (0.46 - (f - 0.1)) * 0.708 * Math.max(wantPos.z, 6), 0.3, 2.2)
+        heroLift = THREE.MathUtils.clamp(0.95 + (0.46 - (f - 0.055)) * 0.708 * Math.max(wantPos.z, 6), 0.3, 2.2)
       }
       const lift = heroLift * (1 - drift) * (1 - end) + 1.0 * end
       wantTarget.y -= lift
