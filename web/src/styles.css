@@ -2006,3 +2006,15 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
   html{scroll-behavior:auto!important}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+/* hint sits under the nav on the right, clear of the character's head */
+@media (min-width:641px){.sticker-hint{left:auto;right:calc(var(--m,20px) + 16px);transform:none;top:calc(clamp(16px,2.4vh,30px) + 62px)}}
+.about-open{white-space:nowrap}
+@media (min-width:1100px) and (max-width:1300px){.about-open span{display:none}}
+@media (min-width:1100px) and (max-height:700px){
+  .hero .about .about-body{font-size:14px;line-height:1.4}
+  .hero .about .proof{margin-top:10px;gap:6px}
+  .hero .about .proof-chip{padding:7px 10px}
+  .hero .about .proof-chip em{display:none}
+  .hero .about .about-open{margin-top:8px}
+  .hero .about .about-actions{margin-top:8px}
+}
