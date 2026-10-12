@@ -89,7 +89,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
     {
       kind: 'education',
       period: '2022 – 2024',
-      place: 'SDA Bocconi Asia Center · Mumbai & Milan',
+      place: 'SDA Bocconi School of Management, Italy',
       focus: 'bocconi',
       role: 'International Master in Business',
     },

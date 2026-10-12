@@ -7,7 +7,7 @@ export const TOUR: readonly Stop[] = [
   { id: 'te', name: 'Total Environment', sub: '3D property platform', year: '2024 – 2025', blurb: 'B2C home-buyer portal plus a B2B 3D design tool (Foyr Neo): 300+ screens, 32+ user flows.', slug: 'total-environment' },
   { id: 'me2', name: 'Vishal Ghuge', sub: 'AI · SaaS · 0 to 1', year: '2020 – Now', blurb: 'From content operations to AI-native products, with a master\'s in business along the way.', me: 'body' },
   { id: 'foyr', name: 'Foyr Ideate', sub: 'AI interior design MVP', year: '2024', blurb: 'Auto-furnish an empty room from a photo, swap styles and restyle any space. Directed the UI/UX agency.', slug: 'foyr-ideate' },
-  { id: 'bocconi', name: 'SDA Bocconi', sub: 'International Master in Business', year: '2022 – 2024', blurb: 'Master\'s in business across the Mumbai and Milan campuses.', scrollTo: 'education' },
+  { id: 'bocconi', name: 'SDA Bocconi School of Management', sub: 'Italy', year: '2022 – 2024', blurb: 'International Master in Business at SDA Bocconi School of Management, Italy.', scrollTo: 'education' },
   { id: 'mx', name: 'Amazon MX Player', sub: 'Content operations', year: '2020 – 2021', blurb: 'Led a team of 6 managing 300,000+ content units; an API overhaul lifted daily output by 50%.', slug: 'mx-player' },
   { id: 'xaviers', name: "St. Xavier's College", sub: 'BA Economics', year: '2019 – 2021', blurb: 'BA Economics (Majors), plus a London School of Economics summer course in 2019.', scrollTo: 'education' },
 ]
