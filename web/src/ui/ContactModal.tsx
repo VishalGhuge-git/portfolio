@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { SOCIAL_ICONS } from './SocialIcons'
 import { track } from '../analytics'
@@ -21,17 +21,6 @@ export function PhoneIcon() {
 const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
 
 export function ContactOptions() {
-  const [copied, setCopied] = useState(false)
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(EMAIL)
-      setCopied(true)
-      track('email_copy')
-      window.setTimeout(() => setCopied(false), 1800)
-    } catch {
-      window.location.href = MAIL_HREF
-    }
-  }
   const Linkedin = SOCIAL_ICONS.linkedin
   const Mail = SOCIAL_ICONS.mail
   return (
@@ -47,9 +36,6 @@ export function ContactOptions() {
           <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
           <span className="cm-go">→</span>
         </a>
-        <button type="button" className="cm-copy" onClick={copyEmail} aria-live="polite">
-          {copied ? 'Copied' : 'Copy'}
-        </button>
       </div>
       <div className="cm-rowwrap">
         <a className="cm-row" href={`tel:${PHONE}`} onClick={() => track('call_click')}>
