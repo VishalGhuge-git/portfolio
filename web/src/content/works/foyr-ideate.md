@@ -33,13 +33,9 @@ Foyr Neo is Foyr's existing interior design software. Ideate was a bet that AI c
 
 Ideating is where design work stalls. A designer has to build every option before a client can react to it, and a homeowner can't picture a result from a floor plan or a description. The goal was to make **designing and ideating easier**, whether the space is an existing room or a blank one.
 
-<!-- REFINE: the concrete pain you saw in research (time per concept, drop-off, client feedback), in your words. -->
-
 ## Discovery
 
 I ran **prototype tests and competitor teardowns** before committing to scope, to validate how people would interact with AI design and to de-risk decisions ahead of handoff.
-
-<!-- REFINE: the one finding that changed a decision (a feature cut, added or reordered). -->
 
 ## The MVP: what it does
 
@@ -51,8 +47,6 @@ I defined the core capabilities around the two situations users start from:
 
 - **Empty room:** auto-furnish it
 - **Existing room:** redesign it, or **replace, remove and add** individual pieces of furniture
-
-<!-- REFINE: what was left out of the MVP and why. -->
 
 ## The decision that shaped the business: pricing
 
@@ -86,15 +80,11 @@ How the plans work as a funnel:
 
 <a href="./works/foyr-ideate/pricing.png" target="_blank" rel="noopener noreferrer"><img src="./works/foyr-ideate/pricing.png" alt="Foyr Ideate pricing page: Free and Pro plans" /></a>
 
-<!-- REFINE: confirm the one-line 'why not' reasons for the two rejected options match your thinking. Prices are from the public page and may have changed. -->
-
 ## Design language
 
 The interface is deliberately quiet so the generated rooms carry the colour: neutral surfaces, pill-shaped controls, and a single gradient reserved for action and emphasis.
 
 <a href="./works/foyr-ideate/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/foyr-ideate/design-language.png" alt="Foyr Ideate design language board: colour, typography, components, contrast, shape and spacing" /></a>
-
-<!-- Reference board only: tokens and component styles, no product data or screens. Values approximated from the public UI. -->
 
 ## Working with an external agency
 
@@ -104,7 +94,3 @@ I directed an external UI/UX agency in Figma. The most useful lesson was where t
 
 - **MVP in 5 months**, ready for handoff, with the AI interaction patterns validated through prototype testing
 - A working product live at [ideate.foyr.com](https://ideate.foyr.com), with a marketing site at [foyrideate.ai](https://www.foyrideate.ai)
-
-<!-- REFINE: what happened after handoff (launch, adoption, numbers) if you want to include it. Do not add anything unconfirmed. -->
-
-<!-- REFINE: screens: add live UI images to public/works/foyr-ideate/ and add the folder to .gitignore exceptions. -->

@@ -2,10 +2,10 @@
 title: Total Environment
 year: 2024
 role: Associate Product Manager, on-site
-tags: [B2B, B2C, 3D, 0 to 1, "300+ screens", "in-house designers"]
+tags: [B2B, B2C, 3D, 0 to 1, "300+ screens"]
 ---
 
-**TL;DR** Total Environment's in-house designers worked in desktop CAD, and its home buyers faced a huge number of choices. As the sole on-site PM at the client's Bangalore office, I owned product strategy for **one pipeline in two products**: a web-based drag-and-drop 3D design tool for their designers, and a customer-facing portal where buyers explore and choose in 3D. The tool covered 300+ screens and 32+ flows and went organisation-wide. Per the sales team, the portal led to faster conversion, higher sales and stronger buyer confidence.
+**TL;DR** Total Environment's in-house designers worked in desktop CAD tools, and its home buyers faced a huge number of choices. As the sole on-site PM at the client's Bangalore office, I owned product strategy for **one pipeline in two products**: a web-based drag-and-drop 3D design tool for their designers, and a customer-facing portal where buyers explore and choose in 3D. The tool covered 300+ screens and 32+ flows and went organisation-wide. Per the client's sales team, the portal gave buyers more confidence in their choices.
 
 | | |
 | --- | --- |
@@ -15,7 +15,7 @@ tags: [B2B, B2C, 3D, 0 to 1, "300+ screens", "in-house designers"]
 | **Type** | B2B 3D design tool, 0 to 1, feeding a B2C buyer portal |
 | **Scope** | 300+ screens, 32+ user flows |
 | **Team** | 20-member cross-functional team: 3D, backend, frontend, QA, design |
-| **Users** | in-house designers, and the client's home buyers |
+| **Users** | The client's design team, and its home buyers |
 
 ## Context
 
@@ -25,10 +25,8 @@ So this was one pipeline: **designers create in the tool, buyers configure in th
 
 ## The problems
 
-- **Designers:** the team of **100+ worked in desktop CAD**, and the client wanted a tool easy enough for anyone to use on the web, producing 3D data a customer product could build on.
+- **Designers:** the in-house team **worked in desktop CAD tools**, and the client wanted a tool easy enough for anyone to use on the web, producing 3D data a customer product could build on.
 - **Buyers:** there are **a huge number of combinations**. The problem was not showing options, it was **educating the buyer on everything that is possible** before asking them to choose.
-
-<!-- REFINE: the concrete pain in desktop CAD (time per design, training, handoff errors) and how the buyer problem was found (sales feedback, buyer conversations), with any numbers you can share. -->
 
 ## What I owned
 
@@ -42,8 +40,6 @@ I was based **on site at the client's Bangalore office**, which made me the prod
 ## How I ran it: a daily priority loop with the CXOs
 
 Scope evolved constantly, so a fixed quarterly plan would have been fiction. I ran the work **agile, with a daily standup with the CXOs** where priorities for the day were decided. The trade-off: it cost the executives' time every day, but it removed the long wait between a question and a decision and kept the build tied to what the client needed.
-
-<!-- REFINE: the single hardest prioritisation call (what was cut, delayed or pulled forward, and how it was settled). -->
 
 ## Part 1: The design tool
 
@@ -74,55 +70,23 @@ The build order followed that: make existing and new rules work in the customer 
 
 The tool was **rolled out to the complete organisation**, not left as a pilot with one team.
 
-<!-- REFINE: how rollout was done (training, phasing, mandate) and any adoption numbers. -->
-
 ## Part 2: The buyer portal
 
 ### Strategy: educate, then configure
 
-I framed the product around one idea: **show buyers what is possible, in their own home, before asking them to choose.** The portal lets a buyer explore the home in **3D**, choose **room sizes**, pick a **design language**, select **flooring and textures**, choose **furniture** and configure **electrical** layouts.
-
-<!-- REFINE: how the choice flow is structured (guided steps vs free exploration, defaults, how options are limited so it does not overwhelm). -->
+I framed the product around one idea: **show buyers what is possible, in their own home, before asking them to choose.** The portal lets a buyer explore the home in **3D**, choose **room sizes**, finishes and **furniture**, and configure the layout.
 
 ### Making the options manageable
 
-Showing everything possible would overwhelm the buyer, and building every variant by hand would never finish. So the portal runs on rules that decide what a buyer sees and what the design team has to create:
-
-| Rule type | What it does | Why it matters |
-| --- | --- | --- |
-| **Replace, add, remove** | Defines what can swap for what in a design | Buyers customise within what actually works |
-| **Cross-category** | One choice adjusts another, for example the counter depth and cabinet size follow the basin chosen | Options stay consistent with each other |
-| **Spatial zones** | Defines areas for replacement, so a bed can be swapped for another size without a separate design for each | Fewer options for designers to build |
-| **Spatial placement** | Items align to the space available, for example bedside units fit the clear wall length | No hand-built packages for every layout |
-| **Conflict** | Blocks an option that can't physically fit, for example tall units where there is a beam or false ceiling | Fewer wrong options shown to the buyer |
-
-Rules can also be updated after a unit is published, so a **new customisation, an out-of-stock item or a change in the default offering** reaches buyers instantly.
+Showing everything possible would overwhelm the buyer, and building every variant by hand would never finish. So the portal runs on rules that decide what a buyer sees and what the design team has to create: what can replace what, how one choice adjusts another, how items fit the space available, and which options are blocked because they cannot physically fit. Rules can also be updated after a unit is published, so changes reach buyers instantly.
 
 ### Decisions I took to the client
 
-Each status review opened with the open decisions, so nothing waited on a hallway conversation. Examples:
-
-- Show **cost while the buyer browses options**, or only after they select?
-- If an item **goes out of stock after buyers have submitted**, what is the business decision?
-- **How much personalisation** do buyers get, and what always stays with the architect?
-- Where is the **cut-off for modelling** items, such as soft furnishings?
-- Should **analytics** be at database level, or a UI for a high-level business view?
-
-<!-- REFINE: your answers to these, and the one that was hardest to settle. -->
-
-### Design language
-
-The interface is a frame around the home: warm stone neutrals, **black for where the buyer is**, **brick red for their decision** (the selected option, the running price, the primary exit) and **green only for a confirmed choice**.
-
-<a href="./works/total-environment/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/total-environment/design-language.png" alt="Customer configurator design language board: colour, typography, components, contrast, shape and spacing" /></a>
-
-<!-- Reference board only: tokens and component styles, no product data or screens. Values approximated from the interface. -->
+Each status review opened with the open product decisions (what to show when, how much personalisation buyers get, where to stop modelling, how to measure), so nothing waited on a hallway conversation.
 
 ## Outcome
 
-- **Design tool:** adopted **organisation-wide**, with design workflows streamlined and less reliance on external tools such as desktop CAD
-- **Buyer portal:** per the sales team, **faster conversion, higher sales and stronger buyer confidence** across premium residential and villa developments
+- **Design tool:** adopted **organisation-wide**, with design workflows streamlined and less reliance on external desktop tools
+- **Buyer portal:** per the client's sales team, **stronger buyer confidence** in their choices
 
-<!-- REFINE: any conversion, sales-cycle or adoption numbers you can share; otherwise keep this qualitative and attributed to the sales team. -->
-<!-- Screens are confidential at the client's request, so this case study is text only. -->
-<!-- REFINE: what I would do differently. -->
+*Screens are withheld at the client's request.*
