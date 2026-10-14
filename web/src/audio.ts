@@ -1,6 +1,6 @@
 // Ambient background music: an original loop (public/audio/ambient.mp3).
 // Browsers block sound until the visitor interacts, so it starts on the first tap, click or key press
-// and fades in. The visitor's mute choice is remembered. Tunables are the constants below.
+// and fades in; the file is only requested at that moment. The visitor's mute choice is remembered. Tunables are the constants below.
 import { useSyncExternalStore } from 'react'
 
 const SRC = `${import.meta.env.BASE_URL}audio/ambient.mp3`
@@ -79,11 +79,9 @@ function armFirstGesture() {
 /** Call once at app start. */
 export function initMusic() {
   if (typeof window === 'undefined' || armed) return
-  if (wantOn) {
-    audio() // begin buffering
-    start().then((ok) => { if (!ok) armFirstGesture() })
-  }
-  armFirstGesture() // also covers "muted earlier, then turned on": the button calls start() itself
+  // Nothing is fetched here: the 430 KB file would compete with the 3D scene for bandwidth on phones.
+  // It downloads on the first tap/click/key (or when the visitor presses the sound button).
+  armFirstGesture()
   document.addEventListener('visibilitychange', () => {
     if (!el || !wantOn) return
     if (document.hidden) { el.pause() } else if (playing) { el.play().catch(() => {}) }
