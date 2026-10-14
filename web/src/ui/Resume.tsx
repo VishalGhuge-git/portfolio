@@ -40,7 +40,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
           sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
           items: [
             'Platform build (0 to 1): B2B and B2C platform used organisation-wide, xxxx+ daily active users',
-            '6 AI agents: Interview Bot, Practice Bot, JD Bot, Debrief Bot, Case Study Bot and a Candidate Agent',
+            '6 AI agents across lateral hiring, fresher hiring, JD creation and candidate matching, and bench assessment',
             'Leading a 7-member cross-functional team',
           ],
         },
