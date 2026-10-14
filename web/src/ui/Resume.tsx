@@ -83,7 +83,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       points: [
         'Content operations: built and trained a team of 6 managing 300,000+ content units across several partner publishers',
         'API efficiency: led an API team overhaul, lifting daily content output by 50% within a month; standardised workflows across 7 teams',
-        'Publisher onboarding: took a partner's 56 shows from zero to live in 1 week',
+        'Publisher onboarding: took 56 shows from a partner publisher from zero to live in 1 week',
       ],
     },
     {
