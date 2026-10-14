@@ -91,7 +91,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'Total Environment',
             meta: 'B2B 3D design tool + B2C buyer portal · 0 to 1',
-            tags: ['300+ screens', '32+ flows', 'in-house designers'],
+            tags: ['300+ screens', '32+ flows'],
             slug: 'total-environment',
           },
         ],

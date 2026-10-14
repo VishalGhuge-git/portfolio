@@ -5,13 +5,7 @@ role: Product Manager, 0 to 1
 tags: [AI agents, 0 to 1, B2B + B2C, "xxxx+ daily users"]
 ---
 
-<!--
-  DRAFT built only from the CV. Sections marked REFINE below are left out until there is real
-  content for them; do not invent. Add: the "before" numbers, options rejected, outcome beyond
-  daily users, screenshots, and what you would do differently.
--->
-
-**TL;DR** Fractal staffed its bench through spreadsheets and one manual person. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **xxxx+ people a day**.
+**TL;DR** Fractal staffed its bench through spreadsheets and manual follow-up. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **xxxx+ people a day**.
 
 | | |
 | --- | --- |
@@ -20,11 +14,11 @@ tags: [AI agents, 0 to 1, B2B + B2C, "xxxx+ daily users"]
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
 | **Reach** | xxxx+ daily active users, used organisation-wide |
-| **Team** | 7 people: 2 UI/UX designers, 2 backend engineers, 1 AI engineer, 1 QA, 1 APM |
+| **Team** | 7-person cross-functional team: design, engineering, AI, QA and product |
 
 ## Context
 
-Fractal has thousands people and hundreds on the bench at any time. It is a billable services business, so **every bench hour is lost revenue**: the less time someone sits on the bench, onshore or offshore, the bigger the cost win.
+Fractal is a large organisation with a sizeable bench at any time. It is a billable services business, so **every bench hour is lost revenue**: the less time someone sits on the bench, onshore or offshore, the bigger the cost win.
 
 ## Users and their jobs
 
@@ -36,27 +30,11 @@ Fractal has thousands people and hundreds on the bench at any time. It is a bill
 
 ## The problem
 
-The process lived in **large Excel files and pivot tables**, with **manual effort**, and constant follow-up over Teams and calls. It stayed afloat only through manual effort, so it could not scale and could not be trusted at speed.
+The process lived in **large spreadsheets and pivot tables**, with constant manual follow-up over Teams and calls. It stayed afloat only through manual effort, so it could not scale and could not be trusted at speed.
 
-## Baseline: the funnel
+## Baseline: where the funnel leaked
 
-Of every 100 people on the bench, most never made it to a project manager's shortlist, and only **a fraction was selected**:
-
-<div class="funnel">
-  <div class="funnel-row"><span class="funnel-label">Receive AI matches</span><span class="funnel-bar" style="width:most">most</span></div>
-  <div class="funnel-row"><span class="funnel-label">Recommended to a project manager</span><span class="funnel-bar"></span></div>
-  <div class="funnel-row"><span class="funnel-label">Selected for a project</span><span class="funnel-bar"></span></div>
-</div>
-
-| Step | Rate |
-| --- | --- |
-| Bench step | n/a |
-| Bench step | n/a |
-| Bench step | n/a |
-
-Two leaks stand out: **a third of the bench had no AI match at all**, and **only a third of recommendations turned into a selection**. That second leak is why trust in the recommendation became a design goal.
-
-<!-- REFINE: confirm current vs launch baseline, and add the target. -->
+Two leaks stood out: **a meaningful part of the bench had no AI match at all**, and **only a fraction of recommendations turned into a selection**. That second leak is why trust in the recommendation became a design goal.
 
 ## Goals and success metrics
 
@@ -65,8 +43,6 @@ I framed success around the funnel, since every stage leaks time and money:
 - **Primary:** more of the bench selected, faster (less time on the bench)
 - **Adoption:** daily active use across staffing, project managers and candidates
 - **Trust:** project managers act on recommendations instead of re-checking in a spreadsheet
-
-<!-- REFINE: the numeric targets and the measured before/after (time to staff, selection rate). -->
 
 ## Strategy: the smallest thing that goes live
 
@@ -79,7 +55,6 @@ My bet was that adoption beats completeness. I scoped the MVP to the **minimum f
 | **Deferred** | Integrations with other internal systems | They add dependencies and delay launch; prove the flow first |
 | **Deferred** | **Auto-assignment** (the system assigns people itself) | Recommended by stakeholders, but only worth building once the matching algorithm is upgraded. Getting the foundation state-of-the-art came first. |
 
-
 ## The product decision that mattered: explainable recommendations
 
 An AI ranking people's careers will not be trusted as a black box. Every recommendation shows:
@@ -89,25 +64,9 @@ An AI ranking people's careers will not be trusted as a black box. Every recomme
 
 The design goal: a project manager can read the reasoning, test it against their own judgement, and decide. That is what moves recommendations to selections.
 
-## Design language
-
-The visual language the platform is built on: calm navy on cool white, one warm accent for identity, and tables that stay readable at density. The text and surface pairings shown meet WCAG contrast, and green is reserved for success.
-
-<a href="./works/iqigai/design-language.png" target="_blank" rel="noopener noreferrer"><img src="./works/iqigai/design-language.png" alt="iqigai design language board: logo, typography, colour palette, contrast pairings, components, table anatomy, radius and spacing" /></a>
-
-<!-- Reference board only: tokens and component styles, no product data or screens. -->
-
 ## Prioritising the six AI agents
 
-I defined the use case for each agent and ordered the build by **impact on the hiring funnel**:
-
-- **Interview Bot** for lateral hiring
-- **Practice Bot** for fresher hiring
-- **JD Bot** for creating job descriptions and matching candidates
-- **Case Study Bot** and **Debrief Bot** for bench assessment
-- **Candidate Agent**
-
-<!-- REFINE: how funnel impact was estimated, and why this order. -->
+I defined the use case for each agent and ordered the build by **impact on the hiring funnel**. The six agents cover lateral hiring, fresher hiring, job descriptions and candidate matching, bench assessment and a candidate-facing assistant.
 
 ## Risks and trade-offs
 
@@ -119,5 +78,3 @@ I defined the use case for each agent and ordered the build by **impact on the h
 - **xxxx+ daily active users**, used organisation-wide
 - A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
 - **6 AI agents** defined, prioritised and integrated
-
-<!-- REFINE: confirm "50% less time on staffing" and what it measures before publishing. -->
