@@ -12,6 +12,7 @@ import { resetView } from './scene/orbit'
 import ContactModal, { LINKEDIN_URL, MAIL_HREF, PHONE, PhoneIcon } from './ui/ContactModal'
 import { SOCIAL_ICONS } from './ui/SocialIcons'
 import LoadingScreen from './ui/LoadingScreen'
+import SoundToggle from './ui/SoundToggle'
 import { track } from './analytics'
 import { useStore } from './store'
 
@@ -46,6 +47,7 @@ function TopBar() {
     <>
     <motion.div className={`topbar-veil${open ? ' is-hidden' : ''}`} style={{ opacity: veil }} aria-hidden="true" />
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
+      <SoundToggle />
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
       </a>
