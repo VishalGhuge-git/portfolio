@@ -9,6 +9,17 @@ export const PHONE = '+919975961534'
 const PHONE_SHOWN = '+91 99759 61534'
 export const MAIL_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent('Hello Vishal')}`
 
+export const WHATSAPP_HREF = `https://wa.me/${PHONE.replace('+', '')}?text=${encodeURIComponent('Hi Vishal, I came across your portfolio.')}`
+
+export function WhatsAppIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 21l1.65-4.85A8.5 8.5 0 1 1 8 19.4L3 21z" />
+      <path d="M9 8.5c0 3.3 2.7 6 6 6l1.2-1.3a.7.7 0 0 0-.1-1l-1.4-.8a.7.7 0 0 0-.9.2l-.4.5a4 4 0 0 1-1.8-1.8l.5-.4a.7.7 0 0 0 .2-.9l-.8-1.4a.7.7 0 0 0-1-.1L9 8.5z" />
+    </svg>
+  )
+}
+
 export function PhoneIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -17,7 +28,7 @@ export function PhoneIcon() {
   )
 }
 
-// The three ways to reach me, shown directly (footer) and inside the modal.
+// The ways to reach me, shown directly (footer) and inside the modal.
 const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
 
 export function ContactOptions() {
@@ -34,6 +45,13 @@ export function ContactOptions() {
         <a className="cm-row" href={MAIL_HREF} onClick={() => track('email_click')}>
           <span className="cm-ico"><Mail /></span>
           <span className="cm-txt"><b>Email</b><em>{EMAIL}</em></span>
+          <span className="cm-go">→</span>
+        </a>
+      </div>
+      <div className="cm-rowwrap">
+        <a className="cm-row" href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" onClick={() => track('whatsapp_click')}>
+          <span className="cm-ico"><WhatsAppIcon /></span>
+          <span className="cm-txt"><b>WhatsApp</b><em>Message me</em></span>
           <span className="cm-go">→</span>
         </a>
       </div>

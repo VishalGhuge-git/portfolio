@@ -18,7 +18,7 @@ export function initAnalytics() {
   document.head.appendChild(s)
 }
 
-// Events used: sticker_click, case_open, cv_download, linkedin_click, email_click
+// Events used: sticker_click, case_open, cv_download, linkedin_click, email_click, call_click, whatsapp_click
 export function track(event: string, title?: string) {
   try {
     window.goatcounter?.count({ path: event, title, event: true })
