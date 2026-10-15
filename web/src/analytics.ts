@@ -1,7 +1,7 @@
 // Privacy-friendly analytics (GoatCounter: no cookies, no personal data).
 // 1. Create a free site at goatcounter.com, e.g. "vishalghuge" -> https://vishalghuge.goatcounter.com
 // 2. Put that code below. While it is empty, nothing is loaded and track() does nothing.
-const GOATCOUNTER_CODE = ''
+const GOATCOUNTER_CODE = 'vishalghuge'
 
 declare global {
   interface Window {
