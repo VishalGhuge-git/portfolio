@@ -1,26 +1,17 @@
 // Ambient background music: an original loop (public/audio/ambient.mp3).
-// Browsers block sound until the visitor interacts, so it starts on the first tap, click or key press
-// and fades in; the file is only requested at that moment. The visitor's mute choice is remembered. Tunables are the constants below.
+// Off by default: nothing is downloaded or played until the visitor presses the sound button.
+// Tunables are the constants below.
 import { useSyncExternalStore } from 'react'
 
 const SRC = `${import.meta.env.BASE_URL}audio/ambient.mp3`
 const VOLUME = 0.4 // final element volume (the file itself is already quiet)
 const FADE_MS = 1800
-const KEY = 'portfolio-music'
-const GESTURES = ['pointerup', 'touchend', 'click', 'keydown'] as const
 
 let el: HTMLAudioElement | null = null
 let playing = false
-let wantOn = readPref() // false once the visitor has muted it
 let fadeTimer: number | undefined
 const subs = new Set<() => void>()
 
-function readPref(): boolean {
-  try { return localStorage.getItem(KEY) !== 'off' } catch { return true }
-}
-function writePref(on: boolean) {
-  try { localStorage.setItem(KEY, on ? 'on' : 'off') } catch { /* private mode: fine */ }
-}
 function emit() { subs.forEach((f) => f()) }
 
 function audio(): HTMLAudioElement {
@@ -63,34 +54,18 @@ function stop() {
   fadeTo(0, () => audio().pause())
 }
 
-let armed = false
-function armFirstGesture() {
-  if (armed) return
-  armed = true
-  const on = async (e: Event) => {
-    // A tap on the sound button is handled by the button itself.
-    if ((e.target as Element | null)?.closest?.('.sound-toggle')) return
-    if (!wantOn) return
-    if (await start()) GESTURES.forEach((g) => window.removeEventListener(g, on, true))
-  }
-  GESTURES.forEach((g) => window.addEventListener(g, on, true))
-}
-
-/** Call once at app start. */
+/** Kept so main.tsx needs no change: only pauses playback while the tab is hidden. */
 export function initMusic() {
-  if (typeof window === 'undefined' || armed) return
-  // Nothing is fetched here: the 430 KB file would compete with the 3D scene for bandwidth on phones.
-  // It downloads on the first tap/click/key (or when the visitor presses the sound button).
-  armFirstGesture()
+  if (typeof window === 'undefined') return
   document.addEventListener('visibilitychange', () => {
-    if (!el || !wantOn) return
+    if (!el) return
     if (document.hidden) { el.pause() } else if (playing) { el.play().catch(() => {}) }
   })
 }
 
 export function toggleMusic() {
-  if (playing) { wantOn = false; writePref(false); stop() }
-  else { wantOn = true; writePref(true); start() }
+  if (playing) stop()
+  else start()
 }
 
 export function useMusicPlaying(): boolean {
