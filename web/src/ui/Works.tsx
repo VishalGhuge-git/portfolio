@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState, type Ref } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, type Ref } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeRaw from 'rehype-raw'
 import { WORKS, SECTION_COVERS, type WorkListItem, type WorkSection, type WorksLang } from '../data/works'
 import { getWorkDoc } from '../data/workDocs'
 import ScrollTopButton from './ScrollTopButton'
 import { useStore } from '../store'
 import { track } from '../analytics'
+
+const MarkdownBody = lazy(() => import('./MarkdownBody'))
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -229,9 +228,9 @@ function WorkDetail({
 
           {doc && doc.body ? (
             <div className="wk-md" ref={mdRef}>
-              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-                {doc.body}
-              </ReactMarkdown>
+              <Suspense fallback={null}>
+                <MarkdownBody>{doc.body}</MarkdownBody>
+              </Suspense>
             </div>
           ) : (
             // 无 md：演示详情页支持的组件 —— 介绍文本 + 图片/视频占位 + 跳转按钮
