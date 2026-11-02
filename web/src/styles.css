@@ -2427,3 +2427,6 @@ html[data-theme='light'] .tl-legend .tl-dot-education { border-color: #4a6fa5; }
 html[data-theme='light'] .tl-kind-education { color: #36598c; border-color: rgba(54, 89, 140, 0.45); }
 html[data-theme='light'] .tl-dot-education.tl-dot { border-color: #4a6fa5; box-shadow: 0 0 0 4px rgba(74, 111, 165, 0.12); }
 html[data-theme='light'] .tl-kind-work { background: rgba(162, 78, 28, 0.1); }
+
+/* Tall (vertical or near-square) demo videos: keep them a sensible width and height inside the case study */
+.wk-md video.is-tall { width: auto; max-width: 100%; max-height: min(78vh, 640px); margin-inline: auto; }

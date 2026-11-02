@@ -127,16 +127,16 @@ export const WORKS: Record<'en', WorksLang> = {
         title: 'AI work I built',
         tagline: 'Built end to end with AI tools',
         items: [
-          { name: 'PMPO Portal', meta: 'POPM MCQ practice platform', tags: ['Ed-tech', 'Solo build'], slug: 'pmpo-portal' },
+          { name: 'POPM Prep', meta: 'SAFe POPM practice platform · 374 questions', tags: ['Ed-tech', 'Solo build'], slug: 'pmpo-portal' },
           {
             name: 'Indian Stock Market News Brief',
-            meta: 'Fully automated daily email newsletter',
+            meta: 'AI agent that reads, cross-checks and emails daily',
             tags: ['Automation', 'Daily 8:30 AM IST'],
             slug: 'indian-market-brief',
           },
           {
             name: 'Garu',
-            meta: 'AI animated video · 2D, old-school style',
+            meta: 'AI animated series · Episode 1',
             tags: ['Video', 'Personal brand'],
             slug: 'garu-animated-video',
           },
