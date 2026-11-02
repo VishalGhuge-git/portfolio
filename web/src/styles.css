@@ -2277,7 +2277,8 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
   .hero .about { bottom: max(11vh, 88px); bottom: max(11svh, 88px); }
 }
 @media (max-width: 640px) {
-  .hero .about { bottom: max(15vh, 88px); bottom: max(15svh, 88px); }
+  /* the SCROLL cue is ~56px tall and pinned 14px from the bottom, so 88px leaves a small, even gap above it */
+  .hero .about { bottom: 88px; }
 }
 
 /* =====================================================================
