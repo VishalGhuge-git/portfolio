@@ -8,6 +8,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { useStore } from '../store'
 import { orbit } from './orbit'
 import { TOUR } from './tour'
+import { useTheme } from '../theme'
 
 // Hero scene: gradient backdrop, lights, the clay bust (Bust.tsx) wearing project stickers
 // (Stickers.tsx), and a camera that moves with page scroll.
@@ -26,17 +27,23 @@ const BG: Record<string, [string, string]> = {
   mist: ['#e8edf3', '#f8fafc'],
   paper: ['#eef0f6', '#fbfbfd'],
 }
-const bgKey = new URLSearchParams(location.search).get('bg') || 'graphite'
+const bgParam = new URLSearchParams(location.search).get('bg')
+// light mode backdrop: soft cool grey, so the navy suit and wooden desk still read clearly
+const LIGHT_BG: [string, string] = ['#c9d1dc', '#f3f5f8']
 
 function GradientBackground() {
+  const theme = useTheme()
   const uniforms = useMemo(
     () => ({
-      uTop: { value: new THREE.Color((BG[bgKey] || BG.sage)[0]) },
-      uBottom: { value: new THREE.Color((BG[bgKey] || BG.sage)[1]) },
+      uTop: { value: new THREE.Color() },
+      uBottom: { value: new THREE.Color() },
       uSteep: { value: 1.4 },
     }),
     []
   )
+  const [top, bottom] = theme === 'light' ? LIGHT_BG : BG[bgParam || 'graphite'] || BG.graphite
+  uniforms.uTop.value.set(top)
+  uniforms.uBottom.value.set(bottom)
   return (
     <mesh scale={100}>
       <sphereGeometry args={[1, 32, 32]} />

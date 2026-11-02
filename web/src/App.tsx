@@ -14,6 +14,8 @@ import ContactModal, { LINKEDIN_URL, MAIL_HREF, PHONE, PhoneIcon } from './ui/Co
 import { SOCIAL_ICONS } from './ui/SocialIcons'
 import LoadingScreen from './ui/LoadingScreen'
 import SoundToggle from './ui/SoundToggle'
+import ThemeToggle from './ui/ThemeToggle'
+import { useTheme } from './theme'
 import { track } from './analytics'
 import { useStore } from './store'
 
@@ -49,6 +51,7 @@ function TopBar() {
     <motion.div className={`topbar-veil${open ? ' is-hidden' : ''}`} style={{ opacity: veil }} aria-hidden="true" />
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
       <SoundToggle />
+      <ThemeToggle />
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
       </a>
@@ -295,6 +298,7 @@ function Contact() {
 }
 
 export default function App() {
+  const theme = useTheme()
   const { scrollY } = useScroll()
   // Darken the 3D scene after leaving the hero so the résumé text stays readable
   const scrimOpacity = useTransform(scrollY, [0, 520], [0, 0.4])
@@ -329,7 +333,7 @@ export default function App() {
           camera={{ position: [0, 3.5, 5.4], fov: 39, near: 0.1, far: 500 }}
           gl={{ antialias: true, depth: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
         >
-          <color attach="background" args={['#0a0e16']} />
+          <color attach="background" args={[theme === 'light' ? '#eef1f5' : '#0a0e16']} />
           <Suspense fallback={null}>
             <Scene />
           </Suspense>
