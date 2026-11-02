@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } fr
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
+import AiSignpost from './ui/AiSignpost'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import ExploreBar from './ui/ExploreBar'
@@ -324,9 +325,9 @@ export default function App() {
         <Canvas
           eventSource={document.getElementById('root') as HTMLElement}
           eventPrefix="client"
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           camera={{ position: [0, 3.5, 5.4], fov: 39, near: 0.1, far: 500 }}
-          gl={{ antialias: true, depth: true, toneMapping: THREE.ACESFilmicToneMapping }}
+          gl={{ antialias: true, depth: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
         >
           <color attach="background" args={['#0a0e16']} />
           <Suspense fallback={null}>
@@ -370,6 +371,7 @@ export default function App() {
       {/* Scrollable content */}
       <main className="content">
         <Hero cueOpacity={cueOpacity} />
+        <AiSignpost />
         <Resume />
         <Contact />
       </main>
