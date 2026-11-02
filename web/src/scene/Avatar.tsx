@@ -84,7 +84,9 @@ export default function Avatar({ children }: { children?: ReactNode }) {
   useFrame((state, delta) => {
     const g = turn.current
     if (!g) return
-    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, state.pointer.x * TURN, 3.6, Math.min(delta, 0.1))
+    // no turning on phones: there is no hover, and a tap would make the body swing toward the button
+    const aim = state.size.width / state.size.height < 1.05 ? 0 : state.pointer.x
+    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, aim * TURN, 3.6, Math.min(delta, 0.1))
   })
 
   return (

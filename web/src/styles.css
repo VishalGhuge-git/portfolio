@@ -2344,7 +2344,15 @@ html[data-theme='light'] .about-link:hover,
 html[data-theme='light'] .about-open:hover span { color: var(--accent); }
 
 /* résumé */
-html[data-theme='light'] .tl-body { background: rgba(255, 255, 255, 0.62); box-shadow: 0 6px 20px rgba(27, 31, 42, 0.06); }
+html[data-theme='light'] .tl-body {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  border-radius: 16px;
+  padding: 18px 22px 20px;
+  box-shadow: 0 8px 24px rgba(27, 31, 42, 0.07);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
 html[data-theme='light'] .tl-period { color: rgba(27, 31, 42, 0.7); }
 html[data-theme='light'] .tl-role { color: rgba(27, 31, 42, 0.8); }
 html[data-theme='light'] .tl-points li { color: rgba(27, 31, 42, 0.92); }

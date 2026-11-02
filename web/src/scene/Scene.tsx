@@ -186,6 +186,7 @@ function useOrbitInput() {
 }
 
 const UP = new THREE.Vector3(0, 1, 0)
+const NO_POINTER = { x: 0, y: 0 }
 const DESK_CENTER = new THREE.Vector3(DESK_X, DESK_TOP_Y + 0.12 * HEIGHT, 0.04 * HEIGHT)
 function CameraRig() {
   useOrbitInput()
@@ -194,6 +195,7 @@ function CameraRig() {
   const wantPos = useMemo(() => new THREE.Vector3(), [])
   const zoom = useRef(0)
   const focusAmt = useRef(0)
+  const heroLiftRef = useRef(0.95)
   const focusPt = useMemo(() => new THREE.Vector3(), [])
   const tmp = useMemo(() => new THREE.Vector3(), [])
   useFrame((state, delta) => {
@@ -203,10 +205,13 @@ function CameraRig() {
     // Portrait screens (phones) need the camera further back so the figure fits the narrow width
     const aspect = state.size.width / state.size.height
     const back = Math.max(0, 1.05 - aspect) * 4.4
+    // Touch screens have no hover: a tap would otherwise count as "the cursor moved away" and swing the camera.
+    // On phones the pointer is held at the centre, which keeps the close-up framing the page opens with.
+    const ptr = aspect < 1.05 ? NO_POINTER : state.pointer
 
     // Hero: the closer the cursor is to the face, the closer the camera dollies in (top of the page only).
     const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active
-    const d = Math.hypot(state.pointer.x * 1.1, (state.pointer.y - 0.05) * 1.4)
+    const d = Math.hypot(ptr.x * 1.1, (ptr.y - 0.05) * 1.4)
     const want = atTop ? THREE.MathUtils.smoothstep(0.9 - d, 0, 0.4) : 0
     zoom.current = THREE.MathUtils.lerp(zoom.current, want, 0.06)
     const z = zoom.current
@@ -214,11 +219,11 @@ function CameraRig() {
     const drift = Math.min(1, p * 2.2)
     const end = THREE.MathUtils.smoothstep(p, 0.82, 1) // pull back to the full figure at the very end
     wantPos.set(
-      THREE.MathUtils.lerp(0, -1.0, drift) * (1 - end) + state.pointer.x * 0.5 * z,
-      THREE.MathUtils.lerp(FACE_Y + 0.1, 3.0, drift) * (1 - end) + 2.2 * end + state.pointer.y * 0.3 * z,
+      THREE.MathUtils.lerp(0, -1.0, drift) * (1 - end) + ptr.x * 0.5 * z,
+      THREE.MathUtils.lerp(FACE_Y + 0.1, 3.0, drift) * (1 - end) + 2.2 * end + ptr.y * 0.3 * z,
       THREE.MathUtils.lerp(5.4, 6.7, drift) * (1 - end) + 11 * end - 0.7 * z + back
     )
-    wantTarget.set(state.pointer.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + state.pointer.y * 0.2 * z, 0)
+    wantTarget.set(ptr.x * 0.25 * z, THREE.MathUtils.lerp(FACE_Y, 3.0, drift) * (1 - end) + 2.1 * end + ptr.y * 0.2 * z, 0)
 
     // Hero on wide screens: pull back and look right of Vishal so the platform and desk fit beside the About card
     const pull = aspect >= 1.05 ? (1 - drift) * (1 - end) : 0
@@ -232,11 +237,14 @@ function CameraRig() {
     if (aspect < 1.05) {
       // Hero: measure where the About card starts and keep his folded hands (about 46% down at lift 0.95) above it,
       // with a clear gap, whatever the phone size or font. A taller card pushes him up; a shorter one lets him sit lower.
-      let heroLift = 0.95
+      // Only measured while the card is compact: when "Read more" grows it upward, the figure stays put
+      // (the open card simply covers more of him) instead of the camera swinging to a new angle.
+      let heroLift = heroLiftRef.current
       const card = document.querySelector('.hero .about')
-      if (card) {
+      if (card && card.classList.contains('is-min')) {
         const f = card.getBoundingClientRect().top / window.innerHeight
         heroLift = THREE.MathUtils.clamp(0.95 + (0.46 - (f - 0.055)) * 0.708 * Math.max(wantPos.z, 6), 0.3, 2.2)
+        heroLiftRef.current = heroLift
       }
       const lift = heroLift * (1 - drift) * (1 - end) + 1.0 * end
       wantTarget.y -= lift

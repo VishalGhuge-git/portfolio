@@ -443,7 +443,9 @@ function Mug() {
 
 function Chair() {
   return (
-    <group position={[0.36 * H, -0.09 * H, 0.3 * H]} rotation={[0, -1.0, 0]} scale={1.85}>
+    // Leg tips sit 0.085 below the chair's origin (before the 1.85 scale), so rest them exactly on the floor (-FLOOR)
+    <group position={[0.36 * H, (-FLOOR + 0.085 * 1.85) * H, 0.3 * H]} rotation={[0, -1.0, 0]} scale={1.85}>
+      <Shadow p={[0, -0.0845, 0]} r={0.05} />
       <Hot grow={1.22} float={0.5} ok={studioOk} id="foyr" lift={0.1255 * H} slug="foyr-ideate" label="Foyr Ideate" hit={0.05 * H} position={[0, 0.04 * H, -0.032 * H]} labelOffset={[0, 0.4, 0.1]}>
         <group position={[0, -0.04 * H, 0.032 * H]}>
           <Box s={[0.062, 0.003, 0.003]} p={[0, -0.055, -0.029]} m={OAK_D} round={0.3} />
