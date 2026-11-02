@@ -85,19 +85,24 @@ export default function ExploreBar() {
   if (!explore) {
     if (nearEnd || inHero) return null
     return (
-      <div className="explore-bar idle">
-        <button
-          className="eb-btn eb-main"
-          onClick={() => {
-            resetView()
-            setIdx(0)
-            setPlaying(true)
-            setExplore('tour')
-          }}
-        >
-          Explore 3D
-        </button>
-      </div>
+      <>
+        {/* Phones and tablets: a soft dark fade behind the floating button, so page text dims out
+            before it reaches the button instead of running underneath it */}
+        <div className="explore-dock" aria-hidden="true" />
+        <div className="explore-bar idle">
+          <button
+            className="eb-btn eb-main"
+            onClick={() => {
+              resetView()
+              setIdx(0)
+              setPlaying(true)
+              setExplore('tour')
+            }}
+          >
+            Explore 3D
+          </button>
+        </div>
+      </>
     )
   }
 

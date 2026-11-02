@@ -2184,3 +2184,19 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
   .sign-arm { width: 90%; }
   .sign-name { font-size: 15px; }
 }
+
+/* ---------- Bottom fade behind the floating Explore 3D button (phones and tablets) ---------- */
+.explore-dock { display: none; }
+@media (max-width: 1099px) {
+  .explore-dock {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(96px + env(safe-area-inset-bottom, 0px));
+    z-index: 54; /* above the page text, below the back-to-top (55) and Explore (60) buttons */
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(8, 11, 18, 0.96) 0%, rgba(8, 11, 18, 0.86) 42%, rgba(8, 11, 18, 0) 100%);
+  }
+}
