@@ -121,6 +121,27 @@ export const WORKS: Record<'en', WorksLang> = {
           { name: 'This portfolio', meta: 'Built like a product', slug: 'this-portfolio' },
         ],
       },
+      {
+        id: 'ai-builds',
+        no: '05',
+        title: 'AI work I built',
+        tagline: 'Built end to end with AI tools',
+        items: [
+          { name: 'PMPO Portal', meta: 'POPM MCQ practice platform', tags: ['Ed-tech', 'Solo build'], slug: 'pmpo-portal' },
+          {
+            name: 'Indian Stock Market News Brief',
+            meta: 'Fully automated daily email newsletter',
+            tags: ['Automation', 'Daily 8:30 AM IST'],
+            slug: 'indian-market-brief',
+          },
+          {
+            name: 'Garu',
+            meta: 'AI animated video · 2D, old-school style',
+            tags: ['Video', 'Personal brand'],
+            slug: 'garu-animated-video',
+          },
+        ],
+      },
     ],
   },
 }
