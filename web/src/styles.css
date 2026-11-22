@@ -2825,3 +2825,94 @@ html[data-theme='light'] .work-card:has(.work-card-hit:focus-visible) { border-c
 .build-facts dd { font-size: 12.5px; line-height: 1.4; color: var(--ink); opacity: 0.85; }
 .build-list > li:has(.build-card.is-landscape) { grid-column: 1 / -1; }
 html[data-theme='light'] .resume-title { text-shadow: none; }
+
+/* ==================================================================
+   UI/UX AUDIT FIXES
+   ================================================================== */
+/* Phone section menu (desktop keeps its inline links) */
+.topbar-menu-wrap { position: relative; display: none; }
+.topbar .topbar-menu {
+  height: 100%; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 600; letter-spacing: inherit; color: #fff;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+.site-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px; padding: 6px;
+  display: flex; flex-direction: column; border-radius: 16px;
+  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+.topbar .site-menu a {
+  display: flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px;
+  background: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none;
+  font-size: 14px; letter-spacing: normal; color: var(--ink);
+}
+.topbar .site-menu a:hover { background: var(--chip-bg); transform: none; }
+@media (max-width: 640px) {
+  .topbar-menu-wrap { display: block; }
+  .topbar .topbar-cv { display: none; }
+}
+
+/* Touch screens: every control at least 44px tall */
+@media (pointer: coarse) {
+  .topbar a, .topbar button.topbar-cta, .topbar .topbar-menu { min-height: 44px; display: inline-flex; align-items: center; }
+  .sound-toggle { width: 44px; height: 44px; }
+  .build-story { min-height: 44px; }
+  .foot-meta button { min-height: 44px; padding: 0 6px; }
+  .explore-bar .eb-arrow, .eb-arrow { min-width: 44px; min-height: 44px; }
+  .work-card-live { min-height: 44px; }
+  .tl-case { min-height: 44px; }
+}
+
+/* Hero proof chips on phones: all four visible in a 2 x 2 grid, no hidden sideways scroll */
+@media (max-width: 1099px) {
+  .hero .about.is-min .proof {
+    display: grid; grid-template-columns: 1fr 1fr; overflow: visible; gap: 6px;
+    -webkit-mask-image: none; mask-image: none; padding-right: 0;
+  }
+  .hero .about.is-min .proof-chip { min-width: 0; padding: 7px 10px; }
+  .hero .about.is-min .proof-chip b { font-size: 17px; }
+  .hero .about.is-min .proof-chip em { display: none; }
+  .hero .about.is-min .proof-logo { width: 22px; height: 22px; top: 6px; right: 6px; }
+}
+
+/* Desktop: a wider content column and slightly larger card text */
+@media (min-width: 1100px) {
+  .sec-head, .build-list, .about-me-body, .kind-list, .kind-more, .work-list,
+  .timeline, .resume-title, .resume-sub { width: min(560px, 42vw); }
+  .work-card-name { font-size: 20px; }
+  .work-card-line { font-size: 16px; }
+  .work-tag { font-size: 13px; }
+  .sec-sub { font-size: 16px; }
+}
+
+/* Built with AI: demo length + sound badge on the video */
+.build-media { position: relative; display: block; }
+.build-len {
+  position: absolute; top: 8px; left: 8px; z-index: 1; padding: 3px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; color: #fff; background: rgba(0, 0, 0, 0.6); pointer-events: none;
+}
+
+/* Light mode: section subtitles readable over the light 3D scene */
+html[data-theme='light'] .sec-sub,
+html[data-theme='light'] .resume-sub { color: rgba(27, 31, 42, 0.82); text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.9); }
+html[data-theme='light'] .topbar .topbar-menu { color: var(--ink); }
+@media (pointer: coarse) {
+  .hero .about .about-btn { height: 44px; }
+  .about-me-btn { min-height: 44px; }
+  .foot-links a { min-height: 44px; }
+}
+/* Number strip: values can be long ("10% → 50%", "Org-wide"), so size them down and give the label room */
+.work-card-media.is-stat b { font-size: 34px; white-space: nowrap; }
+.work-card-media.is-stat .work-card-stat-label { flex: 1; min-width: 0; }
+@media (min-width: 641px) { .work-card-media.is-stat b { font-size: 38px; } }
+@media (min-width: 1100px) {
+  .sec-head, .build-list, .about-me-body, .kind-list, .kind-more, .work-list,
+  .timeline, .resume-title, .resume-sub { max-width: none; }
+}
+@media (max-width: 640px) {
+  .work-card-media.is-stat { flex-wrap: wrap; row-gap: 6px; }
+  .work-card-media.is-stat .work-card-stat-label { flex-basis: 100%; }
+}

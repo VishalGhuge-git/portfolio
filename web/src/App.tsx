@@ -40,6 +40,27 @@ function TopBar() {
   // Hide while a case study is open so it never crowds the case study's own buttons
   const open = useStore((s) => s.active !== null)
   const [talk, setTalk] = useState(false)
+  const [menu, setMenu] = useState(false)
+  // Phone section menu: close on Escape or a tap outside
+  useEffect(() => {
+    if (!menu) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenu(false)
+    const onDown = (e: PointerEvent) => {
+      if (!(e.target as HTMLElement).closest('.topbar-menu-wrap')) setMenu(false)
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('pointerdown', onDown)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('pointerdown', onDown)
+    }
+  }, [menu])
+  const menuGo = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    setMenu(false)
+    track('menu_jump', id)
+    jumpTo(id)
+  }
   const { scrollY } = useScroll()
   const veil = useTransform(scrollY, [60, 220], [0, 1]) // dark strip behind the buttons once text scrolls under them
   const jump = (id: string) => (e: React.MouseEvent) => {
@@ -62,9 +83,32 @@ function TopBar() {
       <a className="topbar-jump" href="#education" onClick={jump('education')}>
         Education
       </a>
-      <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
+      <a className="topbar-cv" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
         Download CV
       </a>
+      <div className="topbar-menu-wrap">
+        <button
+          type="button"
+          className="topbar-menu"
+          aria-expanded={menu}
+          aria-controls="site-menu"
+          onClick={() => setMenu((v) => !v)}
+        >
+          {menu ? 'Close' : 'Menu'}
+        </button>
+        {menu && (
+          <div className="site-menu" id="site-menu">
+            <a href="#work" onClick={menuGo('work')}>Work</a>
+            <a href="#built" onClick={menuGo('built')}>Built with AI</a>
+            <a href="#about" onClick={menuGo('about')}>About me</a>
+            <a href="#kind-words" onClick={menuGo('kind-words')}>Kind words</a>
+            <a href="#experience" onClick={menuGo('experience')}>Experience</a>
+            <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => { setMenu(false); track('cv_download', 'menu') }}>
+              Download CV
+            </a>
+          </div>
+        )}
+      </div>
       <button type="button" className="topbar-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
         Let’s talk
       </button>
@@ -104,7 +148,7 @@ function RoleSizer() {
   )
 }
 const COPY = {
-  title: 'About Vishal',
+  title: 'Vishal Ghuge, Product Manager',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
   lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
   rest: ' I turn vague asks into products people use: 5,276+ daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
@@ -137,9 +181,9 @@ function RoleRotator() {
         <motion.span
           key={i}
           className="about-role-word"
-          initial={{ y: '105%', opacity: 0 }}
+          initial={{ y: '105%', opacity: 1 }}
           animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '-105%', opacity: 0 }}
+          exit={{ y: '-105%', opacity: 1 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
           {ROLES[i]}

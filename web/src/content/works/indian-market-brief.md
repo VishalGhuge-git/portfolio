@@ -8,7 +8,7 @@ how: Treated **trust as the feature**: an AI agent cross-checks every number acr
 outcome: One **6-to-8-minute brief** every morning around 8:30 AM IST, running unattended.
 ---
 
-<video class="is-tall" controls loop preload="metadata" playsinline poster="./works/indian-market-brief/poster.jpg" src="./works/indian-market-brief/demo.mp4"></video>
+<video class="is-tall" controls muted loop preload="metadata" playsinline poster="./works/indian-market-brief/poster.jpg" src="./works/indian-market-brief/demo.mp4"></video>
 
 *Product demo (52 seconds).*
 

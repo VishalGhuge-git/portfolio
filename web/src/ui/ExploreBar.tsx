@@ -3,6 +3,8 @@ import { useStore } from '../store'
 import { orbit, resetView, setSide } from '../scene/orbit'
 import { TOUR } from '../scene/tour'
 
+const SHOW_IDLE_BUTTON = false
+
 type View = 'tour' | 'person' | 'desk' | 'wide'
 const STEP_MS = 4600
 
@@ -83,7 +85,8 @@ export default function ExploreBar() {
   }, [explore])
   if (active) return null
   if (!explore) {
-    if (nearEnd || inHero) return null
+    // The hero has its own Explore button; a floating one covered page content mid-scroll, so it is off.
+    if (nearEnd || inHero || !SHOW_IDLE_BUTTON) return null
     return (
       <>
         {/* Phones and tablets: a soft dark fade behind the floating button, so page text dims out

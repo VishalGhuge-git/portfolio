@@ -8,7 +8,7 @@ how: Scoped to **one exam, done deeply**: a dashboard that turns the exam date i
 outcome: **374 questions across 14 topics**, built mobile-first, and I passed the POPM exam with **100%**.
 ---
 
-<video controls loop preload="metadata" playsinline poster="./works/pmpo-portal/poster.jpg" src="./works/pmpo-portal/demo.mp4"></video>
+<video controls muted loop preload="metadata" playsinline poster="./works/pmpo-portal/poster.jpg" src="./works/pmpo-portal/demo.mp4"></video>
 
 *Product demo (68 seconds).*
 

@@ -156,15 +156,12 @@ function WorkDetail({
     if (!vids.length) return
     vids.forEach((v) => {
       v.loop = true
+      v.muted = true
     })
-    // Try with sound first (allowed after the click that opened the case study);
-    // if the browser refuses, fall back to muted so it still plays.
+    // Always start muted: visitors may be at work. The video's own controls turn sound on.
     const play = (v: HTMLVideoElement) => {
-      v.muted = false
-      v.play().catch(() => {
-        v.muted = true
-        v.play().catch(() => {})
-      })
+      v.muted = true
+      v.play().catch(() => {})
     }
     const io = new IntersectionObserver(
       (entries) =>

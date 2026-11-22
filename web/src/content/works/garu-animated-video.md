@@ -8,7 +8,7 @@ how: Treated the episode as a product with a quality bar: a **character sheet** 
 outcome: A finished **76-second Episode 1** with two voices, subtitles and a behind-the-scenes section.
 ---
 
-<video class="is-tall" controls loop preload="metadata" playsinline poster="./works/garu-animated-video/poster.jpg" src="./works/garu-animated-video/demo.mp4"></video>
+<video class="is-tall" controls muted loop preload="metadata" playsinline poster="./works/garu-animated-video/poster.jpg" src="./works/garu-animated-video/demo.mp4"></video>
 
 *Episode 1 (76 seconds, vertical).*
 

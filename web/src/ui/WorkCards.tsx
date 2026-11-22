@@ -126,6 +126,12 @@ export function BuiltWithAI() {
         {items.map((it, i) => (
           <Reveal key={it.slug} i={i}>
             <div className={`build-card${it.landscape ? ' is-landscape' : ''}`}>
+              <span className="build-media">
+              {it.length && (
+                <span className="build-len" aria-label={`${it.length} demo with sound`}>
+                  {it.length} · sound
+                </span>
+              )}
               <video
                 className="build-video"
                 src={`${BASE}${it.video}`}
@@ -135,6 +141,7 @@ export function BuiltWithAI() {
                 preload="none"
                 onPlay={() => track('build_play', it.slug || it.name)}
               />
+              </span>
               <span className="build-name">{it.name}</span>
               {it.tagline && <span className="build-line">{it.tagline}</span>}
               {it.facts && it.facts.length > 0 && (

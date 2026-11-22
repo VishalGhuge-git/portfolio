@@ -26,7 +26,8 @@ export interface WorkListItem {
   video?: string
   poster?: string
   landscape?: boolean // 16:9 demo (default is a portrait phone-style demo)
-  facts?: { label: string; value: string }[] // short "details" rows under the card
+  facts?: { label: string; value: string }[]
+  length?: string // demo length shown on the card, e.g. 0:52 // short "details" rows under the card
 }
 
 export interface WorkGroup {
@@ -82,17 +83,17 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'iqigai',
             meta: 'Matches bench people to open roles, and explains every recommendation',
-            tags: ['PM selection 10% → 50%', '50% less staffing time'],
+            tags: ['5,276+ daily users', '50% less staffing time'],
             logo: 'iqigai.png',
-            stat: { n: '5,276+', label: 'daily users' },
+            stat: { n: '10% → 50%', label: 'PM selection rate on AI picks' },
             slug: 'iqigai',
           },
           {
             name: 'Total Environment',
             meta: 'Designers build homes in 3D on the web; buyers explore and choose in the same pipeline',
-            tags: ['Desktop CAD → web', 'Org-wide rollout'],
+            tags: ['300+ screens', 'Desktop CAD → web'],
             logo: 'te.png',
-            stat: { n: '300+', label: 'screens, 32+ flows' },
+            stat: { n: 'Org-wide', label: 'rollout of the design tool' },
             slug: 'total-environment',
           },
           {
@@ -106,9 +107,9 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'Amazon MX Player',
             meta: 'Turned a content backlog with no process into a pipeline that ships on time',
-            tags: ['300,000+ content units', '+50% output in a month'],
+            tags: ['300,000+ content units', '56 shows live in a week'],
             logo: 'mx.png',
-            stat: { n: '56', label: 'shows live in a week' },
+            stat: { n: '+50%', label: 'daily output in a month' },
             slug: 'mx-player',
           },
         ],
@@ -129,6 +130,7 @@ export const WORKS: Record<'en', WorksLang> = {
               { label: 'Code', value: 'None: no repo, no database' },
             ],
             video: 'works/indian-market-brief/demo.mp4',
+            length: '0:52',
             poster: 'works/indian-market-brief/poster.jpg',
             cover: 'indian-market-brief.jpg',
             slug: 'indian-market-brief',
@@ -143,6 +145,7 @@ export const WORKS: Record<'en', WorksLang> = {
               { label: 'Length', value: '76 seconds, 2 voices' },
             ],
             video: 'works/garu-animated-video/demo.mp4',
+            length: '1:16',
             poster: 'works/garu-animated-video/poster.jpg',
             cover: 'garu-animated-video.jpg',
             slug: 'garu-animated-video',
@@ -154,6 +157,7 @@ export const WORKS: Record<'en', WorksLang> = {
             cover: 'pmpo-portal.jpg',
             tagline: 'Practice that tests the way the exam does.',
             video: 'works/pmpo-portal/demo.mp4',
+            length: '1:08',
             poster: 'works/pmpo-portal/poster.jpg',
             landscape: true,
             facts: [
