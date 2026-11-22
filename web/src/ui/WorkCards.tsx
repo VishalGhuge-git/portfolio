@@ -62,7 +62,7 @@ export default function WorkCards() {
                         <img className="work-card-logo" src={`${import.meta.env.BASE_URL}stickers/${it.logo}`} alt="" loading="lazy" />
                       )}
                       <b>{it.stat.n}</b>
-                      <span>{it.stat.label}</span>
+                      <span className="work-card-stat-label">{it.stat.label}</span>
                     </span>
                   ) : null}
                   <span className="work-card-name">{it.name}</span>

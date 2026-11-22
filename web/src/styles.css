@@ -2635,3 +2635,17 @@ html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus
 }
 /* Number panels don't need a full 16:9 frame */
 .work-card-media.is-stat { aspect-ratio: 21 / 9; }
+
+/* Number panel as a compact strip: logo · big number · label (no empty frame) */
+.work-card-media.is-stat {
+  aspect-ratio: auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+}
+.work-card-media.is-stat .work-card-logo { position: static; flex: none; width: 40px; height: 40px; }
+.work-card-media.is-stat b { font-size: 44px; flex: none; }
+.work-card-media.is-stat .work-card-stat-label { margin-top: 0; font-size: 14px; line-height: 1.35; color: var(--ink); opacity: 0.8; }
+@media (min-width: 641px) { .work-card-media.is-stat b { font-size: 48px; } }
