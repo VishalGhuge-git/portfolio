@@ -2649,3 +2649,167 @@ html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus
 .work-card-media.is-stat b { font-size: 44px; flex: none; }
 .work-card-media.is-stat .work-card-stat-label { margin-top: 0; font-size: 14px; line-height: 1.35; color: var(--ink); opacity: 0.8; }
 @media (min-width: 641px) { .work-card-media.is-stat b { font-size: 48px; } }
+
+/* ==================================================================
+   PAGE SECTIONS v2 — shared heading, Work (stretched card + live link),
+   Built with AI, About me, Kind words, collapsible Experience. Mobile-first.
+   ================================================================== */
+.sec-head, .build-list, .about-me-body, .kind-list, .kind-more {
+  width: 100%; max-width: 480px; margin-left: auto; margin-right: auto;
+}
+.sec-title {
+  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-weight: 600; font-size: clamp(32px, 9vw, 56px); letter-spacing: 0.02em; line-height: 1.05;
+  color: var(--ink); text-shadow: 0 0 1px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.sec-sub { margin-top: 6px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.sec-head { margin-bottom: 20px; }
+.work-group, .work-group-title, .work-title { display: none; }
+
+/* Work card: whole card opens the case study; "Try it live" sits above the hit area */
+.work-card { position: relative; }
+.work-card-hit {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  background: transparent; border: 0; border-radius: inherit; cursor: pointer; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.work-card:has(.work-card-hit:hover), .work-card:has(.work-card-hit:focus-visible) {
+  border-color: rgba(255, 217, 179, 0.55); transform: translateY(-2px);
+}
+.work-card:has(.work-card-hit:focus-visible) { outline: 2px solid rgba(255, 217, 179, 0.8); outline-offset: 2px; }
+.work-card:has(.work-card-hit:hover) .work-card-arrow { transform: translateX(3px); }
+.work-card:has(.work-card-hit:hover) .work-card-media img { transform: scale(1.03); }
+.work-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 4px; }
+.work-card-foot .work-card-go { margin-top: 0; }
+.work-card-live {
+  position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 4px;
+  min-height: 36px; padding: 0 14px; border-radius: var(--r-pill);
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  background: #f4e4cc; color: #17110a;
+}
+.work-card-live:hover { background: #fff1dc; }
+
+/* Built with AI: two portrait demo cards side by side, even on phones */
+.build-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.build-card {
+  display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 10px 10px 14px;
+  background: var(--glass-strong); border: 1px solid var(--glass-line); border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+.build-video { width: 100%; aspect-ratio: 9 / 14; object-fit: cover; border-radius: 10px; background: #000; display: block; }
+.build-name { margin-top: 4px; font-size: 16px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+.build-line { font-size: 13.5px; line-height: 1.45; color: var(--ink); opacity: 0.8; flex: 1; }
+.build-story {
+  align-self: flex-start; min-height: 32px; padding: 0; background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 13px; font-weight: 600; color: var(--muted);
+}
+.build-story:hover { color: var(--ink); }
+
+/* About me */
+.about-me-body {
+  padding: 20px 18px; color: var(--ink);
+  background: var(--glass-strong); border: 1px solid var(--glass-line); border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+.about-me-body p { font-size: 15.5px; line-height: 1.65; opacity: 0.88; }
+.about-me-body p + p { margin-top: 12px; }
+.about-me-body .about-me-lead { font-size: 20px; line-height: 1.4; font-weight: 600; opacity: 1; }
+.inline-case {
+  display: inline; padding: 0; background: none; border: 0; font: inherit; color: #ffd9b3; cursor: pointer;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+.about-me-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.about-me-btn {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 18px; border-radius: var(--r-pill);
+  font-size: 14px; font-weight: 600; text-decoration: none; color: var(--ink);
+  background: var(--chip-bg); border: 1px solid var(--chip-line);
+}
+.about-me-btn.is-primary { background: #f4e4cc; border-color: #f4e4cc; color: #17110a; }
+
+/* Kind words */
+.kind-list { display: flex; flex-direction: column; gap: 12px; }
+.kind-card {
+  margin: 0; padding: 18px; color: var(--ink);
+  background: var(--glass-strong); border: 1px solid var(--glass-line); border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+.kind-card.is-letter { border-color: rgba(255, 217, 179, 0.45); }
+.kind-badge {
+  display: inline-block; margin-bottom: 10px; padding: 4px 10px; border-radius: var(--r-pill);
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  background: rgba(255, 217, 179, 0.14); color: #ffd9b3;
+}
+.kind-card blockquote { font-size: 15.5px; line-height: 1.6; }
+.kind-card figcaption { display: flex; flex-direction: column; gap: 2px; margin-top: 12px; font-size: 13.5px; }
+.kind-card figcaption b { font-size: 14.5px; }
+.kind-card figcaption span { color: var(--ink); opacity: 0.75; }
+.kind-card figcaption em { font-style: normal; color: var(--muted); font-size: 12.5px; }
+.kind-more {
+  display: block; margin-top: 12px; min-height: 44px; border-radius: var(--r-pill); cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--ink);
+  background: var(--chip-bg); border: 1px solid var(--chip-line);
+}
+
+/* Quote inside a case study */
+.wk-quote { margin: -8px 0 28px; padding: 16px 18px; border-radius: 14px; background: var(--chip-bg); border: 1px solid var(--glass-line); }
+.wk-quote blockquote { font-size: 15px; line-height: 1.6; font-style: italic; color: var(--ink); }
+.wk-quote figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.wk-quote figcaption b { color: var(--ink); }
+
+/* Experience: collapsed rows (role · company · dates · +) */
+.resume-sub { width: min(480px, 90vw); margin: 6px 6vw 0 auto; }
+.timeline::before, .tl-dot { display: none; }
+.timeline .tl-section h3 { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 28px 0 4px; }
+.timeline .tl-entry, .timeline .tl-entry:last-child { padding: 0; border-bottom: 1px solid var(--line); }
+.tl-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
+  padding: 16px 2px; background: none; border: 0; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
+}
+.tl-row:disabled { cursor: default; }
+.tl-row-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tl-row .tl-place { font-size: 17px; font-weight: 700; line-height: 1.3; margin: 0; }
+.tl-row .tl-role { font-size: 14px; color: var(--muted); margin: 0; }
+.tl-row-side { display: flex; align-items: center; gap: 12px; flex: none; }
+.tl-row .tl-period { font-size: 13px; color: var(--muted); white-space: nowrap; display: block; }
+.tl-plus { position: relative; width: 16px; height: 16px; flex: none; }
+.tl-plus::before, .tl-plus::after { content: ''; position: absolute; left: 0; right: 0; top: 7px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform 0.25s; }
+.tl-plus::after { transform: rotate(90deg); }
+.tl-entry.is-open .tl-plus::after { transform: rotate(0deg); }
+.timeline .tl-collapse .tl-body { padding: 0 2px 18px; background: none; border-radius: 0; }
+.tl-collapse .tl-group { margin-top: 12px; }
+@media (max-width: 640px) {
+  .tl-row { align-items: flex-start; }
+  .tl-row-side { flex-direction: row-reverse; padding-top: 2px; }
+  .tl-row .tl-period { display: none; }
+}
+.tl-period-m { font-size: 12.5px; color: var(--muted); }
+@media (min-width: 641px) { .tl-period-m { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tl-plus::before, .tl-plus::after { transition: none; } }
+
+/* Tablet and up: everything sits in the right-hand content column */
+@media (min-width: 641px) {
+  .sec-head, .build-list, .about-me-body, .kind-list, .kind-more { width: min(480px, 90vw); margin-right: 6vw; }
+  .sec-title { text-shadow: none; }
+  .about-me-body { padding: 24px 24px; }
+}
+
+/* Light mode */
+html[data-theme='light'] .sec-title { text-shadow: none; }
+html[data-theme='light'] .inline-case, html[data-theme='light'] .kind-badge { color: var(--accent); }
+html[data-theme='light'] .kind-badge { background: rgba(162, 78, 28, 0.1); }
+html[data-theme='light'] .kind-card.is-letter { border-color: rgba(162, 78, 28, 0.4); }
+html[data-theme='light'] .work-card:has(.work-card-hit:hover),
+html[data-theme='light'] .work-card:has(.work-card-hit:focus-visible) { border-color: rgba(162, 78, 28, 0.45); }
+
+/* Experience sits on the same glass panel as the other sections, so it stays readable over the 3D scene */
+.timeline {
+  padding: 4px 18px 8px;
+  background: var(--glass-strong); border: 1px solid var(--glass-line); border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+.timeline .tl-section, .timeline .tl-section h3 { text-align: left; padding: 0; border: 0; }
+.timeline .tl-section::before, .timeline .tl-section::after { display: none; }
+.timeline .tl-section h3 { margin: 18px 0 2px; }
+.tl-row .tl-period, .tl-period-m { letter-spacing: normal; text-transform: none; }
+.timeline .tl-entry:last-child { border-bottom: 0; }
+@media (max-width: 640px) { .timeline { width: 100%; max-width: 480px; margin: 20px auto 0; padding: 2px 16px 6px; } .resume { padding-left: 16px; padding-right: 16px; } .resume-title, .resume-sub { width: 100%; max-width: 480px; margin-left: auto; margin-right: auto; } }

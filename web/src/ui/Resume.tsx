@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useStore } from '../store'
 
@@ -25,7 +25,7 @@ interface ResumeEntry {
 }
 
 const RESUME: { title: string; entries: ResumeEntry[] } = {
-  title: 'Résumé',
+  title: 'Experience',
   entries: [
     {
       kind: 'work',
@@ -105,15 +105,6 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
 }
 
 const EASE = [0.22, 1, 0.36, 1]
-const containerV = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
-}
-const itemV = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
-}
-
 function CaseLink({ slug }: { slug: string }) {
   const setActive = useStore((s) => s.setActive)
   return (
@@ -125,7 +116,7 @@ function CaseLink({ slug }: { slug: string }) {
 
 function Group({ group }: { group: ResumeGroup }) {
   return (
-    <motion.div className="tl-group" variants={itemV} data-focus={group.focus}>
+    <div className="tl-group" data-focus={group.focus}>
       <div className="tl-group-head">
         <span>{group.heading}</span>
         {group.sub && <span className="tl-group-sub">{group.sub}</span>}
@@ -138,45 +129,58 @@ function Group({ group }: { group: ResumeGroup }) {
         </ul>
       )}
       {group.case && <CaseLink slug={group.case} />}
-    </motion.div>
+    </div>
   )
 }
 
+// One role or school as a collapsed row: place, role and dates; tap to see the details.
 function Entry({ entry, index }: { entry: ResumeEntry; index: number }) {
+  const [open, setOpen] = useState(false)
+  const hasBody = !!(entry.points || entry.groups || entry.case)
+  const bodyId = `tl-body-${index}`
   return (
     <motion.div
-      className="tl-entry"
+      className={`tl-entry${open ? ' is-open' : ''}`}
       data-point={`entry-${index}`}
       data-focus={entry.focus}
-      variants={containerV}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: '-12% 0px -12% 0px' }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-8% 0px' }}
+      transition={{ duration: 0.5, ease: EASE }}
     >
-      <motion.span className={`tl-dot tl-dot-${entry.kind}`} variants={itemV} aria-hidden="true" />
-      <div className="tl-body">
-        <motion.div className="tl-period" variants={itemV}>
-          <span className={`tl-kind tl-kind-${entry.kind}`}>{entry.kind === 'work' ? 'Work' : 'Education'}</span>
-          <span>{entry.period}</span>
-        </motion.div>
-        <motion.div className="tl-head" variants={itemV}>
-          <h3 className="tl-place">{entry.place}</h3>
-        </motion.div>
-        {entry.role && (
-          <motion.div className="tl-role" variants={itemV}>
-            {entry.role}
-          </motion.div>
-        )}
-        {entry.points && (
-          <motion.ul className="tl-points" variants={itemV}>
-            {entry.points.map((p, i) => (
-              <li key={i}>{p}</li>
-            ))}
-          </motion.ul>
-        )}
-        {entry.case && <CaseLink slug={entry.case} />}
-        {entry.groups && entry.groups.map((g, i) => <Group key={i} group={g} />)}
-      </div>
+      <button
+        type="button"
+        className="tl-row"
+        aria-expanded={hasBody ? open : undefined}
+        aria-controls={hasBody ? bodyId : undefined}
+        disabled={!hasBody}
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span className="tl-row-main">
+          <span className="tl-place">{entry.place}</span>
+          {entry.role && <span className="tl-role">{entry.role}</span>}
+          <span className="tl-period-m">{entry.period}</span>
+        </span>
+        <span className="tl-row-side">
+          <span className="tl-period">{entry.period}</span>
+          {hasBody && <span className="tl-plus" aria-hidden="true" />}
+        </span>
+      </button>
+      {hasBody && (
+        <div className="tl-collapse" id={bodyId} hidden={!open}>
+          <div className="tl-body">
+            {entry.points && (
+              <ul className="tl-points">
+                {entry.points.map((p, i) => (
+                  <li key={i}>{p}</li>
+                ))}
+              </ul>
+            )}
+            {entry.case && <CaseLink slug={entry.case} />}
+            {entry.groups && entry.groups.map((g, i) => <Group key={i} group={g} />)}
+          </div>
+        </div>
+      )}
     </motion.div>
   )
 }
@@ -228,16 +232,13 @@ export default function Resume() {
       >
         {RESUME.title}
       </motion.h2>
-      <div className="tl-legend" aria-hidden="true">
-        <span><i className="tl-dot-work" /> Work</span>
-        <span><i className="tl-dot-education" /> Education</span>
-      </div>
+      <p className="sec-sub resume-sub">Where I’ve worked and studied. Tap a row for details.</p>
       <div className="timeline">
         {RESUME.entries.map((e, i) => (
           <Fragment key={i}>
             {(i === 0 || RESUME.entries[i - 1].kind !== e.kind) && (
               <div className={`tl-section is-${e.kind}`} id={e.kind === 'education' ? 'education' : undefined}>
-                <h3>{e.kind === 'work' ? 'Experience' : 'Education'}</h3>
+                <h3>{e.kind === 'work' ? 'Work' : 'Education'}</h3>
               </div>
             )}
             <Entry entry={e} index={i} />

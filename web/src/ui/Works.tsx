@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState, type Ref } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { WORKS, SECTION_COVERS, type WorkListItem, type WorkSection, type WorksLang } from '../data/works'
 import { getWorkDoc } from '../data/workDocs'
+import { quoteFor } from '../data/recognition'
 import ScrollTopButton from './ScrollTopButton'
 import { useStore } from '../store'
 import { track } from '../analytics'
@@ -256,6 +257,18 @@ function WorkDetail({
               ))}
             </dl>
           )}
+
+          {(() => {
+            const q = quoteFor(item.slug)
+            return q ? (
+              <figure className="wk-quote">
+                <blockquote>“{q.quote}”</blockquote>
+                <figcaption>
+                  <b>{q.name}</b>, {q.role}
+                </figcaption>
+              </figure>
+            ) : null
+          })()}
 
           {doc && doc.body ? (
             <div className="wk-md" ref={mdRef}>

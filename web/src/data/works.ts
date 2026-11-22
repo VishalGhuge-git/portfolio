@@ -21,6 +21,10 @@ export interface WorkListItem {
   cover?: string
   logo?: string
   stat?: { n: string; label: string }
+  // "Built with AI" cards: a short punchy line and a demo video that plays in the card
+  tagline?: string
+  video?: string
+  poster?: string
 }
 
 export interface WorkGroup {
@@ -110,8 +114,8 @@ export const WORKS: Record<'en', WorksLang> = {
       {
         id: 'ai-builds',
         no: '02',
-        title: 'AI work I built',
-        tagline: 'Solo builds, end to end with AI tools',
+        title: 'Built with AI',
+        tagline: 'Side builds I made end to end with AI tools. Press play.',
         items: [
           {
             name: 'POPM Prep',
@@ -124,6 +128,9 @@ export const WORKS: Record<'en', WorksLang> = {
             name: 'Indian Stock Market News Brief',
             meta: 'One 6-to-8-minute morning email instead of five noisy sources',
             tags: ['Every number cross-checked', 'Runs unattended daily'],
+            tagline: 'Five sources in. One email out.',
+            video: 'works/indian-market-brief/demo.mp4',
+            poster: 'works/indian-market-brief/poster.jpg',
             cover: 'indian-market-brief.jpg',
             slug: 'indian-market-brief',
           },
@@ -131,6 +138,9 @@ export const WORKS: Record<'en', WorksLang> = {
             name: 'Garu',
             meta: 'A real product lesson, told as a short animated story',
             tags: ['Users wanted trust, not filters', 'Episode 1'],
+            tagline: 'One bird. One campfire. One product lesson.',
+            video: 'works/garu-animated-video/demo.mp4',
+            poster: 'works/garu-animated-video/poster.jpg',
             cover: 'garu-animated-video.jpg',
             slug: 'garu-animated-video',
           },

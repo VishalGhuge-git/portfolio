@@ -5,7 +5,8 @@ import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } fr
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
-import WorkCards from './ui/WorkCards'
+import WorkCards, { BuiltWithAI } from './ui/WorkCards'
+import { About, KindWords } from './ui/AboutKind'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import ExploreBar from './ui/ExploreBar'
@@ -388,6 +389,9 @@ export default function App() {
       <main className="content">
         <Hero cueOpacity={cueOpacity} />
         <WorkCards />
+        <BuiltWithAI />
+        <About />
+        <KindWords />
         <Resume />
         <Contact />
       </main>
