@@ -114,6 +114,13 @@ function SectionWorks({
 }
 
 // 全屏沉浸详情：渲染该作品的 md（banner + 标题 + markdown 正文 + 外链）；
+// Render **bold** inside a plain one-line string (used by the Why / How / Outcome summary)
+function withBold(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : part,
+  )
+}
+
 // 无 md 时回退到占位 banner + meta/标签简介
 function WorkDetail({
   item,
@@ -174,9 +181,17 @@ function WorkDetail({
   const banner = doc && doc.banner
   // 有 md 详情时展示完整信息；无 md 时详情页只保留标题 + 统一占位文案
   const link = doc ? doc.link || item.link : null
-  const tags = doc ? doc.tags || item.tags : null
-  // 副标题不含年份；标签单独做 badge 展示
-  const sub = doc ? [item.meta, doc.role].filter(Boolean).join('  ·  ') : ''
+  // The card's proof tags lead; the md tags are only a fallback
+  const tags = doc ? item.tags || doc.tags : null
+  // The role lives here, in the case study header, not on the card
+  const sub = doc ? [doc.role, doc.year].filter(Boolean).join('  ·  ') : ''
+  const summary = doc
+    ? ([
+        ['Why', doc.why],
+        ['How', doc.how],
+        ['Outcome', doc.outcome],
+      ].filter(([, v]) => v) as [string, string][])
+    : []
 
   return (
     <>
@@ -225,6 +240,17 @@ function WorkDetail({
               </div>
             )}
           </header>
+
+          {summary.length > 0 && (
+            <dl className="wk-summary">
+              {summary.map(([k, v]) => (
+                <div key={k} className="wk-summary-row">
+                  <dt>{k}</dt>
+                  <dd>{withBold(v)}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
 
           {doc && doc.body ? (
             <div className="wk-md" ref={mdRef}>

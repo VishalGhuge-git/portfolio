@@ -3,9 +3,10 @@ title: Total Environment
 year: 2024
 role: Associate Product Manager, on-site
 tags: [B2B, B2C, 3D, 0 to 1, "300+ screens"]
+why: The client's designers worked in desktop CAD tools, and its home buyers faced a huge number of choices they couldn't picture.
+how: As the sole on-site PM, ran a daily priority loop with the CXOs and built both products on one backward-compatible **rules engine**, so existing rules kept working.
+outcome: A **300+ screen** design tool rolled out **organisation-wide**; per the client's sales team, buyers chose with more confidence.
 ---
-
-**TL;DR** Total Environment's in-house designers worked in desktop CAD tools, and its home buyers faced a huge number of choices. As the sole on-site PM at the client's Bangalore office, I owned product strategy for **one pipeline in two products**: a web-based drag-and-drop 3D design tool for their designers, and a customer-facing portal where buyers explore and choose in 3D. The tool covered 300+ screens and 32+ flows and went organisation-wide. Per the client's sales team, the portal gave buyers more confidence in their choices.
 
 | | |
 | --- | --- |

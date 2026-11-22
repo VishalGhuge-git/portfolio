@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } fr
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
-import AiSignpost from './ui/AiSignpost'
+import WorkCards from './ui/WorkCards'
 import { CaseStudyHost } from './ui/Works'
 import ScrollTopButton from './ui/ScrollTopButton'
 import ExploreBar from './ui/ExploreBar'
@@ -52,6 +52,9 @@ function TopBar() {
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
       <SoundToggle />
       <ThemeToggle />
+      <a className="topbar-jump" href="#work" onClick={jump('work')}>
+        Work
+      </a>
       <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
         Experience
       </a>
@@ -375,7 +378,7 @@ export default function App() {
       {/* Scrollable content */}
       <main className="content">
         <Hero cueOpacity={cueOpacity} />
-        <AiSignpost />
+        <WorkCards />
         <Resume />
         <Contact />
       </main>

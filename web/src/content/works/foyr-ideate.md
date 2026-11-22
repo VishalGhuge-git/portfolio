@@ -4,9 +4,10 @@ year: 2024
 role: Associate Product Manager, 0 to 1
 tags: [AI, MVP, 0 to 1, Pricing, Figma]
 link: https://ideate.foyr.com
+why: Ideating is where design work stalls: designers build every option by hand, and homeowners can't picture a result from a floor plan.
+how: Validated the AI interactions with prototype tests, scoped the MVP around two starting points (an empty room or an existing one) and designed **freemium credit pricing** so every generation's cost is covered.
+outcome: **MVP in 5 months**, ready for handoff, and live at ideate.foyr.com.
 ---
-
-**TL;DR** Designers and homeowners spend most of their effort *ideating*: getting from an empty or tired room to a direction they believe in. I owned the 0-to-1 strategy for Foyr Ideate, AI features that extend Foyr Neo, and took it from nothing to an MVP ready for handoff in five months, including the pricing model.
 
 | | |
 | --- | --- |

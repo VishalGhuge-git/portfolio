@@ -3,9 +3,10 @@ title: Amazon MX Player
 year: 2020
 role: Business Analyst, Product Operations
 tags: [OTT, Operations, Process design, "300,000+ content units", "+50% daily output"]
+why: Content operations had a high backlog, no process and no plan, and every late show cost watch time.
+how: Built a team of 6, made each person the **owner of a publisher**, and ran onboarding in parallel instead of one show at a time.
+outcome: **+50% daily output** in a month, **7 teams** on one workflow, and **56 shows live in a week** against about 3 days per show before.
 ---
-
-**TL;DR** When I joined Amazon MX Player's content operations, the backlog was high, there was no process and no plan. I led and managed a team of 6 that ran **300,000+ content units**, set up the process flow, **lifted daily output by 50% in a month**, standardised workflows across **7 teams**, and put **56 shows from a partner publisher live in a week**. The catalogue is a major driver of viewing, so every delay was felt by viewers.
 
 | | |
 | --- | --- |

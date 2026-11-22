@@ -3,9 +3,10 @@ title: Garu, AI animated video
 year: 2026
 role: Creator and Product Manager, solo
 tags: [AI, Video, Animation, Brand]
+why: I wanted a distinctive way to share what I learn as a PM, not another talking-head video.
+how: Treated the episode as a product with a quality bar: a **character sheet** to keep Garu consistent, shots rebuilt so everything moves, and three script rewrites.
+outcome: A finished **76-second Episode 1** with two voices, subtitles and a behind-the-scenes section.
 ---
-
-**TL;DR** Episode 1 of a short animated series about a product manager who, every night by a campfire, tells his small wise bird Garu what went wrong at work. I designed the characters, the story and the production workflow with AI tools. The episode's lesson is a real product one: users asked for more filters, so the team built more filters, and nobody used them, because what users wanted was to trust the answer.
 
 <video class="is-tall" controls loop preload="metadata" playsinline poster="./works/garu-animated-video/poster.jpg" src="./works/garu-animated-video/demo.mp4"></video>
 

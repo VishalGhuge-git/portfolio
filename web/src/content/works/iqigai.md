@@ -3,9 +3,10 @@ title: iqigai
 year: 2025
 role: Product Manager, 0 to 1
 tags: [AI agents, 0 to 1, B2B + B2C, "xxxx+ daily users"]
+why: Fractal staffed its bench through spreadsheets and manual follow-up, and in a billable business **every bench hour is lost revenue**.
+how: Scoped the smallest flow that could go live, then made every AI recommendation explain itself, gaps included, so project managers would act on it.
+outcome: **xxxx+ daily users** organisation-wide, one platform in place of the spreadsheets, and **6 AI agents** prioritised and integrated.
 ---
-
-**TL;DR** Fractal staffed its bench through spreadsheets and manual follow-up. I led the 0-to-1 build of a platform that matches people to demand, explains every recommendation, and is now used by **xxxx+ people a day**.
 
 | | |
 | --- | --- |

@@ -3,9 +3,10 @@ title: POPM Prep
 year: 2026
 role: Product Manager and builder, solo
 tags: [AI, Ed-tech, Side build, MCQ practice]
+why: Reading the workbook didn't tell me whether I could pick the right answer under exam conditions, or where I was weak.
+how: Scoped to **one exam, done deeply**: a dashboard that turns the exam date into a plan, answers that teach, and an adaptive mock exam weighted to weak topics.
+outcome: **374 questions across 14 topics**, built mobile-first, and I passed the POPM exam with **100%**.
 ---
-
-**TL;DR** While preparing for the SAFe Product Owner/Product Manager (POPM) exam, I designed and built my own practice platform with AI tools, so that the way I studied matched the way the exam tests. It is an MCQ assessment-prep product: 374 questions across 14 topics, built mobile-first, and focused on one exam, done deeply.
 
 <video controls loop preload="metadata" playsinline poster="./works/pmpo-portal/poster.jpg" src="./works/pmpo-portal/demo.mp4"></video>
 

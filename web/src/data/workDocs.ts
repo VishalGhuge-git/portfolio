@@ -20,6 +20,10 @@ export interface WorkDoc {
   role?: string
   tags?: string[]
   link?: string
+  // Short case study summary shown above the full write-up (one or two sentences each; **bold** allowed)
+  why?: string
+  how?: string
+  outcome?: string
   body: string
 }
 

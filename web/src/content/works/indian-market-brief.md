@@ -3,9 +3,10 @@ title: Indian Stock Market News Brief
 year: 2026
 role: Product Manager and builder, solo
 tags: [AI, Automation, Newsletter, Side build]
+why: My family's morning market news was spread across app alerts, tips, broker PDFs and TV tickers: too many sources, too little signal.
+how: Treated **trust as the feature**: an AI agent cross-checks every number across sources, shows a range when they differ, and drops tips with no source.
+outcome: One **6-to-8-minute brief** every morning around 8:30 AM IST, running unattended.
 ---
-
-**TL;DR** Every morning my family asked, "What happened in the market?" The answer was spread across app alerts, forwarded tips, broker PDFs and TV tickers: too many sources, too little signal. I built a daily email where an AI agent does the reading, cross-checks every number against sources, and sends one 6-to-8-minute brief. I built it as a PM, not an engineer.
 
 <video class="is-tall" controls loop preload="metadata" playsinline poster="./works/indian-market-brief/poster.jpg" src="./works/indian-market-brief/demo.mp4"></video>
 
