@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } fr
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
+import CityBackdrop from './scene/CityBackdrop'
 import WorkCards, { BuiltWithAI } from './ui/WorkCards'
 import { About, KindWords } from './ui/AboutKind'
 import { CaseStudyHost } from './ui/Works'
@@ -379,6 +380,7 @@ export default function App() {
 
       {/* Fixed 3D background */}
       <div className="scene-bg">
+        <CityBackdrop />
         {/* The page content sits on top of the canvas and takes the pointer events, so the 3D scene
             listens on #root instead (events bubble up to it). That keeps eye-follow and the
             clickable stickers working. */}
@@ -388,9 +390,8 @@ export default function App() {
           eventPrefix="client"
           dpr={[1, 1.5]}
           camera={{ position: [0, 3.5, 5.4], fov: 39, near: 0.1, far: 500 }}
-          gl={{ antialias: true, depth: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
+          gl={{ alpha: true, antialias: true, depth: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
         >
-          <color attach="background" args={[theme === 'light' ? '#eef1f5' : '#0a0e16']} />
           <Suspense fallback={null}>
             <Scene />
           </Suspense>

@@ -336,7 +336,7 @@ function CameraRig() {
 export default function Scene() {
   return (
     <>
-      <GradientBackground />
+      {/* backdrop: pixel Mumbai, drawn behind the canvas (CityBackdrop.tsx) */}
       <Lights />
       <Env />
       <Avatar />
