@@ -25,6 +25,8 @@ export interface WorkListItem {
   tagline?: string
   video?: string
   poster?: string
+  landscape?: boolean // 16:9 demo (default is a portrait phone-style demo)
+  facts?: { label: string; value: string }[] // short "details" rows under the card
 }
 
 export interface WorkGroup {
@@ -118,17 +120,14 @@ export const WORKS: Record<'en', WorksLang> = {
         tagline: 'Side builds I made end to end with AI tools. Press play.',
         items: [
           {
-            name: 'POPM Prep',
-            meta: 'Exam practice that shows where you stand and teaches with every answer',
-            tags: ['374 questions', 'Adaptive mock exam', 'Passed POPM with 100%'],
-            cover: 'pmpo-portal.jpg',
-            slug: 'pmpo-portal',
-          },
-          {
             name: 'Indian Stock Market News Brief',
             meta: 'One 6-to-8-minute morning email instead of five noisy sources',
             tags: ['Every number cross-checked', 'Runs unattended daily'],
             tagline: 'Five sources in. One email out.',
+            facts: [
+              { label: 'Runs', value: 'Scheduled AI task, daily 8:30 AM IST' },
+              { label: 'Code', value: 'None: no repo, no database' },
+            ],
             video: 'works/indian-market-brief/demo.mp4',
             poster: 'works/indian-market-brief/poster.jpg',
             cover: 'indian-market-brief.jpg',
@@ -139,10 +138,29 @@ export const WORKS: Record<'en', WorksLang> = {
             meta: 'A real product lesson, told as a short animated story',
             tags: ['Users wanted trust, not filters', 'Episode 1'],
             tagline: 'One bird. One campfire. One product lesson.',
+            facts: [
+              { label: 'Tools', value: 'Nano Banana, Seedance 2.0, Kling, ElevenLabs' },
+              { label: 'Length', value: '76 seconds, 2 voices' },
+            ],
             video: 'works/garu-animated-video/demo.mp4',
             poster: 'works/garu-animated-video/poster.jpg',
             cover: 'garu-animated-video.jpg',
             slug: 'garu-animated-video',
+          },
+          {
+            name: 'POPM Prep',
+            meta: 'Exam practice that shows where you stand and teaches with every answer',
+            tags: ['374 questions', 'Adaptive mock exam', 'Passed POPM with 100%'],
+            cover: 'pmpo-portal.jpg',
+            tagline: 'Practice that tests the way the exam does.',
+            video: 'works/pmpo-portal/demo.mp4',
+            poster: 'works/pmpo-portal/poster.jpg',
+            landscape: true,
+            facts: [
+              { label: 'Content', value: '374 questions, 14 topics' },
+              { label: 'Result', value: 'Passed SAFe POPM with 100%' },
+            ],
+            slug: 'pmpo-portal',
           },
         ],
       },

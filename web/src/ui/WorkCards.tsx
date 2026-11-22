@@ -125,7 +125,7 @@ export function BuiltWithAI() {
       <ul className="build-list">
         {items.map((it, i) => (
           <Reveal key={it.slug} i={i}>
-            <div className="build-card">
+            <div className={`build-card${it.landscape ? ' is-landscape' : ''}`}>
               <video
                 className="build-video"
                 src={`${BASE}${it.video}`}
@@ -137,6 +137,16 @@ export function BuiltWithAI() {
               />
               <span className="build-name">{it.name}</span>
               {it.tagline && <span className="build-line">{it.tagline}</span>}
+              {it.facts && it.facts.length > 0 && (
+                <dl className="build-facts">
+                  {it.facts.map((f) => (
+                    <div key={f.label}>
+                      <dt>{f.label}</dt>
+                      <dd>{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
               <button
                 type="button"
                 className="build-story"

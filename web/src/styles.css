@@ -2813,3 +2813,14 @@ html[data-theme='light'] .work-card:has(.work-card-hit:focus-visible) { border-c
 .tl-row .tl-period, .tl-period-m { letter-spacing: normal; text-transform: none; }
 .timeline .tl-entry:last-child { border-bottom: 0; }
 @media (max-width: 640px) { .timeline { width: 100%; max-width: 480px; margin: 20px auto 0; padding: 2px 16px 6px; } .resume { padding-left: 16px; padding-right: 16px; } .resume-title, .resume-sub { width: 100%; max-width: 480px; margin-left: auto; margin-right: auto; } }
+
+/* Built with AI: landscape demos span both columns; small details rows */
+.build-list { align-items: start; }
+.build-card.is-landscape { grid-column: 1 / -1; }
+.build-card.is-landscape .build-video { aspect-ratio: 16 / 9; }
+.build-line { flex: none; }
+.build-facts { display: grid; gap: 6px; margin: 6px 0 2px; padding-top: 8px; border-top: 1px solid var(--line); }
+.build-facts div { display: grid; gap: 1px; }
+.build-facts dt { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.build-facts dd { font-size: 12.5px; line-height: 1.4; color: var(--ink); opacity: 0.85; }
+.build-list > li:has(.build-card.is-landscape) { grid-column: 1 / -1; }
