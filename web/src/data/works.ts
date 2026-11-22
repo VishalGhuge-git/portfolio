@@ -82,9 +82,9 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'iqigai',
             meta: 'Matches bench people to open roles, and explains every recommendation',
-            tags: ['Spreadsheets → one platform', 'Used daily, org-wide'],
+            tags: ['PM selection 10% → 50%', '50% less staffing time'],
             logo: 'iqigai.png',
-            stat: { n: '6', label: 'AI agents in one platform' },
+            stat: { n: '5,276+', label: 'daily users' },
             slug: 'iqigai',
           },
           {
@@ -125,7 +125,6 @@ export const WORKS: Record<'en', WorksLang> = {
             tags: ['Every number cross-checked', 'Runs unattended daily'],
             tagline: 'Five sources in. One email out.',
             facts: [
-              { label: 'Built with', value: 'Claude: a scheduled task that emails the brief' },
               { label: 'Runs', value: 'Daily, around 8:30 AM IST' },
               { label: 'Code', value: 'None: no repo, no database' },
             ],
@@ -158,7 +157,6 @@ export const WORKS: Record<'en', WorksLang> = {
             poster: 'works/pmpo-portal/poster.jpg',
             landscape: true,
             facts: [
-              { label: 'Built with', value: 'Claude' },
               { label: 'Content', value: '374 questions, 14 topics' },
               { label: 'Result', value: 'Passed SAFe POPM with 100%' },
             ],

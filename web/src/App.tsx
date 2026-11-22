@@ -107,7 +107,7 @@ const COPY = {
   title: 'About Vishal',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
   lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
-  rest: ' I turn vague asks into products people use: a platform used daily across Fractal (iqigai), 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
+  rest: ' I turn vague asks into products people use: 5,276+ daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
 }
 
 // The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
@@ -151,7 +151,7 @@ function RoleRotator() {
 
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
-  { n: '6', label: 'AI agents in one platform', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
+  { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
   { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
   { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player', logo: 'mx.png' },
   { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },

@@ -2,10 +2,10 @@
 title: iqigai
 year: 2025
 role: Product Manager, 0 to 1
-tags: [AI agents, 0 to 1, B2B + B2C, "Used daily, org-wide"]
+tags: [AI agents, 0 to 1, B2B + B2C, "5,276+ daily users"]
 why: Fractal staffed its bench through spreadsheets and manual follow-up, and in a billable business **every bench hour is lost revenue**.
 how: Scoped the smallest flow that could go live, then made every AI recommendation explain itself, gaps included, so project managers would act on it.
-outcome: Used **daily, organisation-wide**: one platform in place of the spreadsheets, and **6 AI agents** prioritised and integrated.
+outcome: **5,276+ daily users**; the PM selection rate on AI recommendations rose from **10% to 50%**, and time spent on staffing fell by **50%**.
 ---
 
 | | |
@@ -14,8 +14,8 @@ outcome: Used **daily, organisation-wide**: one platform in place of the spreads
 | **My role** | Product Manager: strategy, roadmap, MVP scope, agent prioritisation |
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
-| **Reach** | Used daily, organisation-wide |
-| **Team** | 7-person cross-functional team: design, engineering, AI, QA and product |
+| **Reach** | 5,276+ daily active users, used organisation-wide |
+| **Team** | 9-member cross-functional team: 2 frontend, 2 backend, 2 AI engineers, 1 QA, 2 UI/UX designers |
 
 ## Context
 
@@ -72,10 +72,12 @@ I defined the use case for each agent and ordered the build by **impact on the h
 ## Risks and trade-offs
 
 - **Scope pressure:** stakeholders kept asking for enhancements during the MVP. The trade-off was speed to launch against completeness, so I held the MVP line and tracked what came next.
-- **Alignment:** agreeing on MVP content and timelines across the business and a 7-person team was the hardest part of the job, more than the model.
+- **Alignment:** agreeing on MVP content and timelines across the business and a 9-member team was the hardest part of the job, more than the model.
 
 ## Outcome
 
-- **Used daily, organisation-wide**
+- **5,276+ daily active users**, used organisation-wide
+- **PM selection rate on AI recommendations up from 10% to 50%**
+- **50% less time spent on staffing**
 - A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
 - **6 AI agents** defined, prioritised and integrated
