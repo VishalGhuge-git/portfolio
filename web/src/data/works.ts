@@ -125,7 +125,8 @@ export const WORKS: Record<'en', WorksLang> = {
             tags: ['Every number cross-checked', 'Runs unattended daily'],
             tagline: 'Five sources in. One email out.',
             facts: [
-              { label: 'Runs', value: 'Scheduled AI task, daily 8:30 AM IST' },
+              { label: 'Built with', value: 'Claude: a scheduled task that emails the brief' },
+              { label: 'Runs', value: 'Daily, around 8:30 AM IST' },
               { label: 'Code', value: 'None: no repo, no database' },
             ],
             video: 'works/indian-market-brief/demo.mp4',
@@ -157,6 +158,7 @@ export const WORKS: Record<'en', WorksLang> = {
             poster: 'works/pmpo-portal/poster.jpg',
             landscape: true,
             facts: [
+              { label: 'Built with', value: 'Claude' },
               { label: 'Content', value: '374 questions, 14 topics' },
               { label: 'Result', value: 'Passed SAFe POPM with 100%' },
             ],

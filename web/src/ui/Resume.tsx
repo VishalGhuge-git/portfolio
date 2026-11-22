@@ -14,7 +14,7 @@ interface ResumeGroup {
   items?: string[]
 }
 interface ResumeEntry {
-  kind: 'work' | 'education'
+  kind: 'work' | 'education' | 'certification'
   focus?: string
   period: string
   place: string
@@ -89,7 +89,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
     {
       kind: 'education',
       period: '2022 – 2024',
-      place: 'SDA Bocconi School of Management, Italy',
+      place: 'SDA Bocconi Asia Center, Mumbai and Milan',
       focus: 'bocconi',
       role: 'International Master in Business',
     },
@@ -100,6 +100,21 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       focus: 'xaviers',
       role: 'BA Economics (Majors) · Professional Brand Management in the Digital Age',
       points: ['London School of Economics (2019): Business, International Relations and Political Economy'],
+    },
+    {
+      kind: 'certification',
+      period: 'Nov 2026',
+      place: 'Certified AI-Empowered SAFe 6 Product Owner/Product Manager',
+      role: 'Scaled Agile · valid until Nov 2027',
+      case: 'pmpo-portal',
+      points: ['Passed with 100% across all objectives', 'Built POPM Prep, my own practice platform, while preparing'],
+    },
+    {
+      kind: 'certification',
+      period: 'Sep 2026',
+      place: 'Certificate in AI Assisted Coding',
+      role: 'Fractal AI Fluency Program · valid until Sep 2027',
+      points: ['Built ExpenseFlow, an expense submission and approval API, as the course project'],
     },
   ],
 }
@@ -232,13 +247,13 @@ export default function Resume() {
       >
         {RESUME.title}
       </motion.h2>
-      <p className="sec-sub resume-sub">Where I’ve worked and studied. Tap a row for details.</p>
+      <p className="sec-sub resume-sub">Where I’ve worked, studied and certified. Tap a row for details.</p>
       <div className="timeline">
         {RESUME.entries.map((e, i) => (
           <Fragment key={i}>
             {(i === 0 || RESUME.entries[i - 1].kind !== e.kind) && (
-              <div className={`tl-section is-${e.kind}`} id={e.kind === 'education' ? 'education' : undefined}>
-                <h3>{e.kind === 'work' ? 'Work' : 'Education'}</h3>
+              <div className={`tl-section is-${e.kind}`} id={e.kind === 'work' ? undefined : e.kind}>
+                <h3>{e.kind === 'work' ? 'Work' : e.kind === 'education' ? 'Education' : 'Certifications'}</h3>
               </div>
             )}
             <Entry entry={e} index={i} />

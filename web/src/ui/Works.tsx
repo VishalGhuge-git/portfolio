@@ -277,7 +277,7 @@ function WorkDetail({
               </Suspense>
             </div>
           ) : (
-            // 无 md：演示详情页支持的组件 —— 介绍文本 + 图片/视频占位 + 跳转按钮
+            // 无 md：演示详情页支持的组件：介绍文本 + 图片/视频占位 + 跳转按钮
             <>
               <p className="wk-detail-desc">{data.detailPlaceholder}</p>
               <div className="wk-detail-ph-img" aria-hidden="true">

@@ -455,7 +455,7 @@ canvas {
 }
 
 .tl-points li::before {
-  content: '—';
+  content: '•';
   position: absolute;
   left: 0;
   color: var(--muted);
@@ -1410,7 +1410,7 @@ canvas {
 }
 
 /* ==================================================================
-   移动端适配（≤640px）——置于文件末尾，确保覆盖前面同优先级的基础规则
+   移动端适配（≤640px）：置于文件末尾，确保覆盖前面同优先级的基础规则
    ================================================================== */
 @media (max-width: 640px) {
   /* 3) 时间轴文案可读性：每条履历文字落在一块圆角深色半透卡片（tl-body）上，
@@ -2441,7 +2441,7 @@ html[data-theme='light'] .tl-kind-work { background: rgba(162, 78, 28, 0.1); }
 .wk-md video.is-tall { width: auto; max-width: 100%; max-height: min(78vh, 640px); margin-inline: auto; }
 
 /* ==================================================================
-   WORK CARDS (#work) — mobile-first. One card per project: name, what it
+   WORK CARDS (#work): mobile-first. One card per project: name, what it
    does, proof tags. Opens the case study popup.
    ================================================================== */
 .work { padding: 10vh 16px 0; }
@@ -2651,7 +2651,7 @@ html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus
 @media (min-width: 641px) { .work-card-media.is-stat b { font-size: 48px; } }
 
 /* ==================================================================
-   PAGE SECTIONS v2 — shared heading, Work (stretched card + live link),
+   PAGE SECTIONS v2: shared heading, Work (stretched card + live link),
    Built with AI, About me, Kind words, collapsible Experience. Mobile-first.
    ================================================================== */
 .sec-head, .build-list, .about-me-body, .kind-list, .kind-more {
@@ -2824,3 +2824,4 @@ html[data-theme='light'] .work-card:has(.work-card-hit:focus-visible) { border-c
 .build-facts dt { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .build-facts dd { font-size: 12.5px; line-height: 1.4; color: var(--ink); opacity: 0.85; }
 .build-list > li:has(.build-card.is-landscape) { grid-column: 1 / -1; }
+html[data-theme='light'] .resume-title { text-shadow: none; }

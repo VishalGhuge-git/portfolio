@@ -34,7 +34,7 @@ const files = import.meta.glob('../content/works/*.md', {
   eager: true,
 }) as Record<string, string>
 
-// 极简 frontmatter 解析（key: value，数组用 [a, b]）——避免引入依赖 Buffer 的库
+// 极简 frontmatter 解析（key: value，数组用 [a, b]）：避免引入依赖 Buffer 的库
 function parseFrontmatter(raw: string): {
   data: Record<string, string | string[]>
   body: string
