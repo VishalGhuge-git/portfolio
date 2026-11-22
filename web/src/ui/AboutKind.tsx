@@ -81,14 +81,14 @@ function Quote({ r }: { r: Recognition }) {
   )
 }
 
-// "Kind words": the CEO letter and work recommendations first; classmates behind "Show more".
+// "Recommendations": the CEO letter and work recommendations first; classmates behind "Show more".
 export function KindWords() {
   const [more, setMore] = useState(false)
   const featured = RECOGNITION.filter((r) => r.featured)
   const rest = RECOGNITION.filter((r) => !r.featured)
   return (
     <section className="work kind" id="kind-words" lang="en" aria-labelledby="kind-title">
-      <SectionHead id="kind-title" title="Kind words" sub="From people I’ve worked and studied with." />
+      <SectionHead id="kind-title" title="Recommendations" sub="From people I’ve worked and studied with." />
       <div className="kind-list">
         {featured.map((r) => (
           <Quote key={r.name} r={r} />

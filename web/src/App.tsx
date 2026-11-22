@@ -101,7 +101,7 @@ function TopBar() {
             <a href="#work" onClick={menuGo('work')}>Work</a>
             <a href="#built" onClick={menuGo('built')}>Built with AI</a>
             <a href="#about" onClick={menuGo('about')}>About me</a>
-            <a href="#kind-words" onClick={menuGo('kind-words')}>Kind words</a>
+            <a href="#kind-words" onClick={menuGo('kind-words')}>Recommendations</a>
             <a href="#experience" onClick={menuGo('experience')}>Experience</a>
             <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => { setMenu(false); track('cv_download', 'menu') }}>
               Download CV
