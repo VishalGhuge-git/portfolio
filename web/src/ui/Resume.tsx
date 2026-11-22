@@ -39,7 +39,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
           focus: 'iqigai',
           sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
           items: [
-            'Platform build (0 to 1): B2B and B2C platform used organisation-wide, xxxx+ daily active users',
+            'Platform build (0 to 1): B2B and B2C platform used daily, organisation-wide',
             '6 AI agents across lateral hiring, fresher hiring, JD creation and candidate matching, and bench assessment',
             'Leading a 7-member cross-functional team',
           ],

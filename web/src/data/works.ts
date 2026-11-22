@@ -16,6 +16,11 @@ export interface WorkListItem {
   tags?: string[]
   link?: string
   slug?: string
+  // Card visual: a cover image (16:9, in public/works/covers/), or, when screens can't be shown,
+  // a logo (public/stickers/) with one headline number
+  cover?: string
+  logo?: string
+  stat?: { n: string; label: string }
 }
 
 export interface WorkGroup {
@@ -71,26 +76,33 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'iqigai',
             meta: 'Matches bench people to open roles, and explains every recommendation',
-            tags: ['Spreadsheets → one platform', 'xxxx+ daily users', '6 AI agents'],
+            tags: ['Spreadsheets → one platform', 'Used daily, org-wide'],
+            logo: 'iqigai.png',
+            stat: { n: '6', label: 'AI agents in one platform' },
             slug: 'iqigai',
           },
           {
             name: 'Total Environment',
             meta: 'Designers build homes in 3D on the web; buyers explore and choose in the same pipeline',
-            tags: ['Desktop CAD → web', '300+ screens', 'Org-wide rollout'],
+            tags: ['Desktop CAD → web', 'Org-wide rollout'],
+            logo: 'te.png',
+            stat: { n: '300+', label: 'screens, 32+ flows' },
             slug: 'total-environment',
           },
           {
             name: 'Foyr Ideate',
             meta: 'Takes a room from empty or tired to a design direction, with AI',
             tags: ['0 → MVP in 5 months', 'Freemium pricing model'],
+            cover: 'foyr-ideate.jpg',
             link: 'https://ideate.foyr.com',
             slug: 'foyr-ideate',
           },
           {
             name: 'Amazon MX Player',
             meta: 'Turned a content backlog with no process into a pipeline that ships on time',
-            tags: ['300,000+ content units', '+50% output in a month', '56 shows live in a week'],
+            tags: ['300,000+ content units', '+50% output in a month'],
+            logo: 'mx.png',
+            stat: { n: '56', label: 'shows live in a week' },
             slug: 'mx-player',
           },
         ],
@@ -105,18 +117,21 @@ export const WORKS: Record<'en', WorksLang> = {
             name: 'POPM Prep',
             meta: 'Exam practice that shows where you stand and teaches with every answer',
             tags: ['374 questions', 'Adaptive mock exam', 'Passed POPM with 100%'],
+            cover: 'pmpo-portal.jpg',
             slug: 'pmpo-portal',
           },
           {
             name: 'Indian Stock Market News Brief',
             meta: 'One 6-to-8-minute morning email instead of five noisy sources',
             tags: ['Every number cross-checked', 'Runs unattended daily'],
+            cover: 'indian-market-brief.jpg',
             slug: 'indian-market-brief',
           },
           {
             name: 'Garu',
             meta: 'A real product lesson, told as a short animated story',
             tags: ['Users wanted trust, not filters', 'Episode 1'],
+            cover: 'garu-animated-video.jpg',
             slug: 'garu-animated-video',
           },
         ],

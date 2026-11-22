@@ -2547,3 +2547,86 @@ html[data-theme='light'] .work-card:focus-visible { outline-color: rgba(162, 78,
   .wk-summary dt { margin-bottom: 0; }
 }
 html[data-theme='light'] .wk-summary dt { color: var(--accent); }
+
+/* Card visual: cover image, or logo + headline number when screens can't be shown */
+.work-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  margin: -6px -6px 6px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-line);
+}
+.work-card-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.work-card:hover .work-card-media img { transform: scale(1.03); }
+.work-card-media.is-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px 18px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 217, 179, 0.16), transparent 60%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+}
+.work-card-media.is-stat b {
+  font-family: 'Cormorant Upright', 'PingFang SC', serif;
+  font-size: clamp(48px, 15vw, 64px);
+  font-weight: 600;
+  line-height: 1;
+  color: #ffd9b3;
+}
+.work-card-media.is-stat span { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.work-card-media.is-stat .work-card-logo {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  transform: none !important;
+}
+@media (min-width: 641px) { .work-card-media.is-stat b { font-size: 60px; } }
+@media (prefers-reduced-motion: reduce) { .work-card-media img { transition: none; } .work-card:hover .work-card-media img { transform: none; } }
+html[data-theme='light'] .work-card-media.is-stat b { color: var(--accent); }
+html[data-theme='light'] .work-card-media.is-stat {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(162, 78, 28, 0.12), transparent 60%),
+    linear-gradient(160deg, rgba(27, 31, 42, 0.04), rgba(27, 31, 42, 0.01));
+}
+
+/* "Next case study" at the end of each case study */
+.wk-next {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 40px;
+  padding: 18px 20px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  background: var(--chip-bg);
+  border: 1px solid var(--glass-line);
+  border-radius: 14px;
+  transition: border-color 0.2s;
+}
+.wk-next:hover, .wk-next:focus-visible { border-color: rgba(255, 217, 179, 0.55); }
+.wk-next-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.wk-next-name { font-size: 18px; font-weight: 700; }
+.wk-next-line { font-size: 14px; color: var(--muted); }
+html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus-visible { border-color: rgba(162, 78, 28, 0.45); }
+
+/* Hero buttons: "See my work" gets its own full row on phones and tablets; 3D + Read more share the next row */
+.about-btn { white-space: nowrap; }
+@media (max-width: 1099px) {
+  .about-actions { flex-wrap: wrap; }
+  .about-actions .about-btn-primary { flex: 1 1 100%; }
+}
+/* Number panels don't need a full 16:9 frame */
+.work-card-media.is-stat { aspect-ratio: 21 / 9; }

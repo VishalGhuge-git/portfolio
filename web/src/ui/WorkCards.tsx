@@ -45,6 +45,26 @@ export default function WorkCards() {
                     setActive(it.slug || it.name)
                   }}
                 >
+                  {it.cover ? (
+                    <span className="work-card-media">
+                      <img
+                        src={`${import.meta.env.BASE_URL}works/covers/${it.cover}`}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        width={800}
+                        height={450}
+                      />
+                    </span>
+                  ) : it.stat ? (
+                    <span className="work-card-media is-stat">
+                      {it.logo && (
+                        <img className="work-card-logo" src={`${import.meta.env.BASE_URL}stickers/${it.logo}`} alt="" loading="lazy" />
+                      )}
+                      <b>{it.stat.n}</b>
+                      <span>{it.stat.label}</span>
+                    </span>
+                  ) : null}
                   <span className="work-card-name">{it.name}</span>
                   {it.meta && <span className="work-card-line">{it.meta}</span>}
                   {it.tags && it.tags.length > 0 && (

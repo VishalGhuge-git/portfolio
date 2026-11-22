@@ -185,6 +185,11 @@ function WorkDetail({
   const tags = doc ? item.tags || doc.tags : null
   // The role lives here, in the case study header, not on the card
   const sub = doc ? [doc.role, doc.year].filter(Boolean).join('  ·  ') : ''
+  // Next case study (in Work order, looping back to the first)
+  const setActiveKey = useStore((st) => st.setActive)
+  const ordered = data.sections.flatMap((sec) => sec.items || []).filter((it) => it.slug && getWorkDoc(it.slug))
+  const at = ordered.findIndex((it) => it.slug === item.slug)
+  const next = at >= 0 && ordered.length > 1 ? ordered[(at + 1) % ordered.length] : null
   const summary = doc
     ? ([
         ['Why', doc.why],
@@ -280,6 +285,21 @@ function WorkDetail({
             >
               {data.visitLabel} <span aria-hidden="true">↗</span>
             </a>
+          )}
+
+          {next && (
+            <button
+              type="button"
+              className="wk-next"
+              onClick={() => {
+                track('case_next', `${item.slug}->${next.slug}`)
+                setActiveKey(next.slug!)
+              }}
+            >
+              <span className="wk-next-label">Next case study →</span>
+              <span className="wk-next-name">{next.name}</span>
+              {next.meta && <span className="wk-next-line">{next.meta}</span>}
+            </button>
           )}
         </article>
       </motion.div>

@@ -2,10 +2,10 @@
 title: iqigai
 year: 2025
 role: Product Manager, 0 to 1
-tags: [AI agents, 0 to 1, B2B + B2C, "xxxx+ daily users"]
+tags: [AI agents, 0 to 1, B2B + B2C, "Used daily, org-wide"]
 why: Fractal staffed its bench through spreadsheets and manual follow-up, and in a billable business **every bench hour is lost revenue**.
 how: Scoped the smallest flow that could go live, then made every AI recommendation explain itself, gaps included, so project managers would act on it.
-outcome: **xxxx+ daily users** organisation-wide, one platform in place of the spreadsheets, and **6 AI agents** prioritised and integrated.
+outcome: Used **daily, organisation-wide**: one platform in place of the spreadsheets, and **6 AI agents** prioritised and integrated.
 ---
 
 | | |
@@ -14,7 +14,7 @@ outcome: **xxxx+ daily users** organisation-wide, one platform in place of the s
 | **My role** | Product Manager: strategy, roadmap, MVP scope, agent prioritisation |
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
-| **Reach** | xxxx+ daily active users, used organisation-wide |
+| **Reach** | Used daily, organisation-wide |
 | **Team** | 7-person cross-functional team: design, engineering, AI, QA and product |
 
 ## Context
@@ -76,6 +76,6 @@ I defined the use case for each agent and ordered the build by **impact on the h
 
 ## Outcome
 
-- **xxxx+ daily active users**, used organisation-wide
+- **Used daily, organisation-wide**
 - A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
 - **6 AI agents** defined, prioritised and integrated
