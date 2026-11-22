@@ -2624,9 +2624,14 @@ html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus
 
 /* Hero buttons: "See my work" gets its own full row on phones and tablets; 3D + Read more share the next row */
 .about-btn { white-space: nowrap; }
-@media (max-width: 1099px) {
-  .about-actions { flex-wrap: wrap; }
-  .about-actions .about-btn-primary { flex: 1 1 100%; }
+/* Phones: all three hero buttons on one line, with short labels */
+.lbl-short { display: none; }
+@media (max-width: 640px) {
+  .about-actions { gap: 8px; }
+  .about-actions .about-btn { padding: 0 10px; }
+  .about-actions .about-btn-primary { flex: 1.3 1 0; }
+  .lbl-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .lbl-short { display: inline; }
 }
 /* Number panels don't need a full 16:9 frame */
 .work-card-media.is-stat { aspect-ratio: 21 / 9; }

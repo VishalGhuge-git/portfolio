@@ -230,7 +230,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
                 jumpTo('work')
               }}
             >
-              See my work <span aria-hidden="true">↓</span>
+              <span className="lbl-long">See my work</span><span className="lbl-short" aria-hidden="true">My work</span> <span aria-hidden="true">↓</span>
             </button>
             <button
               className="about-btn about-btn-3d"
@@ -242,7 +242,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
                 useStore.getState().setExplore('tour')
               }}
             >
-              <span aria-hidden="true">⟳</span> Explore 3D
+              <span aria-hidden="true">⟳</span> <span className="lbl-long">Explore 3D</span><span className="lbl-short" aria-hidden="true">Explore</span>
             </button>
             <button
               className="about-btn about-btn-more"
@@ -252,7 +252,7 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
                 setExpanded((v) => !v)
               }}
             >
-              {expanded ? 'Hide' : 'Read more'}
+              <span className="lbl-long">{expanded ? 'Hide' : 'Read more'}</span><span className="lbl-short" aria-hidden="true">{expanded ? 'Hide' : 'More'}</span>
             </button>
           </div>
         </div>
