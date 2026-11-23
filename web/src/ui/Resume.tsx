@@ -39,7 +39,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
           focus: 'iqigai',
           sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
           items: [
-            'Platform build (0 to 1): B2B and B2C platform with 5,276+ monthly active users; PM selection rate on AI recommendations up from 10% to 50%, and 50% less time spent on staffing',
+            'Platform build (0 to 1): B2B and B2C platform with 5,276+ daily active users; PM selection rate on AI recommendations up from 10% to 50%, and 50% less time spent on staffing',
             '6 AI agents across lateral hiring, fresher hiring, JD creation and candidate matching, and bench assessment',
             'Leading a 9-member cross-functional team: 2 frontend, 2 backend, 2 AI engineers, 1 QA, 2 UI/UX designers',
           ],
