@@ -3141,3 +3141,5 @@ html[data-theme='light'] .wk-detail-link { border-color: rgba(27, 31, 42, 0.12);
 html[data-theme='light'] .tl-collapse .tl-group { background: rgba(27, 31, 42, 0.03); border-color: rgba(27, 31, 42, 0.08); }
 @media (pointer: coarse) { nav.topbar a.tb-brand { min-height: 44px; } }
 .foot-links a, .wk-copy, .wk-detail-copy { border-radius: var(--btn-r) !important; }
+/* page sections share the .work class with an old list-item style: no border, radius or hover shift on them */
+section.work { border: 0; border-radius: 0; transform: none !important; background: transparent !important; cursor: auto; }
