@@ -2941,7 +2941,7 @@ html[data-theme='light'] .topbar .topbar-menu { color: var(--ink); }
 .tkb-item em { font-style: normal; color: #4be38a; text-shadow: 0 0 8px rgba(75, 227, 138, 0.4); }
 @keyframes tkb-scroll { to { transform: translateX(-50%); } }
 @media (max-width: 1099px) {
-  .tkb-band { bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 72px); height: 30px; }
+  .tkb-band { bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 84px); height: 30px; }
   .tkb-item { font-size: 12.5px; line-height: 30px; padding-right: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { .tkb-track { animation: none; } }
@@ -2949,9 +2949,12 @@ html[data-theme='light'] .tkb { background: radial-gradient(120% 85% at 38% 32%,
 html[data-theme='light'] .tkb-band { background: rgba(255, 255, 255, 0.8); border-color: rgba(18, 138, 74, 0.18); }
 html[data-theme='light'] .tkb-item i { color: rgba(27, 31, 42, 0.72); }
 html[data-theme='light'] .tkb-item em { color: #128a4a; text-shadow: none; }
-/* desktop: fade the ribbon out behind the hero card on the left */
+/* desktop: a marquee directly under the top bar (clear of the avatar's head even on short laptop screens);
+   the "Tap the objects" hint pill moves just below it */
 @media (min-width: 1100px) {
-  .tkb-band { -webkit-mask-image: linear-gradient(90deg, transparent 0, transparent 24%, #000 34%, #000 100%); mask-image: linear-gradient(90deg, transparent 0, transparent 24%, #000 34%, #000 100%); }
+  .tkb-band { bottom: auto; top: calc(clamp(16px, 2.4vh, 30px) + 54px); height: 34px; }
+  .tkb-item { font-size: 14.5px; line-height: 34px; }
+  .sticker-hint { top: calc(clamp(16px, 2.4vh, 30px) + 98px) !important; }
 }
 /* tablet: clear the top bar and its hint line */
 @media (min-width: 641px) and (max-width: 1099px) { .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 112px); } }

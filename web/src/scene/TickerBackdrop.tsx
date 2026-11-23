@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 // Minimal "Times Square" backdrop behind the 3D avatar: a plain backdrop with one stock-board ticker.
-// Desktop: a low ribbon behind the stage, so it never crosses the face, the hero card or headings.
-// Phones: a thin strip under the top bar (the space above the head is empty there).
+// A marquee just under the top bar, above the avatar's head, on desktop, tablet and phones.
 // It fades out once the visitor scrolls past the hero, and stops scrolling for reduced motion.
 
 const ITEMS: [string, string][] = [
