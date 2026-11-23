@@ -336,7 +336,7 @@ function CameraRig() {
 export default function Scene() {
   return (
     <>
-      {/* backdrop: pixel Mumbai, drawn behind the canvas (CityBackdrop.tsx) */}
+      {/* backdrop: minimal ticker, drawn behind the canvas (TickerBackdrop.tsx) */}
       <Lights />
       <Env />
       <Avatar />

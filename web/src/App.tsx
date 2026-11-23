@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } fr
 import * as THREE from 'three'
 import Scene from './scene/Scene'
 import Resume from './ui/Resume'
-import CityBackdrop from './scene/CityBackdrop'
+import TickerBackdrop from './scene/TickerBackdrop'
 import WorkCards, { BuiltWithAI } from './ui/WorkCards'
 import { About, KindWords } from './ui/AboutKind'
 import { CaseStudyHost } from './ui/Works'
@@ -380,7 +380,7 @@ export default function App() {
 
       {/* Fixed 3D background */}
       <div className="scene-bg">
-        <CityBackdrop />
+        <TickerBackdrop />
         {/* The page content sits on top of the canvas and takes the pointer events, so the 3D scene
             listens on #root instead (events bubble up to it). That keeps eye-follow and the
             clickable stickers working. */}
