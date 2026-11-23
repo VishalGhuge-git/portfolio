@@ -102,7 +102,7 @@ function TopBar() {
         }}
       >
         <b>Vishal Ghuge</b>
-        <span>Product Manager</span>
+        <span>AI Product Manager</span>
       </a>
       <div className="tb-links">
         <a className={`topbar-jump${current === 'work' ? ' is-current' : ''}`} href="#work" aria-current={current === 'work' ? 'location' : undefined} onClick={jump('work')}>
@@ -195,10 +195,12 @@ function RoleSizer() {
   )
 }
 const COPY = {
-  title: 'Vishal Ghuge, Product Manager',
+  title: 'Vishal Ghuge, AI Product Manager',
+  eyebrow: 'AI Product Manager · Mumbai',
+  headline: 'I take AI products from 0 to 1, and get people to actually use them.',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
   lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
-  rest: ' I turn vague asks into products people use: 5,276+ daily users on iqigai, 300+ screens for Total Environment, an AI MVP at Foyr in five months. I started in OTT operations at Amazon MX Player, so I care about the process behind a product as much as the product.',
+  rest: 'At Fractal Analytics I built iqigai, an AI staffing platform, from scratch to 5,276+ daily users. Before that: an AI MVP at Foyr in five months, and operations at Amazon MX Player.',
 }
 
 // The word after "I’m Vishal, a" rolls through a few roles every 2 seconds. It starts on the real title,
@@ -243,9 +245,9 @@ function RoleRotator() {
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
   { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
-  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
-  { n: '56', label: 'shows live in a week', sub: 'Amazon MX Player', slug: 'mx-player', logo: 'mx.png' },
+  { n: '10% → 50%', label: 'adoption of AI picks', sub: 'iqigai · PM selection rate', slug: 'iqigai', logo: 'iqigai.png' },
   { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
+  { n: '300+', label: 'screens, org-wide', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
 ]
 
 function Proof() {
@@ -254,7 +256,7 @@ function Proof() {
     <div className="proof" role="list">
       {PROOF.map((p) => (
         <button
-          key={p.slug}
+          key={p.n}
           role="listitem"
           className="proof-chip"
           onClick={() => {
@@ -291,28 +293,11 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
         {/* Entrance animation lives on the inner node so its fill doesn't override the scroll opacity */}
         <div className="about-intro">
           <h1 className="sr-only">{COPY.title}</h1>
-          <motion.p className="about-body" style={{ y: bodyY }}>
-            {/* Both copies share one grid cell: the hidden one (longest role) holds the height so the
-                card and the chips below never jump as the role changes */}
-            <span className="about-stack">
-              <span className="about-live">
-                <span className="about-lead">
-                  {COPY.lead[0]}
-                  <span className="about-rolerow"><span className="about-a">a </span><RoleRotator /></span>
-                  {COPY.lead[1]}
-                </span>
-                <span className="about-rest">{COPY.rest}</span>
-              </span>
-              <span className="about-sizer" aria-hidden="true">
-                <span className="about-lead">
-                  {COPY.lead[0]}
-                  <span className="about-rolerow"><span className="about-a">a </span><span className="about-role"><RoleSizer /></span></span>
-                  {COPY.lead[1]}
-                </span>
-                <span className="about-rest">{COPY.rest}</span>
-              </span>
-            </span>
-          </motion.p>
+          <motion.div className="about-body about-story" style={{ y: bodyY }}>
+            <span className="about-eyebrow">{COPY.eyebrow}</span>
+            <span className="about-headline">{COPY.headline}</span>
+            <span className="about-rest">{COPY.rest}</span>
+          </motion.div>
           <Proof />
           <div className="about-actions">
             <button
@@ -372,6 +357,11 @@ function Contact() {
   const Linkedin = SOCIAL_ICONS.linkedin
   const Mail = SOCIAL_ICONS.mail
   return (
+    <>
+    <section className="closing" lang="en" aria-labelledby="closing-title">
+      <h2 className="closing-title" id="closing-title">Hiring an AI PM? Let’s talk.</h2>
+      <p className="closing-sub">I’m happy to walk you through any of these products, the decisions behind them and what I’d do next.</p>
+    </section>
     <footer className="contact" id="contact" lang="en">
       <div className="foot-bar">
         <div className="foot-id">
@@ -398,6 +388,7 @@ function Contact() {
         <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑ Back to top</button>
       </div>
     </footer>
+    </>
   )
 }
 

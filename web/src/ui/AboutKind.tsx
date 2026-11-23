@@ -31,7 +31,7 @@ function CaseLink({ slug, children }: { slug: string; children: React.ReactNode 
 export function About() {
   return (
     <section className="work about-me" id="about" lang="en" aria-labelledby="about-title">
-      <SectionHead id="about-title" title="About me" sub="Who I am and why I build." />
+      <SectionHead id="about-title" title="About me" sub="From operations to product to AI." />
       <motion.div
         className="about-me-body"
         initial={{ opacity: 0, y: 16 }}
@@ -40,12 +40,13 @@ export function About() {
         transition={{ duration: 0.6, ease: EASE }}
       >
         <p className="about-me-lead">
-          I’m Vishal, a product manager in Mumbai. I take vague asks and turn them into products people use every day.
+          I’m Vishal, an AI product manager in Mumbai. I turn business problems into AI products people use.
         </p>
         <p>
-          I started in content operations at Amazon MX Player, moved into B2B and B2C SaaS at Foyr, and now build
-          AI-native products at Fractal. I’m not an engineer, but I build with AI tools, so I can test an idea before
-          asking anyone to build it.
+          I started in content operations at Amazon MX Player, where I learned how products run day to day. At Foyr I
+          moved into B2B and B2C SaaS, turning CXO asks into a 300+ screen design tool and an AI MVP. Now at Fractal I
+          lead iqigai, an AI staffing platform built from scratch. I’ve worked with clients in India and Europe, and I
+          build with AI tools myself, so I can test an idea before asking anyone to build it.
         </p>
         <p>
           Most of my side builds started with a problem I saw up close. My family kept asking me what happened in the

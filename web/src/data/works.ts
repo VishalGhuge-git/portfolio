@@ -89,20 +89,20 @@ export const WORKS: Record<'en', WorksLang> = {
             slug: 'iqigai',
           },
           {
-            name: 'Total Environment',
-            meta: 'Designers build homes in 3D on the web; buyers explore and choose in the same pipeline',
-            tags: ['300+ screens', 'Desktop CAD → web'],
-            logo: 'te.png',
-            stat: { n: 'Org-wide', label: 'rollout of the design tool' },
-            slug: 'total-environment',
-          },
-          {
             name: 'Foyr Ideate',
             meta: 'Takes a room from empty or tired to a design direction, with AI',
             tags: ['0 → MVP in 5 months', 'Freemium pricing model'],
             cover: 'foyr-ideate.jpg',
             link: 'https://ideate.foyr.com',
             slug: 'foyr-ideate',
+          },
+          {
+            name: 'Total Environment',
+            meta: 'Designers build homes in 3D on the web; buyers explore and choose in the same pipeline',
+            tags: ['300+ screens', 'Desktop CAD → web'],
+            logo: 'te.png',
+            stat: { n: 'Org-wide', label: 'rollout of the design tool' },
+            slug: 'total-environment',
           },
           {
             name: 'Amazon MX Player',
@@ -118,7 +118,7 @@ export const WORKS: Record<'en', WorksLang> = {
         id: 'ai-builds',
         no: '02',
         title: 'Built with AI',
-        tagline: 'Side builds I made end to end with AI tools. Press play.',
+        tagline: 'I build, not just spec. Side builds I made end to end with AI tools.',
         items: [
           {
             name: 'Indian Stock Market News Brief',
