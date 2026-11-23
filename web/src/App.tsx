@@ -42,6 +42,11 @@ function TopBar() {
   const open = useStore((s) => s.active !== null)
   const [talk, setTalk] = useState(false)
   const [menu, setMenu] = useState(false)
+  useEffect(() => {
+    const open = () => setTalk(true)
+    window.addEventListener('open-talk', open)
+    return () => window.removeEventListener('open-talk', open)
+  }, [])
   // Which section is on screen, so its link in the bar lights up
   const [current, setCurrent] = useState<string | null>(null)
   useEffect(() => {
@@ -121,7 +126,6 @@ function TopBar() {
       <div className="tb-right">
         <span className="tb-divider" aria-hidden="true" />
         <span className="tb-toggles">
-          <SoundToggle />
           <ThemeToggle />
         </span>
         <a className="topbar-cv" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
@@ -171,9 +175,29 @@ function PageTopButton() {
   return <ScrollTopButton hidden={open} />
 }
 
+// The desk hint shows once per visitor (about 8 seconds), then never again
 function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   const touched = useStore((s) => s.touched)
-  if (touched) return null
+  const [seen, setSeen] = useState(() => {
+    try {
+      return localStorage.getItem('hintSeen') === '1'
+    } catch {
+      return false
+    }
+  })
+  useEffect(() => {
+    if (seen) return
+    const t = window.setTimeout(() => {
+      setSeen(true)
+      try {
+        localStorage.setItem('hintSeen', '1')
+      } catch {
+        /* private mode */
+      }
+    }, 8000)
+    return () => window.clearTimeout(t)
+  }, [seen])
+  if (touched || seen) return null
   return (
     <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
       {typeof window !== 'undefined' && window.innerWidth / window.innerHeight < 1.05
@@ -245,9 +269,8 @@ function RoleRotator() {
 // Proof points shown under the intro. Every figure comes from the case study it opens.
 const PROOF = [
   { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
-  { n: '10% → 50%', label: 'adoption of AI picks', sub: 'iqigai · PM selection rate', slug: 'iqigai', logo: 'iqigai.png' },
   { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
-  { n: '300+', label: 'screens, org-wide', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
+  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
 ]
 
 function Proof() {
@@ -321,16 +344,6 @@ function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
             >
               <span aria-hidden="true">⟳</span> <span className="lbl-long">Explore 3D</span><span className="lbl-short" aria-hidden="true">Explore</span>
             </button>
-            <button
-              className="about-btn about-btn-more"
-              aria-expanded={expanded}
-              onClick={() => {
-                track('about_toggle', expanded ? 'collapse' : 'expand')
-                setExpanded((v) => !v)
-              }}
-            >
-              <span className="lbl-long">{expanded ? 'Hide' : 'Read more'}</span><span className="lbl-short" aria-hidden="true">{expanded ? 'Hide' : 'More'}</span>
-            </button>
           </div>
         </div>
       </motion.div>
@@ -361,6 +374,21 @@ function Contact() {
     <section className="closing" lang="en" aria-labelledby="closing-title">
       <h2 className="closing-title" id="closing-title">Building something with AI? Let’s talk.</h2>
       <p className="closing-sub">I’m happy to walk you through any of these products, the decisions behind them and what I’d do next.</p>
+      <div className="closing-actions">
+        <button
+          type="button"
+          className="about-me-btn is-primary"
+          onClick={() => {
+            track('talk_open', 'closing')
+            window.dispatchEvent(new Event('open-talk'))
+          }}
+        >
+          Let’s talk
+        </button>
+        <a className="about-me-btn" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'closing')}>
+          Download CV
+        </a>
+      </div>
     </section>
     <footer className="contact" id="contact" lang="en">
       <div className="foot-bar">

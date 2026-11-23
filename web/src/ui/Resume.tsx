@@ -37,7 +37,7 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
         {
           heading: 'iqigai', case: 'iqigai',
           focus: 'iqigai',
-          sub: 'AI recruitment and staffing platform · Nov 2025 – Present',
+          sub: 'AI recruitment and staffing platform · Nov 2025 – Present (started as Fractal’s client PM from Foyr; hired in-house Apr 2026)',
           items: [
             'Platform build (0 to 1): B2B and B2C platform with 5,276+ daily active users; PM selection rate on AI recommendations up from 10% to 50%, and 50% less time spent on staffing',
             '6 AI agents across lateral hiring, fresher hiring, JD creation and candidate matching, and bench assessment',
@@ -92,6 +92,10 @@ const RESUME: { title: string; entries: ResumeEntry[] } = {
       place: 'SDA Bocconi School of Management, Italy',
       focus: 'bocconi',
       role: 'International Master in Business',
+      points: [
+        'Ranked first on a Google Italy strategy project',
+        'Top ten on a Cartier India market entry project',
+      ],
     },
     {
       kind: 'education',

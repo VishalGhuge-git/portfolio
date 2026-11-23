@@ -4,24 +4,18 @@ import { useEffect, useRef } from 'react'
 // A marquee just under the top bar, above the avatar's head, on desktop, tablet and phones.
 // It fades out once the visitor scrolls past the hero, and stops scrolling for reduced motion.
 
-const ITEMS: [string, string][] = [
-  ['IQIGAI', '5,276+ DAILY USERS'],
-  ['PM SELECTION', '10% → 50%'],
-  ['STAFFING TIME', '−50%'],
-  ['MX PLAYER', '56 SHOWS / WEEK'],
-  ['FOYR IDEATE', 'MVP IN 5 MO'],
-  ['TOTAL ENV', '300+ SCREENS'],
-]
+// Who Vishal has worked and studied with: new information, so the numbers appear only once on the page
+const NAMES = ['FRACTAL ANALYTICS', 'FOYR', 'AMAZON MX PLAYER', 'TOTAL ENVIRONMENT', 'SDA BOCCONI', 'ST. XAVIER’S COLLEGE']
 
 function Row() {
   return (
     <span className="tkb-row">
       <span className="tkb-item">
-        <i>VISHAL GHUGE · PRODUCT MANAGER</i>
+        <i>WORKED WITH</i>
       </span>
-      {ITEMS.map(([label, value]) => (
-        <span key={label} className="tkb-item">
-          <i>{label}</i> <em>▲ {value}</em>
+      {NAMES.map((n) => (
+        <span key={n} className="tkb-item">
+          <em>●</em> <i>{n}</i>
         </span>
       ))}
     </span>

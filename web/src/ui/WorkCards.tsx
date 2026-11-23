@@ -144,16 +144,6 @@ export function BuiltWithAI() {
               </span>
               <span className="build-name">{it.name}</span>
               {it.tagline && <span className="build-line">{it.tagline}</span>}
-              {it.facts && it.facts.length > 0 && (
-                <dl className="build-facts">
-                  {it.facts.map((f) => (
-                    <div key={f.label}>
-                      <dt>{f.label}</dt>
-                      <dd>{f.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
               <button
                 type="button"
                 className="build-story"

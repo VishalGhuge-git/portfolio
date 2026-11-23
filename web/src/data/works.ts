@@ -83,7 +83,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'iqigai',
             meta: 'Matches bench people to open roles, and explains every recommendation',
-            tags: ['5,276+ daily users', '50% less staffing time'],
+            tags: ['AI staffing platform'],
             logo: 'iqigai.png',
             stat: { n: '10% → 50%', label: 'PM selection rate on AI picks' },
             slug: 'iqigai',
@@ -91,7 +91,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'Foyr Ideate',
             meta: 'Takes a room from empty or tired to a design direction, with AI',
-            tags: ['0 → MVP in 5 months', 'Freemium pricing model'],
+            tags: ['AI interior design'],
             cover: 'foyr-ideate.jpg',
             link: 'https://ideate.foyr.com',
             slug: 'foyr-ideate',
@@ -99,7 +99,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'Total Environment',
             meta: 'Designers build homes in 3D on the web; buyers explore and choose in the same pipeline',
-            tags: ['300+ screens', 'Desktop CAD → web'],
+            tags: ['3D design tool + buyer portal'],
             logo: 'te.png',
             stat: { n: 'Org-wide', label: 'rollout of the design tool' },
             slug: 'total-environment',
@@ -107,7 +107,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'Amazon MX Player',
             meta: 'Turned a content backlog with no process into a pipeline that ships on time',
-            tags: ['300,000+ content units', '56 shows live in a week'],
+            tags: ['Content operations'],
             logo: 'mx.png',
             stat: { n: '+50%', label: 'daily output in a month' },
             slug: 'mx-player',

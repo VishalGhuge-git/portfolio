@@ -3187,3 +3187,12 @@ html[data-theme='light'] .timeline .tl-collapse .tl-body:not(:has(.tl-group)) { 
 }
 @media (max-width: 640px) { .closing { width: calc(100% - 32px); } }
 @media (min-width: 641px) { .closing { padding: 26px 26px; } }
+
+/* ---- Restraint pass ---- */
+.closing-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.tkb-item em { font-size: 9px; vertical-align: 2px; color: rgba(75, 227, 138, 0.8); text-shadow: none; }
+.eb-sound { display: inline-flex; margin-left: 4px; }
+.eb-sound .sound-toggle { width: 40px; height: 40px; }
+@media (max-width: 640px) { .eb-sound { display: none; } }
+/* more breathing room between sections */
+section.work + section.work, .about-me, .kind, .resume, .closing { margin-top: 6vh; }

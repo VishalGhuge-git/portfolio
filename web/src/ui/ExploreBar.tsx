@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { orbit, resetView, setSide } from '../scene/orbit'
+import SoundToggle from './SoundToggle'
 import { TOUR } from '../scene/tour'
 
 const SHOW_IDLE_BUTTON = false
@@ -193,6 +194,9 @@ export default function ExploreBar() {
         <button className="eb-btn eb-reset" onClick={exit}>
           Reset
         </button>
+        <span className="eb-sound">
+          <SoundToggle />
+        </span>
       </div>
     </>
   )
