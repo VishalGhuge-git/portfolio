@@ -3,7 +3,7 @@
   --muted: rgba(244, 241, 234, 0.6);
   --panel: rgba(12, 16, 24, 0.72);
   --line: rgba(244, 241, 234, 0.14);
-  font-family: 'Helvetica Neue', 'Chiron GoRound TC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  font-family: 'Helvetica Neue',  system-ui, sans-serif;
 }
 
 * {
@@ -189,7 +189,7 @@ canvas {
   inset: 0;
   z-index: 12;
   pointer-events: none;
-  font-family: 'Helvetica Neue', 'Chiron GoRound TC', 'PingFang SC', system-ui, sans-serif;
+  font-family: 'Helvetica Neue',  system-ui, sans-serif;
 }
 
 /* 发丝内框 */
@@ -294,7 +294,7 @@ canvas {
 .about-body {
   margin: 0.5em auto 0;
   max-width: min(660px, 88vw);
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', 'Microsoft YaHei', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 500;
   font-size: clamp(8px, 1.05vw, 16px);
   line-height: 1.2;
@@ -317,7 +317,7 @@ canvas {
 
 /* 中文正文：拉丁衬线字体不含汉字，切到系统中文字体并放大行距 */
 .about[lang='zh'] .about-body {
-  font-family: 'Chiron GoRound TC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: system-ui, sans-serif;
   font-weight: 400;
   font-size: clamp(8.8px, 0.92vw, 12.8px);
   line-height: 1.7;
@@ -332,7 +332,7 @@ canvas {
   z-index: 110;
   min-width: 52px;
   padding: 7px 16px;
-  font-family: 'Helvetica Neue', 'Chiron GoRound TC', 'PingFang SC', system-ui, sans-serif;
+  font-family: 'Helvetica Neue',  system-ui, sans-serif;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -362,7 +362,7 @@ canvas {
   width: min(480px, 90vw);
   margin: 0 6vw 0 auto;
   text-align: left;
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 600;
   font-size: clamp(28px, 5vw, 56px);
   letter-spacing: 0.02em;
@@ -879,7 +879,7 @@ canvas {
   background: radial-gradient(120% 120% at 30% 25%, rgba(48, 55, 60, 0.5), rgba(29, 33, 36, 0.98));
 }
 .wk-card-cover-no {
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-size: clamp(40px, 7vw, 88px);
   font-weight: 600;
   line-height: 1;
@@ -926,7 +926,7 @@ canvas {
   top: clamp(16px, 4vh, 40px);
   left: clamp(24px, 6vw, 80px);
   z-index: 2;
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 600;
   font-size: clamp(22px, 3vw, 38px);
   letter-spacing: 0.02em;
@@ -1179,7 +1179,7 @@ canvas {
   background: radial-gradient(120% 120% at 30% 20%, rgba(48, 55, 60, 0.5), rgba(29, 33, 36, 0.98));
 }
 .wk-detail-ph-text {
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-size: clamp(28px, 5vw, 72px);
   font-weight: 600;
   line-height: 1.1;
@@ -2083,7 +2083,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:2px s
 .aiwork-title {
   width: min(480px, 90vw);
   margin: 0 6vw 0 auto;
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 600;
   font-size: clamp(28px, 5vw, 56px);
   letter-spacing: 0.02em;
@@ -2449,7 +2449,7 @@ html[data-theme='light'] .tl-kind-work { background: rgba(162, 78, 28, 0.1); }
 .work-group,
 .work-list { width: 100%; max-width: 480px; margin-left: auto; margin-right: auto; }
 .work-title {
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 600;
   font-size: clamp(32px, 9vw, 56px);
   letter-spacing: 0.02em;
@@ -2571,7 +2571,7 @@ html[data-theme='light'] .wk-summary dt { color: var(--accent); }
     linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
 }
 .work-card-media.is-stat b {
-  font-family: 'Cormorant Upright', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-size: clamp(48px, 15vw, 64px);
   font-weight: 600;
   line-height: 1;
@@ -2658,7 +2658,7 @@ html[data-theme='light'] .wk-next:hover, html[data-theme='light'] .wk-next:focus
   width: 100%; max-width: 480px; margin-left: auto; margin-right: auto;
 }
 .sec-title {
-  font-family: 'Cormorant Upright', 'Chiron GoRound TC', 'PingFang SC', serif;
+  font-family: 'Cormorant Upright',  serif;
   font-weight: 600; font-size: clamp(32px, 9vw, 56px); letter-spacing: 0.02em; line-height: 1.05;
   color: var(--ink); text-shadow: 0 0 1px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.6);
 }
@@ -3143,3 +3143,12 @@ html[data-theme='light'] .tl-collapse .tl-group { background: rgba(27, 31, 42, 0
 .foot-links a, .wk-copy, .wk-detail-copy { border-radius: var(--btn-r) !important; }
 /* page sections share the .work class with an old list-item style: no border, radius or hover shift on them */
 section.work { border: 0; border-radius: 0; transform: none !important; background: transparent !important; cursor: auto; }
+/* Experience: rows with only bullet points get the same rounded box as rows with project blocks */
+.timeline .tl-collapse .tl-body:not(:has(.tl-group)) {
+  margin: 0 0 16px; padding: 14px 16px 16px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.timeline .tl-collapse .tl-body:not(:has(.tl-group)) .tl-points { margin-top: 0; }
+.timeline .tl-collapse .tl-body:has(.tl-group) { padding-bottom: 16px; }
+.timeline .tl-collapse .tl-body:has(.tl-group) > .tl-group:first-child { margin-top: 0; }
+html[data-theme='light'] .timeline .tl-collapse .tl-body:not(:has(.tl-group)) { background: rgba(27, 31, 42, 0.03); border-color: rgba(27, 31, 42, 0.08); }
