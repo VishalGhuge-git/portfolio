@@ -9,24 +9,6 @@ import { track } from '../analytics'
 const EASE = [0.22, 1, 0.36, 1] as const
 const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
 
-// Inline link that opens a case study (used inside About copy)
-function CaseLink({ slug, children }: { slug: string; children: React.ReactNode }) {
-  const setActive = useStore((s) => s.setActive)
-  return (
-    <a
-      className="inline-case"
-      href={`#${slug}`}
-      onClick={(e) => {
-        e.preventDefault()
-        track('about_case', slug)
-        setActive(slug)
-      }}
-    >
-      {children}
-    </a>
-  )
-}
-
 // "About me": who I am and why the side builds exist. Draft copy, sourced from the CV and case studies.
 export function About() {
   return (
@@ -39,21 +21,12 @@ export function About() {
         viewport={{ once: true, margin: '-10% 0px' }}
         transition={{ duration: 0.6, ease: EASE }}
       >
-        <p className="about-me-lead">
-          I’m Vishal, an AI product manager in Mumbai. I turn business problems into AI products people use.
-        </p>
+        <p className="about-me-lead">I care about the moment a product becomes part of someone’s day.</p>
         <p>
-          I started in content operations at Amazon MX Player, where I learned how products run day to day. At Foyr I
-          moved into B2B and B2C SaaS, turning CXO asks into a 300+ screen design tool and an AI MVP. Now at Fractal I
-          lead iqigai, an AI staffing platform built from scratch. I’ve worked with clients in India and Europe, and I
-          build with AI tools myself, so I can test an idea before asking anyone to build it.
-        </p>
-        <p>
-          Most of my side builds started with a problem I saw up close. My family kept asking me what happened in the
-          market, so I built a <CaseLink slug="indian-market-brief">morning brief that cross-checks every number</CaseLink>.
-          When I prepared for SAFe POPM, I built <CaseLink slug="pmpo-portal">my own practice platform</CaseLink> and
-          passed with 100%. And in Fractal’s AI Fluency Program I built ExpenseFlow, an expense approval API, for a
-          certificate in AI-assisted coding.
+          My first job was running content operations at Amazon MX Player, with real backlogs, deadlines and people
+          waiting. It taught me a product only matters if it works every day. Since then I’ve turned CXO asks into a
+          300+ screen design tool and an AI MVP at Foyr, and now lead iqigai, an AI staffing platform we built from
+          scratch at Fractal.
         </p>
         <div className="about-me-actions">
           <a className="about-me-btn is-primary" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'about')}>
