@@ -2866,14 +2866,14 @@ html[data-theme='light'] .resume-title { text-shadow: none; }
   .tl-case { min-height: 44px; }
 }
 
-/* Hero proof chips on phones: all four visible in a 2 x 2 grid, no hidden sideways scroll */
+/* Hero proof chips on phones: all three on one row, no hidden sideways scroll */
 @media (max-width: 1099px) {
   .hero .about.is-min .proof {
-    display: grid; grid-template-columns: 1fr 1fr; overflow: visible; gap: 6px;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; gap: 6px;
     -webkit-mask-image: none; mask-image: none; padding-right: 0;
   }
-  .hero .about.is-min .proof-chip { min-width: 0; padding: 7px 10px; }
-  .hero .about.is-min .proof-chip b { font-size: 17px; }
+  .hero .about.is-min .proof-chip { min-width: 0; padding: 8px 8px 7px; }
+  .hero .about.is-min .proof-chip b { font-size: 16px; }
   .hero .about.is-min .proof-chip em { display: none; }
   .hero .about.is-min .proof-logo { width: 22px; height: 22px; top: 6px; right: 6px; }
 }
@@ -3196,3 +3196,18 @@ html[data-theme='light'] .timeline .tl-collapse .tl-body:not(:has(.tl-group)) { 
 @media (max-width: 640px) { .eb-sound { display: none; } }
 /* more breathing room between sections */
 section.work + section.work, .about-me, .kind, .resume, .closing { margin-top: 6vh; }
+
+/* hero numbers: three on one row, no orphan */
+.hero .about .proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;overflow:visible;-webkit-mask-image:none;mask-image:none;padding-right:0}
+.hero .about .proof-chip{min-width:0;padding:10px 10px 9px}
+.hero .about .proof-chip span{display:block;padding-right:0}
+@media (max-width:640px){
+  .hero .about .proof{gap:6px}
+  .hero .about .proof-chip{padding:8px 8px 7px}
+  .hero .about .proof-chip b{font-size:16px}
+  .hero .about .proof-chip span{font-size:11.5px}
+  .proof-logo{display:none}
+}
+.hero .about .proof-logo{display:none}
+.hero .about .proof-chip em{display:none}
+.hero .about .proof-chip{justify-content:flex-start;gap:3px}
