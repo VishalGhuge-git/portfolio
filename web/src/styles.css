@@ -3074,3 +3074,14 @@ nav.topbar a.tb-brand { display: flex; flex-direction: column; align-items: flex
   nav.topbar .topbar-menu { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); color: #fff; padding: 0 16px; }
   html[data-theme='light'] nav.topbar .topbar-menu { background: rgba(27, 31, 42, 0.05); border-color: rgba(27, 31, 42, 0.12); color: var(--ink); }
 }
+
+/* ---- Bar shape: rounded rectangle (matches the cards), buttons inside as rounded rectangles ---- */
+nav.topbar { border-radius: 20px; padding: 0 8px 0 20px; }
+nav.topbar a.topbar-jump, nav.topbar a.topbar-cv, nav.topbar .topbar-menu, nav.topbar button.topbar-cta, nav.topbar .sound-toggle { border-radius: 12px; }
+/* phones: same 8px breathing room around the buttons as on desktop */
+@media (max-width: 640px) {
+  nav.topbar { --bar-h: 60px; border-radius: 18px; padding: 0 8px 0 16px; }
+  .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 78px); }
+  #work, #built, #about, #kind-words, #experience, #education, #certification, #contact { scroll-margin-top: 80px; }
+}
+@media (min-width: 641px) and (max-width: 1099px) { nav.topbar { --bar-h: 60px; } .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 82px); } }
