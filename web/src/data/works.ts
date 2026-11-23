@@ -83,7 +83,7 @@ export const WORKS: Record<'en', WorksLang> = {
           {
             name: 'iqigai',
             meta: 'Matches bench people to open roles, and explains every recommendation',
-            tags: ['5,276+ daily users', '50% less staffing time'],
+            tags: ['5,276+ monthly users', '50% less staffing time'],
             logo: 'iqigai.png',
             stat: { n: '10% → 50%', label: 'PM selection rate on AI picks' },
             slug: 'iqigai',

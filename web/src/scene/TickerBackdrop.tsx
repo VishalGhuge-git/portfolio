@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 // It fades out once the visitor scrolls past the hero, and stops scrolling for reduced motion.
 
 const ITEMS: [string, string][] = [
-  ['IQIGAI', '5,276+ DAILY USERS'],
+  ['IQIGAI', '5,276+ MONTHLY USERS'],
   ['PM SELECTION', '10% → 50%'],
   ['STAFFING TIME', '−50%'],
   ['MX PLAYER', '56 SHOWS / WEEK'],

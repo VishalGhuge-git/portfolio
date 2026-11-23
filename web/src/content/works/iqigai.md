@@ -2,10 +2,10 @@
 title: iqigai
 year: 2025
 role: Product Manager, 0 to 1
-tags: [AI agents, 0 to 1, B2B + B2C, "5,276+ daily users"]
+tags: [AI agents, 0 to 1, B2B + B2C, "5,276+ monthly users"]
 why: Fractal staffed its bench through spreadsheets and manual follow-up, and in a billable business **every bench hour is lost revenue**.
 how: Scoped the smallest flow that could go live, then made every AI recommendation explain itself, gaps included, so project managers would act on it.
-outcome: **5,276+ daily users**; the PM selection rate on AI recommendations rose from **10% to 50%**, and time spent on staffing fell by **50%**.
+outcome: **5,276+ monthly users**; the PM selection rate on AI recommendations rose from **10% to 50%**, and time spent on staffing fell by **50%**.
 ---
 
 | | |
@@ -14,7 +14,7 @@ outcome: **5,276+ daily users**; the PM selection rate on AI recommendations ros
 | **My role** | Product Manager: strategy, roadmap, MVP scope, agent prioritisation |
 | **Timeline** | Platform build from Nov 2025, as Product Manager from Apr 2026 |
 | **Type** | B2B and B2C platform, 0 to 1 |
-| **Reach** | 5,276+ daily active users, used organisation-wide |
+| **Reach** | 5,276+ monthly active users, used organisation-wide |
 | **Team** | 9-member cross-functional team: 2 frontend, 2 backend, 2 AI engineers, 1 QA, 2 UI/UX designers |
 
 ## Context
@@ -42,7 +42,7 @@ Two leaks stood out: **a meaningful part of the bench had no AI match at all**, 
 I framed success around the funnel, since every stage leaks time and money:
 
 - **Primary:** more of the bench selected, faster (less time on the bench)
-- **Adoption:** daily active use across staffing, project managers and candidates
+- **Adoption:** active monthly use across staffing, project managers and candidates
 - **Trust:** project managers act on recommendations instead of re-checking in a spreadsheet
 
 ## Strategy: the smallest thing that goes live
@@ -76,7 +76,7 @@ I defined the use case for each agent and ordered the build by **impact on the h
 
 ## Outcome
 
-- **5,276+ daily active users**, used organisation-wide
+- **5,276+ monthly active users**, used organisation-wide
 - **PM selection rate on AI recommendations up from 10% to 50%**
 - **50% less time spent on staffing**
 - A manual, spreadsheet-driven process replaced by one platform for the staffing team, project managers and candidates
