@@ -3067,3 +3067,10 @@ html[data-theme='light'] nav.topbar .site-menu { background: #fbfcfe; border-col
 nav.topbar button.topbar-cta { background: #fbf8f1; color: #1c2630; border: 1px solid #fbf8f1; }
 nav.topbar button.topbar-cta:hover { background: #fff; }
 html[data-theme='light'] nav.topbar button.topbar-cta { background: #1b1f2a; color: #fff; border-color: #1b1f2a; }
+/* name block: left-aligned and vertically centred in the bar (the touch-size rule for buttons must not restyle it) */
+nav.topbar a.tb-brand { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 0; gap: 1px; }
+/* phones and tablets: "Menu" looks like a button */
+@media (max-width: 1099px) {
+  nav.topbar .topbar-menu { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); color: #fff; padding: 0 16px; }
+  html[data-theme='light'] nav.topbar .topbar-menu { background: rgba(27, 31, 42, 0.05); border-color: rgba(27, 31, 42, 0.12); color: var(--ink); }
+}
