@@ -73,46 +73,72 @@ function TopBar() {
     <>
     <motion.div className={`topbar-veil${open ? ' is-hidden' : ''}`} style={{ opacity: veil }} aria-hidden="true" />
     <nav className={`topbar${open ? ' is-hidden' : ''}`} aria-label="Site" aria-hidden={open}>
-      <SoundToggle />
-      <ThemeToggle />
-      <a className="topbar-jump" href="#work" onClick={jump('work')}>
-        Work
+      <a
+        className="tb-brand"
+        href="#top"
+        onClick={(e) => {
+          e.preventDefault()
+          track('brand_home')
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }}
+      >
+        <b>Vishal Ghuge</b>
+        <span>Product Manager</span>
       </a>
-      <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
-        Experience
-      </a>
-      <a className="topbar-jump" href="#education" onClick={jump('education')}>
-        Education
-      </a>
-      <a className="topbar-cv" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
-        Download CV
-      </a>
-      <div className="topbar-menu-wrap">
-        <button
-          type="button"
-          className="topbar-menu"
-          aria-expanded={menu}
-          aria-controls="site-menu"
-          onClick={() => setMenu((v) => !v)}
-        >
-          {menu ? 'Close' : 'Menu'}
-        </button>
-        {menu && (
-          <div className="site-menu" id="site-menu">
-            <a href="#work" onClick={menuGo('work')}>Work</a>
-            <a href="#built" onClick={menuGo('built')}>Built with AI</a>
-            <a href="#about" onClick={menuGo('about')}>About me</a>
-            <a href="#kind-words" onClick={menuGo('kind-words')}>Recommendations</a>
-            <a href="#experience" onClick={menuGo('experience')}>Experience</a>
-            <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => { setMenu(false); track('cv_download', 'menu') }}>
-              Download CV
-            </a>
-          </div>
-        )}
+      <div className="tb-links">
+        <a className="topbar-jump" href="#work" onClick={jump('work')}>
+          Work
+        </a>
+        <a className="topbar-jump" href="#built" onClick={jump('built')}>
+          Built with AI
+        </a>
+        <a className="topbar-jump" href="#about" onClick={jump('about')}>
+          About
+        </a>
+        <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
+          Experience
+        </a>
       </div>
-      <button type="button" className="topbar-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
-        Let’s talk
-      </button>
+      <div className="tb-right">
+        <span className="tb-toggles">
+          <SoundToggle />
+          <ThemeToggle />
+        </span>
+        <a className="topbar-cv" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download')}>
+          CV
+        </a>
+        <div className="topbar-menu-wrap">
+          <button
+            type="button"
+            className="topbar-menu"
+            aria-expanded={menu}
+            aria-controls="site-menu"
+            onClick={() => setMenu((v) => !v)}
+          >
+            {menu ? 'Close' : 'Menu'}
+          </button>
+          {menu && (
+            <div className="site-menu" id="site-menu">
+              <a href="#work" onClick={menuGo('work')}>Work</a>
+              <a href="#built" onClick={menuGo('built')}>Built with AI</a>
+              <a href="#about" onClick={menuGo('about')}>About me</a>
+              <a href="#kind-words" onClick={menuGo('kind-words')}>Recommendations</a>
+              <a href="#experience" onClick={menuGo('experience')}>Experience</a>
+              <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => { setMenu(false); track('cv_download', 'menu') }}>
+                Download CV
+              </a>
+              <div className="site-menu-toggles">
+                <span>Sound &amp; theme</span>
+                <SoundToggle />
+                <ThemeToggle />
+              </div>
+            </div>
+          )}
+        </div>
+        <button type="button" className="topbar-cta" onClick={() => { track('talk_open'); setTalk(true) }}>
+          Let’s talk
+        </button>
+      </div>
     </nav>
     <ContactModal open={talk} onClose={() => setTalk(false)} />
     </>

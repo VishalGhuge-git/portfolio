@@ -2958,3 +2958,72 @@ html[data-theme='light'] .tkb-item em { color: #128a4a; text-shadow: none; }
 }
 /* tablet: clear the top bar and its hint line */
 @media (min-width: 641px) and (max-width: 1099px) { .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 112px); } }
+
+/* ==================================================================
+   FLOATING GLASS TOP BAR: one pill with name, section links and actions.
+   The ticker and the desk hint sit just below it.
+   ================================================================== */
+nav.topbar {
+  --bar-top: 12px; --bar-h: 56px;
+  top: calc(env(safe-area-inset-top, 0px) + var(--bar-top)); left: 50%; right: auto; transform: translateX(-50%);
+  width: min(1180px, calc(100% - 24px)); height: var(--bar-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 0 8px 0 20px; border-radius: 999px;
+  background: rgba(14, 17, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  letter-spacing: 0.02em; font-size: 13px;
+}
+nav.topbar.is-hidden { transform: translateX(-50%); }
+.topbar-veil, .hero-meta.hm-tl { display: none !important; }
+.tb-brand { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; color: #fff; flex: none; }
+nav.topbar a.tb-brand { padding: 0; background: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
+nav.topbar a.tb-brand:hover { background: none; transform: none; }
+.tb-brand b { font-size: 15px; font-weight: 700; letter-spacing: 0.01em; }
+.tb-brand span { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.tb-links { display: flex; align-items: center; gap: 2px; }
+.tb-right { display: flex; align-items: center; gap: 6px; flex: none; }
+.tb-toggles { display: flex; gap: 4px; }
+/* links and quiet actions are flat inside the glass; only "Let's talk" stays solid */
+nav.topbar a.topbar-jump, nav.topbar a.topbar-cv, nav.topbar .topbar-menu {
+  background: transparent; border: 1px solid transparent; -webkit-backdrop-filter: none; backdrop-filter: none;
+  padding: 9px 14px; border-radius: 999px; color: rgba(255, 255, 255, 0.82);
+}
+nav.topbar a.topbar-jump:hover, nav.topbar a.topbar-cv:hover, nav.topbar .topbar-menu:hover { background: rgba(255, 255, 255, 0.08); color: #fff; transform: none; }
+nav.topbar a.topbar-cv { border-color: rgba(255, 255, 255, 0.16); }
+nav.topbar .sound-toggle { background: transparent; border-color: transparent; }
+nav.topbar .sound-toggle:hover { background: rgba(255, 255, 255, 0.08); }
+nav.topbar .topbar-cta { padding: 10px 18px; }
+.site-menu-toggles { display: flex; align-items: center; gap: 6px; padding: 8px 10px 4px 14px; margin-top: 4px; border-top: 1px solid var(--glass-line); }
+.site-menu-toggles span { flex: 1; font-size: 12.5px; color: var(--muted); }
+/* ticker and hint follow the bar */
+@media (min-width: 1100px) {
+  .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 80px); }
+  .sticker-hint { top: calc(env(safe-area-inset-top, 0px) + 124px) !important; }
+}
+@media (min-width: 641px) and (max-width: 1099px) {
+  .tb-links { display: none; }
+  .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 80px); }
+  .sticker-hint { top: calc(env(safe-area-inset-top, 0px) + 122px) !important; }
+}
+@media (max-width: 640px) {
+  nav.topbar { --bar-top: 8px; --bar-h: 52px; width: calc(100% - 16px); padding: 0 6px 0 16px; gap: 6px; }
+  .tb-links, .tb-toggles, nav.topbar a.topbar-cv { display: none; }
+  .tb-brand b { font-size: 14px; }
+  .tb-brand span { font-size: 9.5px; letter-spacing: 0.12em; }
+  .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 68px); }
+}
+@media (pointer: coarse) { nav.topbar .topbar-menu, nav.topbar .topbar-cta { min-height: 44px; } }
+/* light mode */
+html[data-theme='light'] nav.topbar { background: rgba(255, 255, 255, 0.6); border-color: rgba(27, 31, 42, 0.08); box-shadow: 0 12px 32px rgba(27, 31, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7); }
+html[data-theme='light'] .tb-brand { color: var(--ink); }
+html[data-theme='light'] .tb-brand span { color: rgba(27, 31, 42, 0.55); }
+html[data-theme='light'] nav.topbar a.topbar-jump, html[data-theme='light'] nav.topbar a.topbar-cv, html[data-theme='light'] nav.topbar .topbar-menu { color: rgba(27, 31, 42, 0.82); }
+html[data-theme='light'] nav.topbar a.topbar-jump:hover, html[data-theme='light'] nav.topbar a.topbar-cv:hover, html[data-theme='light'] nav.topbar .topbar-menu:hover { background: rgba(27, 31, 42, 0.06); color: var(--ink); }
+html[data-theme='light'] nav.topbar a.topbar-cv { border-color: rgba(27, 31, 42, 0.14); }
+html[data-theme='light'] nav.topbar .topbar-cta { background: #1b1f2a; color: #fff; border-color: #1b1f2a; }
+/* the menu sits inside the glass bar, where a second blur can't work: make it solid */
+nav.topbar .site-menu { background: #0e111a; -webkit-backdrop-filter: none; backdrop-filter: none; min-width: 230px; }
+html[data-theme='light'] nav.topbar .site-menu { background: #ffffff; }
+.site-menu-toggles span { white-space: nowrap; }
