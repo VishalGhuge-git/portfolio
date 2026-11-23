@@ -42,6 +42,25 @@ function TopBar() {
   const open = useStore((s) => s.active !== null)
   const [talk, setTalk] = useState(false)
   const [menu, setMenu] = useState(false)
+  // Which section is on screen, so its link in the bar lights up
+  const [current, setCurrent] = useState<string | null>(null)
+  useEffect(() => {
+    const ids = ['work', 'built', 'about', 'kind-words', 'experience']
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    if (!els.length) return
+    const onScroll = () => {
+      const mid = window.innerHeight * 0.35
+      let found: string | null = null
+      for (const el of els) {
+        const r = el.getBoundingClientRect()
+        if (r.top <= mid && r.bottom > mid) found = el.id
+      }
+      setCurrent(found === 'kind-words' ? 'about' : found)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
   // Phone section menu: close on Escape or a tap outside
   useEffect(() => {
     if (!menu) return
@@ -86,20 +105,21 @@ function TopBar() {
         <span>Product Manager</span>
       </a>
       <div className="tb-links">
-        <a className="topbar-jump" href="#work" onClick={jump('work')}>
+        <a className={`topbar-jump${current === 'work' ? ' is-current' : ''}`} href="#work" aria-current={current === 'work' ? 'location' : undefined} onClick={jump('work')}>
           Work
         </a>
-        <a className="topbar-jump" href="#built" onClick={jump('built')}>
+        <a className={`topbar-jump${current === 'built' ? ' is-current' : ''}`} href="#built" aria-current={current === 'built' ? 'location' : undefined} onClick={jump('built')}>
           Built with AI
         </a>
-        <a className="topbar-jump" href="#about" onClick={jump('about')}>
+        <a className={`topbar-jump${current === 'about' ? ' is-current' : ''}`} href="#about" aria-current={current === 'about' ? 'location' : undefined} onClick={jump('about')}>
           About
         </a>
-        <a className="topbar-jump" href="#experience" onClick={jump('experience')}>
+        <a className={`topbar-jump${current === 'experience' ? ' is-current' : ''}`} href="#experience" aria-current={current === 'experience' ? 'location' : undefined} onClick={jump('experience')}>
           Experience
         </a>
       </div>
       <div className="tb-right">
+        <span className="tb-divider" aria-hidden="true" />
         <span className="tb-toggles">
           <SoundToggle />
           <ThemeToggle />

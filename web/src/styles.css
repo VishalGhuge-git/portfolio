@@ -3027,3 +3027,43 @@ html[data-theme='light'] nav.topbar .topbar-cta { background: #1b1f2a; color: #f
 nav.topbar .site-menu { background: #0e111a; -webkit-backdrop-filter: none; backdrop-filter: none; min-width: 230px; }
 html[data-theme='light'] nav.topbar .site-menu { background: #ffffff; }
 .site-menu-toggles span { white-space: nowrap; }
+
+/* ---- Foggy glass bar ---- */
+nav.topbar {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.05) 100%),
+    rgba(30, 34, 48, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(26px) saturate(160%); backdrop-filter: blur(26px) saturate(160%);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+.tb-divider { width: 1px; height: 22px; background: rgba(255, 255, 255, 0.14); flex: none; margin: 0 4px; }
+nav.topbar a.topbar-jump { position: relative; }
+nav.topbar a.topbar-jump.is-current { color: #fff; background: rgba(255, 255, 255, 0.12); }
+nav.topbar a.topbar-jump.is-current::after {
+  content: ''; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #ffd9b3;
+}
+nav.topbar .site-menu { background: #161a26; border-color: rgba(255, 255, 255, 0.14); }
+@media (max-width: 1099px) { .tb-divider { display: none; } }
+html[data-theme='light'] nav.topbar {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.45) 100%),
+    rgba(236, 240, 246, 0.35);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 40px rgba(27, 31, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(27, 31, 42, 0.05);
+}
+html[data-theme='light'] .tb-divider { background: rgba(27, 31, 42, 0.12); }
+html[data-theme='light'] nav.topbar a.topbar-jump.is-current { color: var(--ink); background: rgba(27, 31, 42, 0.07); }
+html[data-theme='light'] nav.topbar a.topbar-jump.is-current::after { background: var(--accent); }
+html[data-theme='light'] nav.topbar .site-menu { background: #fbfcfe; border-color: rgba(27, 31, 42, 0.1); }
+/* section jumps stop just below the floating bar (and the ticker on the hero) */
+#work, #built, #about, #kind-words, #experience, #education, #certification, #contact { scroll-margin-top: 84px; }
+@media (max-width: 640px) { #work, #built, #about, #kind-words, #experience, #education, #certification, #contact { scroll-margin-top: 72px; } }
+.tb-divider { margin: 0 6px 0 2px; }
+/* "Let's talk" is the one solid button in the bar */
+nav.topbar button.topbar-cta { background: #fbf8f1; color: #1c2630; border: 1px solid #fbf8f1; }
+nav.topbar button.topbar-cta:hover { background: #fff; }
+html[data-theme='light'] nav.topbar button.topbar-cta { background: #1b1f2a; color: #fff; border-color: #1b1f2a; }
