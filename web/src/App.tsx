@@ -197,7 +197,7 @@ function RoleSizer() {
 const COPY = {
   title: 'Vishal Ghuge, AI Product Manager',
   eyebrow: 'AI Product Manager · Mumbai',
-  headline: 'I take AI products from 0 to 1, and get people to actually use them.',
+  headline: 'I take AI products from idea to everyday use.',
   // "I’m Vishal, a {role} at Fractal Analytics ..."; the role rotates (RoleRotator)
   lead: ['I’m Vishal, ', ' at Fractal Analytics.'],
   rest: 'At Fractal Analytics I built iqigai, an AI staffing platform, from scratch to 5,276+ daily users. Before that: an AI MVP at Foyr in five months, and operations at Amazon MX Player.',
