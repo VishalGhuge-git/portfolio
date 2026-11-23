@@ -359,14 +359,14 @@ function Contact() {
   return (
     <>
     <section className="closing" lang="en" aria-labelledby="closing-title">
-      <h2 className="closing-title" id="closing-title">Hiring an AI PM? Let’s talk.</h2>
+      <h2 className="closing-title" id="closing-title">Building something with AI? Let’s talk.</h2>
       <p className="closing-sub">I’m happy to walk you through any of these products, the decisions behind them and what I’d do next.</p>
     </section>
     <footer className="contact" id="contact" lang="en">
       <div className="foot-bar">
         <div className="foot-id">
           <b>Vishal Ghuge</b>
-          <span>Product Manager · Mumbai</span>
+          <span>AI Product Manager · Mumbai</span>
         </div>
         <nav className="foot-links" aria-label="Contact">
           <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click', 'footer')}>

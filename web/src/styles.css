@@ -3176,3 +3176,14 @@ html[data-theme='light'] .timeline .tl-collapse .tl-body:not(:has(.tl-group)) { 
 .about-eyebrow { font-size: 11px; letter-spacing: 0.12em; }
 .sec-title, .resume-title, .closing-title { font-size: clamp(28px, 3vw, 40px); line-height: 1.1; }
 .sec-sub, .closing-sub { font-size: 15px; }
+/* Work card numbers: same clean sans as the rest; serif stays only in section titles */
+.work-card-media.is-stat b { font-family: 'Helvetica Neue', system-ui, sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.01em; }
+@media (min-width: 641px) { .work-card-media.is-stat b { font-size: 28px; } }
+/* closing sits on the same glass card as other sections, so it reads over the 3D scene */
+.closing {
+  padding: 22px 20px; border-radius: var(--r-card);
+  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+}
+@media (max-width: 640px) { .closing { width: calc(100% - 32px); } }
+@media (min-width: 641px) { .closing { padding: 26px 26px; } }
