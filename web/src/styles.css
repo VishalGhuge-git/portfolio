@@ -3085,3 +3085,59 @@ nav.topbar a.topbar-jump, nav.topbar a.topbar-cv, nav.topbar .topbar-menu, nav.t
   #work, #built, #about, #kind-words, #experience, #education, #certification, #contact { scroll-margin-top: 80px; }
 }
 @media (min-width: 641px) and (max-width: 1099px) { nav.topbar { --bar-h: 60px; } .tkb-band { top: calc(env(safe-area-inset-top, 0px) + 82px); } }
+
+/* ==================================================================
+   DESIGN LANGUAGE (from the floating bar), applied site-wide
+   - Buttons: 12px rounded rectangles. Primary = solid (cream on dark, ink on light).
+     Secondary = soft fill + thin border.
+   - Small tags/labels: 8px corners.
+   - Panels/cards: 16-20px corners; inner blocks are nested rounded cards (14px).
+   ================================================================== */
+:root { --btn-r: 12px; --tag-r: 8px; }
+
+/* buttons */
+.hero .about .about-btn, .about-me-btn, .kind-more, .tl-case, .work-card-live, .wk-detail-link, .to-top { border-radius: var(--btn-r); }
+.wk-detail-close, .cm-close { border-radius: var(--btn-r); }
+.cm-copy { border-radius: 10px; }
+/* secondary buttons share one look */
+.hero .about .about-btn-3d, .hero .about .about-btn-more, .about-me-btn:not(.is-primary), .kind-more, .tl-case {
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); color: #fff; opacity: 1;
+}
+.hero .about .about-btn-3d:hover, .hero .about .about-btn-more:hover, .about-me-btn:not(.is-primary):hover, .kind-more:hover, .tl-case:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.tl-case { padding: 8px 14px; font-size: 13px; font-weight: 600; }
+/* primary buttons share one look */
+.hero .about .about-btn-primary, .about-me-btn.is-primary, .work-card-live { background: #fbf8f1; border: 1px solid #fbf8f1; color: #1c2630; }
+.hero .about .about-btn-primary:hover, .about-me-btn.is-primary:hover, .work-card-live:hover { background: #fff; }
+.wk-detail-link { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: #fff; }
+.wk-detail-link:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* tags */
+.work-tag, .wk-badge { border-radius: var(--tag-r); }
+
+/* Experience: inner project blocks (iqigai, Total Environment, Foyr Ideate) as nested rounded cards */
+.timeline .tl-collapse .tl-body { box-shadow: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.tl-collapse .tl-group {
+  margin-top: 12px; padding: 14px 16px 16px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.tl-collapse .tl-group-head { font-size: 17px; gap: 0.5em; }
+.tl-collapse .tl-group .tl-points { margin-top: 10px; }
+
+/* light mode */
+html[data-theme='light'] .hero .about .about-btn-3d, html[data-theme='light'] .hero .about .about-btn-more,
+html[data-theme='light'] .about-me-btn:not(.is-primary), html[data-theme='light'] .kind-more, html[data-theme='light'] .tl-case {
+  background: rgba(27, 31, 42, 0.05); border-color: rgba(27, 31, 42, 0.12); color: var(--ink);
+}
+html[data-theme='light'] .hero .about .about-btn-3d:hover, html[data-theme='light'] .hero .about .about-btn-more:hover,
+html[data-theme='light'] .about-me-btn:not(.is-primary):hover, html[data-theme='light'] .kind-more:hover, html[data-theme='light'] .tl-case:hover {
+  background: rgba(27, 31, 42, 0.09); color: var(--ink);
+}
+html[data-theme='light'] .hero .about .about-btn-primary, html[data-theme='light'] .about-me-btn.is-primary, html[data-theme='light'] .work-card-live {
+  background: #1b1f2a; border-color: #1b1f2a; color: #fff;
+}
+html[data-theme='light'] .wk-detail-link { border-color: rgba(27, 31, 42, 0.12); background: rgba(27, 31, 42, 0.05); color: var(--ink); }
+html[data-theme='light'] .tl-collapse .tl-group { background: rgba(27, 31, 42, 0.03); border-color: rgba(27, 31, 42, 0.08); }
+@media (pointer: coarse) { nav.topbar a.tb-brand { min-height: 44px; } }
+.foot-links a, .wk-copy, .wk-detail-copy { border-radius: var(--btn-r) !important; }
