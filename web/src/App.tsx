@@ -270,88 +270,82 @@ function RoleRotator() {
 const PROOF = [
   { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
   { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
-  { n: '300+', label: 'screens, 32+ flows', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
+  { n: '300+', label: 'screens shipped', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
 ]
 
 function Proof() {
   const setActive = useStore((s) => s.setActive)
   return (
-    <div className="proof" role="list">
+    <ul className="hx-stats">
       {PROOF.map((p) => (
-        <button
-          key={p.n}
-          role="listitem"
-          className="proof-chip"
-          onClick={() => {
-            track('proof_click', p.slug)
-            setActive(p.slug)
-          }}
-        >
-          <img className="proof-logo" src={`${import.meta.env.BASE_URL}stickers/${p.logo}`} alt="" aria-hidden="true" />
-          <b>{p.n}</b>
-          <span>{p.label}</span>
-          <em>{p.sub}</em>
-        </button>
+        <li key={p.n}>
+          <button
+            className="hx-stat"
+            onClick={() => {
+              track('proof_click', p.slug)
+              setActive(p.slug)
+            }}
+            aria-label={`${p.n} ${p.label}, ${p.sub}. Open case study`}
+          >
+            <b>{p.n}</b>
+            <span>{p.label}</span>
+          </button>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }
 
-function Hero({ cueOpacity }: { cueOpacity: MotionValue<number> }) {
-  const aboutRef = useRef(null)
-  // On phones and tablets the card starts compact so it doesn't hide the character; desktop ignores this.
-  const [expanded, setExpanded] = useState(false)
-  // Fade/blur the About block only once the page is actually scrolled (sharp at rest)
+const WORKED_WITH = ['Fractal Analytics', 'Foyr', 'Amazon MX Player', 'Total Environment']
+
+function Hero({ cueOpacity: _cue }: { cueOpacity: MotionValue<number> }) {
+  // Fade/blur the hero text only once the page is actually scrolled (sharp at rest)
   const { scrollY } = useScroll()
-  const scrollYProgress = useTransform(scrollY, [60, 460], [0, 1])
-  const blur = useTransform(scrollYProgress, [0, 0.5], ['blur(0px)', 'blur(16px)'])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  // Parallax: title rises faster and tracks wider as you scroll; body rises slower
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -96])
-  const bodyY = useTransform(scrollYProgress, [0, 1], [0, -52])
-  const titleSpacing = useTransform(scrollYProgress, [0, 1], ['0.01em', '0.42em'])
+  const p = useTransform(scrollY, [60, 460], [0, 1])
+  const blur = useTransform(p, [0, 0.5], ['blur(0px)', 'blur(12px)'])
+  const opacity = useTransform(p, [0, 0.5], [1, 0])
+  const y = useTransform(p, [0, 1], [0, -40])
   return (
     <section className="hero">
-      <motion.div className={`about${expanded ? '' : ' is-min'}`} lang="en" ref={aboutRef} style={{ filter: blur, opacity }}>
-        {/* Entrance animation lives on the inner node so its fill doesn't override the scroll opacity */}
-        <div className="about-intro">
-          <h1 className="sr-only">{COPY.title}</h1>
-          <motion.div className="about-body about-story" style={{ y: bodyY }}>
-            <span className="about-eyebrow">{COPY.eyebrow}</span>
-            <span className="about-headline">{COPY.headline}</span>
-            <span className="about-rest">{COPY.rest}</span>
-          </motion.div>
-          <Proof />
-          <div className="about-actions">
-            <button
-              className="about-btn about-btn-primary"
-              onClick={() => {
-                track('see_work', 'hero')
-                jumpTo('work')
-              }}
-            >
-              <span className="lbl-long">See my work</span><span className="lbl-short" aria-hidden="true">My work</span> <span aria-hidden="true">↓</span>
-            </button>
-            <button
-              className="about-btn about-btn-3d"
-              onClick={() => {
-                track('explore_3d', 'open')
-                resetView()
-                useStore.getState().setTourIdx(0)
-                useStore.getState().setTourPlaying(!REDUCE)
-                useStore.getState().setExplore('tour')
-              }}
-            >
-              <span aria-hidden="true">⟳</span> <span className="lbl-long">Explore 3D</span><span className="lbl-short" aria-hidden="true">Explore</span>
-            </button>
-          </div>
+      <motion.div className="hx" lang="en" style={{ filter: blur, opacity, y }}>
+        <h1 className="sr-only">{COPY.title}</h1>
+        <p className="hx-eyebrow">{COPY.eyebrow}</p>
+        <p className="hx-headline">I take AI products from idea to everyday use.</p>
+        <Proof />
+        <p className="hx-worked">
+          <span className="hx-worked-label">Worked with</span>
+          <span className="hx-worked-names">
+            {WORKED_WITH.map((n, i) => (
+              <span key={n}>
+                {i > 0 && <i aria-hidden="true"> · </i>}
+                {n}
+              </span>
+            ))}
+          </span>
+        </p>
+        <div className="hx-actions">
+          <button
+            className="hx-primary"
+            onClick={() => {
+              track('see_work', 'hero')
+              jumpTo('work')
+            }}
+          >
+            See my work <span aria-hidden="true">↓</span>
+          </button>
+          <button
+            className="hx-link"
+            onClick={() => {
+              track('explore_3d', 'open')
+              resetView()
+              useStore.getState().setTourIdx(0)
+              useStore.getState().setTourPlaying(!REDUCE)
+              useStore.getState().setExplore('tour')
+            }}
+          >
+            Explore in 3D <span aria-hidden="true">→</span>
+          </button>
         </div>
-      </motion.div>
-      <motion.div className="scroll-cue" style={{ opacity: cueOpacity }} aria-hidden="true">
-        <span className="scroll-cue-label">SCROLL</span>
-        <span className="scroll-cue-track">
-          <span className="scroll-cue-dot" />
-        </span>
       </motion.div>
     </section>
   )
@@ -473,19 +467,6 @@ export default function App() {
       {/* Fixed frosted right rail */}
       <motion.div className="glass-rail" style={{ opacity: railOpacity }} aria-hidden="true" />
 
-      {/* Hero decoration: hairline frame, corner marks, meta labels (fade on scroll) */}
-      <motion.div className="hero-chrome" style={{ opacity: heroChromeOpacity }} aria-hidden="true">
-        <div className="hero-frame" />
-        <span className="hero-mark tl">+</span>
-        <span className="hero-mark tr">+</span>
-        <span className="hero-mark bl">+</span>
-        <span className="hero-mark br">+</span>
-        <div className="hero-meta hm-tl">
-          <span className="hm-name">Vishal Ghuge</span>
-          <span>Product Manager · Mumbai</span>
-        </div>
-        <div className="hero-meta hm-bl">AI · SaaS · 0 to 1</div>
-      </motion.div>
 
       <TopBar />
       <CaseStudyHost />
