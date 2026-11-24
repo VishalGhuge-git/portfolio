@@ -139,6 +139,13 @@ function TopBar() {
             aria-controls="site-menu"
             onClick={() => setMenu((v) => !v)}
           >
+            <svg className="tm-ico" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+              {menu ? (
+                <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+              ) : (
+                <path d="M3.5 7h13M3.5 13h13" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+              )}
+            </svg>
             {menu ? 'Close' : 'Menu'}
           </button>
           {menu && (
@@ -383,6 +390,12 @@ function Contact() {
           Download CV
         </a>
       </div>
+      <p className="closing-links">
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click', 'closing')}>LinkedIn</a>
+        <a href={MAIL_HREF} onClick={() => track('email_click', 'closing')}>Email</a>
+        <a href={`tel:${PHONE}`} onClick={() => track('call_click', 'closing')}>Call</a>
+        <span>© {new Date().getFullYear()} Vishal Ghuge</span>
+      </p>
     </section>
     <footer className="contact" id="contact" lang="en">
       <div className="foot-bar">
@@ -399,9 +412,6 @@ function Contact() {
           </a>
           <a href={`tel:${PHONE}`} onClick={() => track('call_click', 'footer')}>
             <PhoneIcon /> Call
-          </a>
-          <a href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'footer')}>
-            <DownloadIcon /> CV
           </a>
         </nav>
       </div>

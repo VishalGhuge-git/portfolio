@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { WORKS, type WorkListItem } from '../data/works'
 import { useStore } from '../store'
@@ -114,6 +115,41 @@ export default function WorkCards() {
 }
 
 // "Built with AI": side builds whose demo plays right in the card.
+// Clean cover with one play button; the real player (with controls) appears only once played
+function BuildVideo({ it }: { it: { slug?: string; name: string; video?: string; poster?: string; length?: string } }) {
+  const [playing, setPlaying] = useState(false)
+  return (
+    <span className="build-media">
+      {playing ? (
+        <video
+          className="build-video"
+          src={`${BASE}${it.video}`}
+          poster={`${BASE}${it.poster}`}
+          controls
+          autoPlay
+          playsInline
+        />
+      ) : (
+        <button
+          type="button"
+          className="build-cover"
+          onClick={() => {
+            track('build_play', it.slug || it.name)
+            setPlaying(true)
+          }}
+          aria-label={`Play ${it.name} demo${it.length ? `, ${it.length}, with sound` : ''}`}
+        >
+          <img src={`${BASE}${it.poster}`} alt="" loading="lazy" decoding="async" />
+          <span className="build-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+          </span>
+          {it.length && <span className="build-len">{it.length}</span>}
+        </button>
+      )}
+    </span>
+  )
+}
+
 export function BuiltWithAI() {
   const setActive = useStore((s) => s.setActive)
   const sec = WORKS.en.sections.find((s) => s.id === 'ai-builds')
@@ -126,22 +162,7 @@ export function BuiltWithAI() {
         {items.map((it, i) => (
           <Reveal key={it.slug} i={i}>
             <div className={`build-card${it.landscape ? ' is-landscape' : ''}`}>
-              <span className="build-media">
-              {it.length && (
-                <span className="build-len" aria-label={`${it.length} demo with sound`}>
-                  {it.length} · sound
-                </span>
-              )}
-              <video
-                className="build-video"
-                src={`${BASE}${it.video}`}
-                poster={`${BASE}${it.poster}`}
-                controls
-                playsInline
-                preload="none"
-                onPlay={() => track('build_play', it.slug || it.name)}
-              />
-              </span>
+              <BuildVideo it={it} />
               <span className="build-name">{it.name}</span>
               {it.tagline && <span className="build-line">{it.tagline}</span>}
               <button
