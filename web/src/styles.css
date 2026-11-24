@@ -3540,3 +3540,25 @@ nav.topbar .site-menu > a::after { content: '→'; color: var(--muted); font-siz
 nav.topbar .site-menu > a[download]::after { content: '↓'; }
 nav.topbar .site-menu-toggles { display: flex; align-items: center; gap: 6px; padding: 14px 0 2px !important; margin: 0 !important; border-top: 0 !important; font-size: 14px; color: var(--muted); }
 nav.topbar .site-menu-toggles > span:first-child { margin-right: auto; }
+
+/* desktop: every section column sits right of the avatar, same as the closing */
+@media (min-width: 1100px) {
+  .sec-head, .build-list, .about-me-body, .kind-list, .work-list,
+  .timeline, .resume-title, .resume-sub {
+    width: min(560px, 42vw) !important; margin-left: auto !important; margin-right: clamp(32px, 6vw, 120px) !important;
+  }
+  .kind-more { display: block; width: min(560px, 42vw) !important; margin-left: auto !important; margin-right: clamp(32px, 6vw, 120px) !important; text-align: left; }
+  section.work, .resume, .kind, .about-me { padding-left: 0 !important; padding-right: 0 !important; }
+}
+
+.col-veil { display: none; }
+@media (min-width: 1100px) {
+  .col-veil {
+    display: block; position: fixed; top: 0; bottom: 0; right: 0; pointer-events: none;
+    left: calc(100% - clamp(32px, 6vw, 120px) - min(560px, 42vw) - 72px);
+    background: linear-gradient(to right, rgba(10, 12, 20, 0) 0, rgba(10, 12, 20, 0.9) 72px);
+  }
+  html[data-theme='light'] .col-veil { background: linear-gradient(to right, rgba(238, 241, 245, 0) 0, rgba(238, 241, 245, 0.92) 72px); }
+}
+body.exploring .col-veil { opacity: 0 !important; }
+.col-veil{z-index:1}

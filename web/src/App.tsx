@@ -430,6 +430,8 @@ export default function App() {
   // Darken the 3D scene after leaving the hero so the résumé text stays readable
   const scrimOpacity = useTransform(scrollY, [0, 520], [0, 0.4])
   const blurIn = useTransform(scrollY, [80, 520], [0, 1])
+  // Desktop: a soft fade of the page colour behind the text column, so text never sits on the avatar
+  const veilOpacity = useTransform(scrollY, [240, 640], [0, 1])
   // ease the blur off at the very end so Vishal and the platform are clear behind the footer
   const { scrollYProgress } = useScroll()
   const blurEnd = useTransform(scrollYProgress, [0.86, 0.98], [1, 0.1])
@@ -473,6 +475,7 @@ export default function App() {
 
       {/* Scroll darkening scrim */}
       <motion.div className="scrim" style={{ opacity: scrimOpacity }} aria-hidden="true" />
+      <motion.div className="col-veil" style={{ opacity: veilOpacity }} aria-hidden="true" />
 
       {/* Fixed frosted right rail */}
       <motion.div className="glass-rail" style={{ opacity: railOpacity }} aria-hidden="true" />
