@@ -275,9 +275,10 @@ function RoleRotator() {
 
 // Proof points shown under the intro. Project figures open their case study; the career total jumps to Work.
 const PROOF = [
-  { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
-  { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
-  { n: '986+', label: 'screens shipped', sub: 'across all products', slug: '', logo: '' },
+  { n: '4+ yrs', label: 'in product', sub: 'B2B SaaS, B2C, OTT and AI', slug: '', to: 'experience' },
+  { n: 'AI', label: 'B2B + B2C products', sub: 'what I build', slug: '', to: 'work' },
+  { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', to: '' },
+  { n: '986+', label: 'screens shipped', sub: 'across all products', slug: '', to: 'work' },
 ]
 
 function Proof() {
@@ -291,9 +292,9 @@ function Proof() {
             onClick={() => {
               track('proof_click', p.slug || p.n)
               if (p.slug) setActive(p.slug)
-              else jumpTo('work')
+              else jumpTo(p.to || 'work')
             }}
-            aria-label={p.slug ? `${p.n} ${p.label}, ${p.sub}. Open case study` : `${p.n} ${p.label} ${p.sub}. See my work`}
+            aria-label={p.slug ? `${p.n} ${p.label}, ${p.sub}. Open case study` : `${p.n} ${p.label}. Go to ${p.to === 'experience' ? 'experience' : 'my work'}`}
           >
             <b>{p.n}</b>
             <span>{p.label}</span>

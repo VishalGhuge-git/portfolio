@@ -3760,3 +3760,12 @@ html[data-theme='light'] .work-card, html[data-theme='light'] .build-card { box-
 @media (max-width: 380px) { .build-card .build-story { font-size: 14px !important; } }
 .build-card:not(.is-landscape) .build-media { background: #000; }
 .build-card:not(.is-landscape) .build-cover img { object-fit: contain !important; }
+
+/* Hero: four "who I am" numbers as a 2 x 2 grid (experience, specialty, scale, output) */
+.hx-stats { display: grid !important; grid-template-columns: 1fr 1fr; row-gap: 18px; }
+.hx-stats li + li .hx-stat { border-left: 0 !important; padding-left: 0 !important; }
+.hx-stats li:nth-child(even) .hx-stat { border-left: 1px solid var(--hx-line) !important; padding-left: 20px !important; }
+@media (max-width: 1099px) {
+  .hx-stats { row-gap: 14px; }
+  .hx-stats li:nth-child(even) .hx-stat { padding-left: 16px !important; }
+}
