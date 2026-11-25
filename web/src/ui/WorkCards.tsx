@@ -61,7 +61,6 @@ function WorkCard({ it, n }: { it: WorkListItem; n?: number }) {
         }}
       />
       <span className="work-card-head">
-        {n !== undefined && <span className="work-card-num">{String(n).padStart(2, '0')}</span>}
         {it.tags && it.tags[0] && <span className="work-tag">{it.tags[0]}</span>}
       </span>
       <span className="work-card-name">{it.name}</span>

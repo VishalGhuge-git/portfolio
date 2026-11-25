@@ -3686,3 +3686,9 @@ html[data-theme='light'] .tour-panel .eb-exit { background: #1b1f2a; color: #fff
 .work-card-media.is-stat { border-radius: 0 !important; }
 .tour-panel .tc-blurb { -webkit-line-clamp: 4 !important; line-clamp: 4 !important; max-height: none !important; }
 .work-card-media.is-stat { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
+
+/* iPhone Safari: its bottom bar floats over the page, so keep the next section fully below the large viewport */
+.hero { min-height: 100vh; min-height: 100lvh; }
+@media (max-width: 1099px) {
+  .hero + section.work, .hero ~ section.work:first-of-type, #work { margin-top: 14vh !important; }
+}
