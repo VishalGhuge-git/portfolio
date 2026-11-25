@@ -3711,3 +3711,7 @@ html[data-theme='light'] .work-card, html[data-theme='light'] .build-card { box-
 .work-card-media:not(.is-stat), .build-media { border-radius: 12px !important; }
 .work-card-name { font-size: 21px !important; }
 @media (max-width: 640px) { .work-card, .build-card { padding: 18px !important; } }
+/* iPhone: carry the hero fade down behind Safari's see-through bar */
+@media (max-width: 1099px) {
+  .hx::before { bottom: calc(-1 * (100lvh - 100svh) - env(safe-area-inset-bottom, 0px) - 30px) !important; }
+}
