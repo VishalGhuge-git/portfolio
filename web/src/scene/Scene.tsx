@@ -213,7 +213,7 @@ function CameraRig() {
     const atTop = window.scrollY < window.innerHeight * 0.4 && !useStore.getState().active
     const d = Math.hypot(ptr.x * 1.1, (ptr.y - 0.05) * 1.4)
     const want = atTop ? THREE.MathUtils.smoothstep(0.9 - d, 0, 0.4) : 0
-    zoom.current = THREE.MathUtils.lerp(zoom.current, want, 0.06)
+    zoom.current = document.getElementById('boot') ? want : THREE.MathUtils.lerp(zoom.current, want, 0.06)
     const z = zoom.current
 
     const drift = Math.min(1, p * 2.2)
@@ -325,7 +325,10 @@ function CameraRig() {
     }
 
     // Tour moves glide with time-based damping (same feel at any frame rate); everything else keeps the snappier follow
-    const k = ex === 'tour' ? 1 - Math.exp(-Math.min(delta, 0.1) * 2.4) : 0.08
+    // While the poster loader (#boot) still covers the page, jump straight to the framing instead of gliding,
+    // so the scene it fades into is already settled (no rise from the default camera position)
+    const booting = !!document.getElementById('boot')
+    const k = booting ? 1 : ex === 'tour' ? 1 - Math.exp(-Math.min(delta, 0.1) * 2.4) : 0.08
     cam.position.lerp(wantPos, k)
     target.lerp(wantTarget, k)
     cam.lookAt(target)
