@@ -273,11 +273,11 @@ function RoleRotator() {
   )
 }
 
-// Proof points shown under the intro. Every figure comes from the case study it opens.
+// Proof points shown under the intro. Project figures open their case study; the career total jumps to Work.
 const PROOF = [
   { n: '5,276+', label: 'daily active users', sub: 'iqigai · AI staffing', slug: 'iqigai', logo: 'iqigai.png' },
   { n: '5 mo', label: 'idea to AI MVP', sub: 'Foyr Ideate', slug: 'foyr-ideate', logo: 'foyr.png' },
-  { n: '300+', label: 'screens shipped', sub: 'Total Environment', slug: 'total-environment', logo: 'te.png' },
+  { n: '986+', label: 'screens shipped', sub: 'across all products', slug: '', logo: '' },
 ]
 
 function Proof() {
@@ -289,10 +289,11 @@ function Proof() {
           <button
             className="hx-stat"
             onClick={() => {
-              track('proof_click', p.slug)
-              setActive(p.slug)
+              track('proof_click', p.slug || p.n)
+              if (p.slug) setActive(p.slug)
+              else jumpTo('work')
             }}
-            aria-label={`${p.n} ${p.label}, ${p.sub}. Open case study`}
+            aria-label={p.slug ? `${p.n} ${p.label}, ${p.sub}. Open case study` : `${p.n} ${p.label} ${p.sub}. See my work`}
           >
             <b>{p.n}</b>
             <span>{p.label}</span>
