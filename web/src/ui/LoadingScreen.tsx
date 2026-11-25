@@ -1,71 +1,59 @@
 import { useEffect, useRef, useState } from 'react'
 import { useProgress } from '@react-three/drei'
 
-// 全屏加载遮罩：读取 three LoadingManager 进度（useProgress），
-// 模型/贴图全部加载完（进度到过 100）后淡出并卸载，确保进入时场景已就绪。
-// 纯动态 UI：随真实进度填充的旋转圆环，无文字。
-// 用 CSS 过渡 + setTimeout 控制淡出/卸载（不依赖 rAF，后台/离屏也可靠）。
+// Drives the poster loader in index.html (#boot): it paints before any JavaScript as a soft image of
+// the real 3D scene. Here we fill its progress line from three's LoadingManager, then fade it out
+// (the poster sharpens as it goes) once every model and texture has loaded, and remove it.
 export default function LoadingScreen() {
   const { progress, total } = useProgress()
-  // reached：进度是否到过 100%（单向 false→true，避免分批加载的抖动）
+  // one-way: has progress reached 100 at least once (avoids jitter when assets register in batches)
   const [reached, setReached] = useState(false)
-  const [hiding, setHiding] = useState(false) // 开始淡出
-  const [removed, setRemoved] = useState(false) // 彻底卸载
-  // 记录最高进度，防止分批注册资源时圆环回缩
   const peak = useRef(0)
   peak.current = Math.max(peak.current, Math.min(Math.max(progress, 0), 100))
+
+  // progress line follows the real loading progress
+  useEffect(() => {
+    const boot = document.getElementById('boot')
+    const bar = boot?.querySelector<HTMLElement>('.bb i')
+    if (!boot || !bar || total === 0) return
+    boot.classList.add('has-p')
+    bar.style.width = `${Math.max(8, peak.current)}%`
+  }, [progress, total])
 
   useEffect(() => {
     if (progress >= 100) setReached(true)
   }, [progress])
 
-  // The placeholder scene loads no external assets, so progress never moves.
-  // Fall back to a short timer so the mask always clears. (Harmless once a real glb loads:
-  // `reached` is one-way, and a model that takes longer simply finishes under the mask-free scene.)
+  // No external assets registered: clear after a short beat
   useEffect(() => {
     if (total > 0) return
     const t = setTimeout(() => setReached(true), 700)
     return () => clearTimeout(t)
   }, [total])
 
-  // Failsafe: never keep the mask up for more than 8 s (slow networks, a stalled asset, or a
-  // progress counter that never reports 100). The scene keeps loading behind it.
+  // Failsafe: never hold the page for more than 8 s; the scene keeps loading behind
   useEffect(() => {
     const t = setTimeout(() => setReached(true), 8000)
     return () => clearTimeout(t)
   }, [])
 
-  // 到过 100% 后：停留片刻 → 淡出 → 卸载（一次性，锁定不受后续进度变化影响）
+  // Done: give the first frame a moment to paint, fade and sharpen the poster, then remove it
   useEffect(() => {
     if (!reached) return
-    const t1 = setTimeout(() => setHiding(true), 400)
-    const t2 = setTimeout(() => setRemoved(true), 1100)
+    const boot = document.getElementById('boot')
+    if (!boot) return
+    const bar = boot.querySelector<HTMLElement>('.bb i')
+    if (bar) {
+      boot.classList.add('has-p')
+      bar.style.width = '100%'
+    }
+    const t1 = setTimeout(() => boot.classList.add('is-done'), 700)
+    const t2 = setTimeout(() => boot.remove(), 1550)
     return () => {
       clearTimeout(t1)
       clearTimeout(t2)
     }
   }, [reached])
 
-  if (removed) return null
-
-  const R = 34
-  const C = 2 * Math.PI * R
-  const offset = C * (1 - peak.current / 100)
-
-  return (
-    <div className={`loading-screen${hiding ? ' is-hidden' : ''}`} aria-hidden="true">
-      <div className="loading-ring">
-        <svg viewBox="0 0 80 80">
-          <circle className="lr-track" cx="40" cy="40" r={R} />
-          <circle
-            className="lr-arc"
-            cx="40"
-            cy="40"
-            r={R}
-            style={{ strokeDasharray: C, strokeDashoffset: offset }}
-          />
-        </svg>
-      </div>
-    </div>
-  )
+  return null
 }
