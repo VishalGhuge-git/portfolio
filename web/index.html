@@ -49,7 +49,7 @@
       html,body{margin:0;background:#0a0c14}
       html[data-theme=light],html[data-theme=light] body{background:#eceff4}
       #boot{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#0a0c14;color:#f4f1ea;font-family:Inter,'Helvetica Neue',system-ui,-apple-system,'Segoe UI',sans-serif;transition:opacity .7s ease}
-      #boot .bp{position:absolute;inset:0;background:url(./loader/poster-dark-phone.webp) center/auto 100% no-repeat;filter:blur(7px) saturate(.9);opacity:.92;transition:filter .7s ease,transform .7s ease}
+      #boot .bp{position:absolute;inset:0;background:url(./loader/poster-dark-p45.webp) center/auto 100% no-repeat;filter:blur(7px) saturate(.9);opacity:.92;transition:filter .7s ease,transform .7s ease}
       #boot .bg{position:absolute;inset:0;background:linear-gradient(to top,#0a0c14 0%,rgba(10,12,20,.8) 14%,rgba(10,12,20,0) 42%)}
       #boot .bt{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 9vh);display:flex;flex-direction:column;align-items:center;gap:14px;transition:opacity .4s ease}
       #boot b{font-size:15px;font-weight:600;letter-spacing:-.01em}
@@ -60,10 +60,17 @@
       #boot.is-done{opacity:0;pointer-events:none}
       #boot.is-done .bp{filter:blur(0) saturate(1);transform:scale(.985)}
       #boot.is-done .bt{opacity:0}
-      @media (min-width:1100px){#boot .bp{background-image:url(./loader/poster-dark-desk.webp)}}
       html[data-theme=light] #boot{background:#eceff4;color:#1b1f2a}
-      html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-phone.webp)}
-      @media (min-width:1100px){html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-desk.webp)}}
+      html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p45.webp)}
+      /* one poster per screen shape: the 3D camera pulls back on narrower screens, so the shape decides the framing */
+      @media (min-aspect-ratio:19/40){#boot .bp{background-image:url(./loader/poster-dark-p50.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p50.webp)}}
+      @media (min-aspect-ratio:21/40){#boot .bp{background-image:url(./loader/poster-dark-p55.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p55.webp)}}
+      @media (min-aspect-ratio:23/40){#boot .bp{background-image:url(./loader/poster-dark-p60.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p60.webp)}}
+      @media (min-aspect-ratio:13/20){#boot .bp{background-image:url(./loader/poster-dark-p70.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p70.webp)}}
+      @media (min-aspect-ratio:29/40){#boot .bp{background-image:url(./loader/poster-dark-p75.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p75.webp)}}
+      @media (min-aspect-ratio:21/20){#boot .bp{background-image:url(./loader/poster-dark-d133.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-d133.webp)}}
+      @media (min-aspect-ratio:29/20){#boot .bp{background-image:url(./loader/poster-dark-desk.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-desk.webp)}}
+      @media (min-aspect-ratio:169/100){#boot .bp{background-image:url(./loader/poster-dark-d178.webp)}html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-d178.webp)}}
       html[data-theme=light] #boot .bg{background:linear-gradient(to top,#eceff4 0%,rgba(236,239,244,.8) 14%,rgba(236,239,244,0) 42%)}
       html[data-theme=light] #boot .bb{background:rgba(27,31,42,.18)}
       @keyframes bootGo{0%{transform:translateX(-110%)}100%{transform:translateX(360%)}}
