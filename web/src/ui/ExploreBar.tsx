@@ -67,7 +67,10 @@ export default function ExploreBar() {
   }
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && useStore.getState().explore) exit()
+      // Esc closes an open case study first; only a second Esc leaves the 3D view
+      if (e.key !== 'Escape' || !useStore.getState().explore) return
+      if (useStore.getState().active || document.querySelector('.wk-detail, [role="dialog"]')) return
+      exit()
     }
     window.addEventListener('keydown', k)
     return () => window.removeEventListener('keydown', k)
@@ -127,12 +130,12 @@ export default function ExploreBar() {
     </button>
   )
   const stop = TOUR[idx % TOUR.length]
+  const n = TOUR.length
   return (
-    <>
+    <div className="tour-panel">
       {explore === 'tour' && (
         <button
           className={`tour-caption${stop.me ? ' is-me' : ''}`}
-          style={barW ? { width: barW, minWidth: 0 } : undefined}
           key={stop.id}
           aria-live="polite"
           disabled={!!stop.me}
@@ -150,27 +153,21 @@ export default function ExploreBar() {
           </span>
           <span className="tc-sub">{stop.sub}</span>
           {stop.blurb && <span className="tc-blurb">{stop.blurb}</span>}
-          <span className="tc-bot">
-            <span className="tc-tap">{stop.me ? 'Use › for the next stop' : stop.slug ? 'Open case study →' : 'See education →'}</span>
-            <span className="tc-stat">{playing ? 'Auto' : 'Paused'} · {(idx % TOUR.length) + 1}/{TOUR.length}</span>
-          </span>
+          {!stop.me && <span className="tc-tap">{stop.slug ? 'Open case study →' : 'See education →'}</span>}
         </button>
       )}
       <div className="explore-bar" role="toolbar" aria-label="3D view" ref={barRef}>
         {explore === 'tour' ? (
           <>
-            <button className="eb-btn eb-arrow" onClick={() => step(-1)} aria-label="Previous">‹</button>
-            <span className={`eb-dots${playing ? '' : ' paused'}`} aria-hidden="true">
-              {TOUR.map((t, i) => (
-                <i key={i === idx % TOUR.length ? `${t.id}-${playing}` : t.id} className={i === idx % TOUR.length ? 'on' : ''} />
-              ))}
-            </span>
-            <button className="eb-btn eb-arrow" onClick={() => step(1)} aria-label="Next">›</button>
-            <button className="eb-btn eb-play" onClick={() => setPlaying(!playing)}>
+            <button className="eb-btn eb-arrow" onClick={() => step(-1)} aria-label="Previous stop">‹</button>
+            <span className="eb-count" aria-live="polite">{(idx % n) + 1} of {n}</span>
+            <button className="eb-btn eb-arrow" onClick={() => step(1)} aria-label="Next stop">›</button>
+            <span className="eb-sep" aria-hidden="true" />
+            <button className="eb-btn eb-play" onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause tour' : 'Play tour'}>
               <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
                 {playing ? <path d="M2.5 1.5h2.6v9H2.5zM6.9 1.5h2.6v9H6.9z" fill="currentColor" /> : <path d="M3 1.5l7 4.5-7 4.5z" fill="currentColor" />}
               </svg>
-              {playing ? 'Pause' : 'Play'}
+              <span className="eb-lbl">{playing ? 'Pause' : 'Play'}</span>
             </button>
             <button className="eb-btn" onClick={() => go('person')}>Free look</button>
           </>
@@ -191,13 +188,16 @@ export default function ExploreBar() {
             </button>
           </>
         )}
-        <button className="eb-btn eb-reset" onClick={exit}>
-          Reset
-        </button>
         <span className="eb-sound">
           <SoundToggle />
         </span>
+        <button className="eb-btn eb-exit" onClick={exit} aria-label="Exit 3D view">
+          Exit
+          <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+            <path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        </button>
       </div>
-    </>
+    </div>
   )
 }

@@ -22,6 +22,13 @@ const canInteract = () =>
   typeof window !== 'undefined' && window.scrollY < window.innerHeight * 0.7 && !useStore.getState().active
 
 // Wraps an item: registers it for the camera, pulses when its résumé entry is focused, hover label, click action.
+// The canvas listens on the whole page (#root), so ignore taps that land on real UI on top of it
+const UI_SEL = 'button, a, input, textarea, select, nav, [role="dialog"], [role="toolbar"], .tour-panel, .site-menu, .hx, .content article, .content p, .content h2'
+function onUI(e: { nativeEvent: Event }) {
+  const t = e.nativeEvent?.target as Element | null
+  return !!(t && t.closest && t.closest(UI_SEL))
+}
+
 export function Hot({ id, label, slug, scrollTo, children, hit, position, quaternion, rotation, labelOffset = [0, 0.3, 0.3], ok = canInteract, grow = 1.3, float = 1, lift = 0 }: {
   ok?: () => boolean
   grow?: number // scale while focused
@@ -69,7 +76,7 @@ export function Hot({ id, label, slug, scrollTo, children, hit, position, quater
   })
 
   const onOver = (e: ThreeEvent<PointerEvent>) => {
-    if (!ok()) return
+    if (!ok() || onUI(e)) return
     e.stopPropagation()
     setHover(true)
     document.body.style.cursor = 'pointer'
@@ -79,7 +86,7 @@ export function Hot({ id, label, slug, scrollTo, children, hit, position, quater
     document.body.style.cursor = ''
   }
   const onClick = (e: ThreeEvent<MouseEvent>) => {
-    if (!ok()) return
+    if (!ok() || onUI(e)) return
     e.stopPropagation()
     document.body.style.cursor = ''
     track('sticker_click', label)

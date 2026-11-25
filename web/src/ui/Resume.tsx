@@ -242,6 +242,10 @@ export default function Resume() {
 
   return (
     <section className="resume" id="experience" lang="en">
+      <p className="sec-mark resume-mark" aria-hidden="true">
+        <span>05</span>
+        Experience
+      </p>
       <motion.h2
         className="resume-title"
         initial={{ opacity: 0, y: 20 }}

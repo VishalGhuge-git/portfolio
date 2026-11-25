@@ -8,7 +8,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const BASE = import.meta.env.BASE_URL
 
 // Shared section heading: big title + one plain line saying what the section is.
-export function SectionHead({ id, title, sub }: { id: string; title: string; sub: string }) {
+export function SectionHead({ id, title, sub, num, label }: { id: string; title: string; sub: string; num?: string; label?: string }) {
   return (
     <motion.header
       className="sec-head"
@@ -17,6 +17,12 @@ export function SectionHead({ id, title, sub }: { id: string; title: string; sub
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={{ duration: 0.7, ease: EASE }}
     >
+      {num && (
+        <p className="sec-mark" aria-hidden="true">
+          <span>{num}</span>
+          {label || title}
+        </p>
+      )}
       <h2 className="sec-title" id={id}>
         {title}
       </h2>
@@ -102,7 +108,7 @@ export default function WorkCards() {
   if (!sec?.items) return null
   return (
     <section className="work" id="work" lang="en" aria-labelledby="work-title">
-      <SectionHead id="work-title" title="Selected work" sub="Products I’ve led, and what changed because of them." />
+      <SectionHead num="01" label="Work" id="work-title" title="Selected work" sub="Products I’ve led, and what changed because of them." />
       <ul className="work-list">
         {sec.items.map((it, i) => (
           <Reveal key={it.slug || it.name} i={i}>
@@ -157,7 +163,7 @@ export function BuiltWithAI() {
   if (!sec || !items.length) return null
   return (
     <section className="work builds" id="built" lang="en" aria-labelledby="built-title">
-      <SectionHead id="built-title" title={sec.title} sub={sec.tagline} />
+      <SectionHead num="02" id="built-title" title={sec.title} sub={sec.tagline} />
       <ul className="build-list">
         {items.map((it, i) => (
           <Reveal key={it.slug} i={i}>

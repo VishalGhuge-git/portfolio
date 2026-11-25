@@ -13,7 +13,7 @@ const CV_URL = `${import.meta.env.BASE_URL}Vishal_Ghuge_CV.pdf`
 export function About() {
   return (
     <section className="work about-me" id="about" lang="en" aria-labelledby="about-title">
-      <SectionHead id="about-title" title="About me" sub="From operations to product to AI." />
+      <SectionHead num="03" label="About" id="about-title" title="About me" sub="From operations to product to AI." />
       <motion.div
         className="about-me-body"
         initial={{ opacity: 0, y: 16 }}
@@ -62,7 +62,7 @@ export function KindWords() {
   const rest = RECOGNITION.filter((r) => !r.featured)
   return (
     <section className="work kind" id="kind-words" lang="en" aria-labelledby="kind-title">
-      <SectionHead id="kind-title" title="Recommendations" sub="From people I’ve worked and studied with." />
+      <SectionHead num="04" id="kind-title" title="Recommendations" sub="From people I’ve worked and studied with." />
       <div className="kind-list">
         {featured.map((r) => (
           <Quote key={r.name} r={r} />
