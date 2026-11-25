@@ -106,7 +106,7 @@ export default function ExploreBar() {
               setExplore('tour')
             }}
           >
-            Explore 3D
+            3D Tour
           </button>
         </div>
       </>

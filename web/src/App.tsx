@@ -208,7 +208,7 @@ function StickerHint({ opacity }: { opacity: MotionValue<number> }) {
   return (
     <motion.div className="sticker-hint" style={{ opacity }} aria-hidden="true">
       {typeof window !== 'undefined' && window.innerWidth / window.innerHeight < 1.05
-        ? 'Tap Explore 3D to tour the projects'
+        ? 'Tap 3D Tour to see the projects'
         : 'Tap the objects on the desk: each one is a project'}
     </motion.div>
   )
@@ -351,7 +351,7 @@ function Hero({ cueOpacity: _cue }: { cueOpacity: MotionValue<number> }) {
               useStore.getState().setExplore('tour')
             }}
           >
-            Explore in 3D <span aria-hidden="true">→</span>
+            3D Tour <span aria-hidden="true">→</span>
           </button>
         </div>
       </motion.div>
