@@ -44,12 +44,13 @@
       try { if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light' } catch (e) {}
     </script>
     <style>
-      /* Instant boot loader: a soft poster of the real 3D scene, painted before any JavaScript.
+      /* Instant boot loader: a soft poster of the real 3D scene (blur baked into the image, no CSS filters, so the
+         phone's GPU is free for the 3D scene), painted before any JavaScript.
          React fills the progress line and fades it out as the live scene sharpens in (src/ui/LoadingScreen.tsx). */
       html,body{margin:0;background:#0a0c14}
       html[data-theme=light],html[data-theme=light] body{background:#eceff4}
       #boot{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#0a0c14;color:#f4f1ea;font-family:Inter,'Helvetica Neue',system-ui,-apple-system,'Segoe UI',sans-serif;transition:opacity .7s ease}
-      #boot .bp{position:absolute;inset:0;background:url(./loader/poster-dark-p45.webp) center/auto 100% no-repeat;filter:blur(7px) saturate(.9);opacity:.92;transition:filter .7s ease,transform .7s ease}
+      #boot .bp{position:absolute;inset:0;background:url(./loader/poster-dark-p45.webp) center/auto 100% no-repeat}
       #boot .bg{position:absolute;inset:0;background:linear-gradient(to top,#0a0c14 0%,rgba(10,12,20,.8) 14%,rgba(10,12,20,0) 42%)}
       #boot .bt{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 9vh);display:flex;flex-direction:column;align-items:center;gap:14px;transition:opacity .4s ease}
       #boot b{font-size:15px;font-weight:600;letter-spacing:-.01em}
@@ -58,7 +59,6 @@
       #boot.has-p .bb i{animation:none;transition:width .35s ease}
       #boot small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
       #boot.is-done{opacity:0;pointer-events:none}
-      #boot.is-done .bp{filter:blur(0) saturate(1);transform:scale(.985)}
       #boot.is-done .bt{opacity:0}
       html[data-theme=light] #boot{background:#eceff4;color:#1b1f2a}
       html[data-theme=light] #boot .bp{background-image:url(./loader/poster-light-p45.webp)}
@@ -74,7 +74,7 @@
       html[data-theme=light] #boot .bg{background:linear-gradient(to top,#eceff4 0%,rgba(236,239,244,.8) 14%,rgba(236,239,244,0) 42%)}
       html[data-theme=light] #boot .bb{background:rgba(27,31,42,.18)}
       @keyframes bootGo{0%{transform:translateX(-110%)}100%{transform:translateX(360%)}}
-      @media (prefers-reduced-motion:reduce){#boot .bb i{animation:none;width:45%}#boot,#boot .bp{transition:none}}
+      @media (prefers-reduced-motion:reduce){#boot .bb i{animation:none;width:45%}#boot{transition:none}}
     </style>
     <link rel="preload" as="fetch" href="%BASE_URL%models/suit.glb" crossorigin="anonymous" />
     <link rel="preload" as="image" href="%BASE_URL%stickers/xaviers.png" crossorigin="anonymous" />

@@ -455,6 +455,26 @@ export default function App() {
           dpr={[1, 1.5]}
           camera={{ position: [0, 3.5, 5.4], fov: 39, near: 0.1, far: 500 }}
           gl={{ alpha: true, antialias: true, depth: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
+          onCreated={({ gl }) => {
+            // iPhones can drop the WebGL context under memory pressure, which leaves an empty scene.
+            // Ask the browser to give it back; if it does not within 2.5 s, reload once (never in a loop).
+            const el = gl.domElement
+            let t = 0
+            el.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault()
+              track('webgl_lost', 'scene')
+              t = window.setTimeout(() => {
+                try {
+                  if (sessionStorage.getItem('glReloaded')) return
+                  sessionStorage.setItem('glReloaded', '1')
+                } catch {
+                  return
+                }
+                window.location.reload()
+              }, 2500)
+            })
+            el.addEventListener('webglcontextrestored', () => window.clearTimeout(t))
+          }}
         >
           <Suspense fallback={null}>
             <Scene />
