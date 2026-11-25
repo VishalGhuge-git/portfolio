@@ -151,7 +151,12 @@ export default function ExploreBar() {
             <span className="tc-name">{stop.name}</span>
             {stop.year && <span className="tc-year">{stop.year}</span>}
           </span>
-          <span className="tc-sub">{stop.sub}</span>
+          <span className="tc-sub">
+            <span className={`tc-kind is-${stop.me ? 'me' : stop.scrollTo === 'education' ? 'edu' : 'work'}`}>
+              {stop.me ? 'About me' : stop.scrollTo === 'education' ? 'Education' : 'Work'}
+            </span>
+            {stop.sub}
+          </span>
           {stop.blurb && <span className="tc-blurb">{stop.blurb}</span>}
           {!stop.me && <span className="tc-tap">{stop.slug ? 'Open case study →' : 'See education →'}</span>}
         </button>

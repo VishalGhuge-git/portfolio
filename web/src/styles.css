@@ -3648,3 +3648,41 @@ html[data-theme='light'] .tour-panel .eb-exit { background: #1b1f2a; color: #fff
   .tour-panel .eb-play .eb-lbl { display: none; }
   .tour-panel .eb-play { width: 38px; padding: 0; }
 }
+
+/* Work items: each one is a clear unit. Hairline, number + type, name, line, result or picture, links */
+.work-list > li + li .work-card, .work-list > * + * .work-card { border-top: 1px solid var(--line) !important; padding-top: 28px !important; }
+.work-list { gap: 32px !important; }
+.work-card { display: flex !important; flex-direction: column; gap: 8px; }
+.work-card-head { display: flex; align-items: baseline; gap: 10px; }
+.work-card-num { font-size: 12px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.work-card-head .work-tag { font-size: 11px !important; }
+.work-card-tags { display: none !important; }
+.work-card-name { font-size: 22px !important; line-height: 1.2; margin-top: 2px; }
+.work-card-line { color: var(--muted); font-size: 15px; line-height: 1.5; }
+.work-card-media { margin-top: 8px; }
+/* the number reads as this project's result, not a heading */
+.work-card-media.is-stat {
+  margin-top: 8px; padding: 2px 0 2px 14px !important; border-left: 2px solid var(--ink) !important;
+  display: flex !important; flex-direction: column; align-items: flex-start !important; gap: 2px !important;
+}
+.work-card-media.is-stat b { font-size: 26px !important; line-height: 1.1; }
+.work-card-media.is-stat .work-card-stat-label { font-size: 13px; }
+.work-card-foot { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+@media (min-width: 1100px) { .work-card-media.is-stat b { font-size: 30px !important; } }
+
+/* 3D tour: say what kind of stop it is */
+.tour-panel .tc-sub { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+.tour-panel .tc-kind {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 6px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line);
+}
+.tour-panel .tc-kind.is-edu { background: none; }
+.tour-panel .tc-kind.is-me { background: none; border-color: transparent; padding: 0; }
+/* long names wrap instead of pushing the year out of the panel */
+.tour-panel .tc-top { align-items: flex-start; }
+.tour-panel .tc-name { white-space: normal !important; min-width: 0; flex: 1 1 auto; }
+.tour-panel .tc-year { flex: none; padding-top: 3px; }
+.tour-panel .tc-sub { white-space: normal !important; }
+.work-card-media.is-stat { border-radius: 0 !important; }
+.tour-panel .tc-blurb { -webkit-line-clamp: 4 !important; line-clamp: 4 !important; max-height: none !important; }
+.work-card-media.is-stat { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }

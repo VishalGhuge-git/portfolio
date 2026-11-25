@@ -46,7 +46,7 @@ function Reveal({ i, children }: { i: number; children: React.ReactNode }) {
 
 // One work card. The whole card opens the case study (a stretched button); a live-product link,
 // when there is one, sits above it so both stay clickable without nesting interactive elements.
-function WorkCard({ it }: { it: WorkListItem }) {
+function WorkCard({ it, n }: { it: WorkListItem; n?: number }) {
   const setActive = useStore((s) => s.setActive)
   const key = it.slug || it.name
   return (
@@ -60,6 +60,12 @@ function WorkCard({ it }: { it: WorkListItem }) {
           setActive(key)
         }}
       />
+      <span className="work-card-head">
+        {n !== undefined && <span className="work-card-num">{String(n).padStart(2, '0')}</span>}
+        {it.tags && it.tags[0] && <span className="work-tag">{it.tags[0]}</span>}
+      </span>
+      <span className="work-card-name">{it.name}</span>
+      {it.meta && <span className="work-card-line">{it.meta}</span>}
       {it.cover ? (
         <span className="work-card-media">
           <img src={`${BASE}works/covers/${it.cover}`} alt="" loading="lazy" decoding="async" width={800} height={450} />
@@ -71,17 +77,6 @@ function WorkCard({ it }: { it: WorkListItem }) {
           <span className="work-card-stat-label">{it.stat.label}</span>
         </span>
       ) : null}
-      <span className="work-card-name">{it.name}</span>
-      {it.meta && <span className="work-card-line">{it.meta}</span>}
-      {it.tags && it.tags.length > 0 && (
-        <span className="work-card-tags">
-          {it.tags.map((t) => (
-            <span key={t} className="work-tag">
-              {t}
-            </span>
-          ))}
-        </span>
-      )}
       <span className="work-card-foot">
         <span className="work-card-go" aria-hidden="true">
           Read case study <span className="work-card-arrow">→</span>
@@ -112,7 +107,7 @@ export default function WorkCards() {
       <ul className="work-list">
         {sec.items.map((it, i) => (
           <Reveal key={it.slug || it.name} i={i}>
-            <WorkCard it={it} />
+            <WorkCard it={it} n={i + 1} />
           </Reveal>
         ))}
       </ul>
