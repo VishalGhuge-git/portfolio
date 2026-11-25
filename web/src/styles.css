@@ -3692,3 +3692,22 @@ html[data-theme='light'] .tour-panel .eb-exit { background: #1b1f2a; color: #fff
 @media (max-width: 1099px) {
   .hero + section.work, .hero ~ section.work:first-of-type, #work { margin-top: 14vh !important; }
 }
+
+/* iPhone: hero text sits above Safari's floating bar (the hero itself is the large viewport) */
+@media (max-width: 1099px) {
+  .hx { bottom: calc(100lvh - 100svh + env(safe-area-inset-bottom, 0px) + 28px) !important; }
+}
+@supports not (height: 100lvh) { @media (max-width: 1099px) { .hx { bottom: calc(env(safe-area-inset-bottom, 0px) + 28px) !important; } } }
+
+/* Work and Built with AI: each project is one plain panel (same surface as the popups) */
+.work-list > li + li .work-card, .work-list > * + * .work-card { border-top: 1px solid var(--line) !important; }
+.work-card, .build-card {
+  background: var(--surf) !important; border: 1px solid var(--line) !important; border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important; padding: 20px !important;
+}
+html[data-theme='light'] .work-card, html[data-theme='light'] .build-card { box-shadow: 0 10px 30px rgba(27, 31, 42, 0.08) !important; }
+.work-list > li + li .work-card, .work-list > * + * .work-card { padding-top: 20px !important; }
+.work-list { gap: 16px !important; }
+.work-card-media:not(.is-stat), .build-media { border-radius: 12px !important; }
+.work-card-name { font-size: 21px !important; }
+@media (max-width: 640px) { .work-card, .build-card { padding: 18px !important; } }
