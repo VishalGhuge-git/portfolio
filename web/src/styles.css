@@ -3747,3 +3747,16 @@ html[data-theme='light'] .work-card, html[data-theme='light'] .build-card { box-
 .to-top em { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .to-top span { font-size: 18px !important; }
 @media (max-width: 1099px) { .to-top { bottom: calc(100lvh - 100svh + env(safe-area-inset-bottom, 0px) + 20px) !important; } }
+
+/* Built with AI: cards in a row share one height, one picture shape, links on one line */
+.build-list { align-items: stretch !important; }
+.build-list > li { display: flex; }
+.build-card { display: flex !important; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; }
+.build-card .build-media { display: block; width: 100%; aspect-ratio: 9 / 14; overflow: hidden; flex: none; }
+.build-card.is-landscape .build-media { aspect-ratio: 16 / 9; }
+.build-card .build-cover, .build-card .build-cover img, .build-card .build-video { width: 100%; height: 100% !important; aspect-ratio: auto !important; object-fit: cover; }
+.build-card .build-story { margin-top: auto !important; padding-top: 12px !important; align-self: flex-start; }
+.build-card .build-story { white-space: nowrap; justify-content: flex-start !important; }
+@media (max-width: 380px) { .build-card .build-story { font-size: 14px !important; } }
+.build-card:not(.is-landscape) .build-media { background: #000; }
+.build-card:not(.is-landscape) .build-cover img { object-fit: contain !important; }
