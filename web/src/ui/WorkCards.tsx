@@ -102,7 +102,7 @@ export default function WorkCards() {
   if (!sec?.items) return null
   return (
     <section className="work" id="work" lang="en" aria-labelledby="work-title">
-      <SectionHead num="01" label="Work" id="work-title" title="Selected work" sub="Products I’ve led, and what changed because of them." />
+      <SectionHead num="01" label="Work" id="work-title" title="Products I’ve led" sub="What I owned, and what changed because of it." />
       <ul className="work-list">
         {sec.items.map((it, i) => (
           <Reveal key={it.slug || it.name} i={i}>

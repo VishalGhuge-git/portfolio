@@ -3715,3 +3715,35 @@ html[data-theme='light'] .work-card, html[data-theme='light'] .build-card { box-
 @media (max-width: 1099px) {
   .hx::before { bottom: calc(-1 * (100lvh - 100svh) - env(safe-area-inset-bottom, 0px) - 30px) !important; }
 }
+
+/* Phone and tablet: the closing mirrors the home screen. Avatar reappears, text sits at the bottom on the same fade */
+@media (max-width: 1099px) {
+  .closing {
+    background: none !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important;
+    margin: 52vh 0 0 !important; padding: 0 20px calc(100lvh - 100svh + env(safe-area-inset-bottom, 0px) + 28px) !important;
+    position: relative; z-index: 1; max-width: 560px !important; width: auto !important;
+  }
+  @supports not (height: 100lvh) { .closing { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 28px) !important; } }
+  .closing::before {
+    display: block !important; content: ''; position: absolute; z-index: -1; pointer-events: none;
+    left: calc(50% - 50vw); right: calc(50% - 50vw); top: -64px; bottom: 0;
+    background: linear-gradient(to top, #0a0c14 72%, rgba(10, 12, 20, 0)) !important;
+  }
+  html[data-theme='light'] .closing::before { background: linear-gradient(to top, #eceff4 72%, rgba(236, 239, 244, 0)) !important; }
+  .contact { min-height: 0 !important; padding: 0 !important; margin: 0 !important; }
+  .closing-title { font-size: clamp(28px, 7.4vw, 40px) !important; }
+}
+@media (min-width: 641px) and (max-width: 1099px) { .closing { margin-left: auto !important; margin-right: auto !important; } }
+
+/* Back to top: a small round button in the corner, same surface as the panels */
+.to-top {
+  left: auto !important; right: clamp(16px, 3vw, 32px) !important; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px) !important;
+  width: 44px !important; height: 44px !important; padding: 0 !important; border-radius: 50% !important;
+  display: grid !important; place-items: center; transform: translateY(8px) !important;
+  background: var(--surf) !important; color: var(--ink) !important; border: 1px solid var(--line) !important; box-shadow: var(--surf-shadow) !important;
+  -webkit-backdrop-filter: none !important; backdrop-filter: none !important; letter-spacing: 0 !important; text-transform: none !important;
+}
+.to-top.is-on { transform: none !important; }
+.to-top em { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.to-top span { font-size: 18px !important; }
+@media (max-width: 1099px) { .to-top { bottom: calc(100lvh - 100svh + env(safe-area-inset-bottom, 0px) + 20px) !important; } }

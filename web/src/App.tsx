@@ -376,23 +376,15 @@ function Contact() {
       <h2 className="closing-title" id="closing-title">Building something with AI? Let’s talk.</h2>
       <p className="closing-sub">I’m happy to walk you through any of these products, the decisions behind them and what I’d do next.</p>
       <div className="closing-actions">
-        <button
-          type="button"
-          className="about-me-btn is-primary"
-          onClick={() => {
-            track('talk_open', 'closing')
-            window.dispatchEvent(new Event('open-talk'))
-          }}
-        >
-          Let’s talk
-        </button>
+        <a className="about-me-btn is-primary" href={MAIL_HREF} onClick={() => track('email_click', 'closing')}>
+          Email me
+        </a>
         <a className="about-me-btn" href={CV_URL} download="Vishal_Ghuge_CV.pdf" onClick={() => track('cv_download', 'closing')}>
           Download CV
         </a>
       </div>
       <p className="closing-links">
         <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track('linkedin_click', 'closing')}>LinkedIn</a>
-        <a href={MAIL_HREF} onClick={() => track('email_click', 'closing')}>Email</a>
         <a href={`tel:${PHONE}`} onClick={() => track('call_click', 'closing')}>Call</a>
         <span>© {new Date().getFullYear()} Vishal Ghuge</span>
       </p>
